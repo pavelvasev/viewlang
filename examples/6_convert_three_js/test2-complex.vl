@@ -1,0 +1,48 @@
+Scene {
+  text: "Подключение ThreeJS-объекта + параметры"
+
+  Param {
+    id: c1
+    text: "count 1"
+    value: 500
+    max: 10000
+  }
+
+  MyPointCloud {
+    color: 0xffff00
+    radius: 5
+    data: makeRand(c1.value)
+  }
+
+  Param {
+    id: c2
+    text: "count 2"
+    value: 500
+    max: 10000
+  }
+
+  MyPointCloud {
+    color: 0xff0000
+    radius: 5
+    data: makeRand(c2.value)
+    id: cube2
+  }  
+  
+  /*
+  RenderTick {
+    onAction: cube2.color = [Math.sin(time),Math.cos(time),0];
+  }
+  */
+  
+  function makeRand( n ) {
+      var acc = [];
+      var r = 100;
+      for (var i=0; i<n; i++) {
+        acc.push( r*(Math.random()-0.5) ); //x
+        acc.push( r*(Math.random()-0.5) ); //y
+        acc.push( r*(Math.random()-0.5) ); //z
+      }
+      return acc;
+  }
+  
+}

@@ -1,0 +1,32 @@
+Scene {
+  Param {
+    text: "rbig"
+    min: 1
+    max: 30
+    id: rbigParam
+  }
+
+  property var rbig: rbigParam.value
+  property var step: 15
+  property var zmax: 20
+
+  Spheres {
+    positions: f()
+    
+    function f() {
+      var arr = [];
+      console.log(111);
+      for (var i=0; i<360; i+=step) {
+        var x = rbig*Math.cos( i/57.7 );
+        var y = rbig*Math.sin( i/57.7 );
+        var z = i*zmax/360;
+        arr.push(x);
+        arr.push(y);
+        arr.push(z);
+      }
+      console.log(arr);
+      return arr;
+    }
+    
+  }
+}

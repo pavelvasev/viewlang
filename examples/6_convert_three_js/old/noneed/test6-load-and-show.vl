@@ -1,0 +1,53 @@
+Scene {
+  id: thescene
+
+  FileParam {
+    text: "Файл сетки"
+    id: inFile
+    file: Qt.resolvedUrl( "ris5.dat" )
+  }
+
+  MyLoader {
+    file: inFile.file
+    id: loader
+  }
+
+  Text {
+    text: "Zones num = " + loader.zonesCount
+    property var tag: "left"
+  }
+  
+  property var colortable: [0xff, 0xff00, 0xff0000, 0xffff, 0xffff00]
+
+  Repeater {
+    model: loader.zonesCount
+
+    Item {
+      MyPointCloud {
+        data: loader.zones[ index ]
+        color: colortable[ index % colortable.length ]
+        radius: prParam.value / 50.0
+        opacity: op.value / 100.0
+        Component.onCompleted: makeLater(this);
+        id: pc
+      }
+      Param {
+        text: "Opacity zone "+index
+        id: op
+        property var tag: "left"
+        value: 100
+        Component.onCompleted: thescene.refineAll() 
+        color: pc.color // .toString(16) // тут цвет в css-нотации, строка
+      }
+    }
+  }
+
+  Param {
+    text: "Point radius"
+    id: prParam
+    value: 5
+    min: 0
+    max: 50
+  }
+
+}

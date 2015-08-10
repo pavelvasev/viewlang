@@ -1,0 +1,21 @@
+Scene {
+  Param {
+    id: qParam
+    title: "q"; min: 2; max: 15
+  }
+
+  Text {
+    text: qParam.value
+    property var tag:"left"
+  }
+
+  Tetramesh {
+    //color: [0,1,qParam.value/15]
+    indices: [0,1,2,3]
+    positions: [ 0,0,0, 1,0,0,  0,1,0, 0,0,qParam.value/10]
+
+    // for each vertex of tetras
+    colors: [1,1,1,  0,1,0,  1,0,0, 0,0,1 ]
+  }
+
+}

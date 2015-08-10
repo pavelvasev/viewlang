@@ -1,0 +1,61 @@
+Scene {
+  text: "Параметры + таймер"
+
+  Param {
+    id: c1
+    text: "r"
+    value: 8
+    max: 20
+  }
+
+  Param {
+    id: c2
+    text: "tail"
+    value: 49
+    max: 200
+  }  
+
+  Param {
+    id: c3
+    text: "opacity"
+    value: 100
+  }  
+
+  RenderTick {
+    onAction: {
+      var r=  c1.value;
+      sp2.positions.push( r*Math.sin(time) );
+      sp2.positions.push( r*Math.cos(time) );
+      sp2.positions.push( r*Math.sin(time)*Math.cos(time) );
+      
+      sp2.radiuses.push( Math.sin(time) );
+      
+      while (sp2.positions.length > c2.value) {
+        sp2.positions.shift();sp2.positions.shift();sp2.positions.shift();
+        sp2.radiuses.shift();
+      }
+      sp2.positionsChanged();
+
+    }
+  }
+
+  Spheres {
+    positions: [0,0,0]
+    id: sp2
+    radius: 2
+    color: [0,0,1]
+    opacity: c3.value / 100
+  }  
+  
+  function makeRand( n ) {
+      var acc = [];
+      var r = 100;
+      for (var i=0; i<n; i++) {
+        acc.push( r*(Math.random()-0.5) ); //x
+        acc.push( r*(Math.random()-0.5) ); //y
+        acc.push( r*(Math.random()-0.5) ); //z
+      }
+      return acc;
+  }
+  
+}

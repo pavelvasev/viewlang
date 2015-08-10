@@ -1,0 +1,20 @@
+Scene {
+
+  Points {
+
+    property var q: loadFile( $basePath + "points.txt", function(res) {
+      var lines = res.split("\n");  
+      var arr = [];
+      for (var i=0; i<lines.length; i++) {
+        var nums = lines[i].split(" ");
+        if (nums.length == 3) {
+         arr.push( parseFloat(nums[0]) );
+         arr.push( parseFloat(nums[1]) );
+         arr.push( parseFloat(nums[2]) );
+        }
+      }
+      positions = arr;
+    });
+    
+  }
+}

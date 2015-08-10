@@ -1,0 +1,103 @@
+// цепочка из 2 шедеров - вертексный и вертексно-пиксельный
+
+Scene {
+  id: scen
+  showLights: true
+
+  Param {
+    id: qParam
+    title: "q"; min: 2; max: 15
+  }
+
+  ComboBoxParam {
+    text: "use shaders"
+    values: ["s1","s2","s1+s2","non"]
+    id: pMat
+  }  
+
+  Tetras {
+    color: [1,0,1]
+    positions: [ 0,0,0, 1,0,0,  0,1,0, 0,0,qParam.value/10];
+
+    shader: [ p1,p2, [p1,p2], [] ] [ pMat.value ]
+    onShaderChanged: console.log("using shader",shader);
+    opacity: 0.995
+  }
+
+/* from https://aerotwist.com/tutorials/an-introduction-to-shaders-part-1/
+* Uniforms are sent to both vertex shaders and fragment shaders and contain values that stay the same across the entire frame being rendered. A good example of this might be a light’s position.
+* Attributes are values that are applied to individual vertices. Attributes are only available to the vertex shader. This could be something like each vertex having a distinct colour. Attributes have a one-to-one relationship with vertices.
+* Varyings are variables declared in the vertex shader that we want to share with the fragment shader. To do this we make sure we declare a varying variable of the same type and name in both the vertex shader and the fragment shader. A classic use of this would be a vertex’s normal since this can be used in the lighting calculations.
+*/    
+
+  Param {
+    id: pCustom1
+    text: "param of shader 1"
+    max: 10
+    value: 1
+  }  
+ 
+  Shader {
+      id: p1
+
+      property real custom1: pCustom1.value
+			
+      vertex: "
+          // your things
+          uniform float sceneTime;
+          uniform float custom1;
+          
+			void main()
+			{
+          gl_Position = vec4(gl_Position.x , gl_Position.y * cos(sceneTime * custom1), gl_Position.z, 1.0);
+			}			
+	   "
+	   
+    }
+
+
+  Param {
+    id: pCustom2
+    text: "param of shader 2"
+    min: -200
+    max: 500
+    value: 200
+  }
+  
+
+  Shader {
+      id: p2
+
+      property real time: scen.sceneTime
+      property real custom2: pCustom2.value
+			
+      vertex: "
+          // your things
+          uniform float time;
+	        uniform float custom2;
+
+			void main()
+			{
+			  float zz = gl_Position.z * sin(time);
+			  gl_Position.z = zz; // = vec4(position.x + sin(time), position.y + cos(time * custom1), zz, 1.0);
+			  gl_Position.y = gl_Position.y * custom2/200.0;
+			}			
+	   "
+	   
+	   fragmentOver: true
+	   fragment: "
+      uniform float time;	   
+      uniform float custom2;      
+			void main()
+			{
+			  // в режиме fragmentOver у нас уже есть вычисленный gl_FragColor 
+			  //gl_FragColor = vec4( sin(time) * abs(cos(gl_FragCoord.x/15.0)), abs( sin(gl_FragCoord.y) ),0,1.0);
+			  gl_FragColor.a = 0.2 + sin(time) * sin(time) * abs(cos(gl_FragCoord.x/15.0));
+			  gl_FragColor.g = custom2/500.0;
+	    }
+	   "
+	   
+    }
+  
+
+}

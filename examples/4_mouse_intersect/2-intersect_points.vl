@@ -1,0 +1,41 @@
+Scene {
+  text: "Двойной клик выбирает точку"
+
+  Points {
+    id: points
+    positions: {
+      var acc = [];
+      for (var i=0; i<10000; i++)
+      {
+        acc.push( 100*(Math.random()-0.5) );
+        acc.push( 100*(Math.random()-0.5) );
+        acc.push( 100*(Math.random()-0.5) );
+
+      }
+      return acc;  
+    }
+  }
+
+  property var curPt: -1
+
+  Text {
+    text: "Точка N"+curPt
+    property var tag: "left"
+  }
+
+  Spheres {
+    positions: points.positions && curPt >= 0 ? points.positions.slice( curPt*3, curPt*3+3 ) : []
+    id: sel
+    color: [1,0,0]
+    radius: 0.2
+  }  
+
+  SceneMouseEvents {
+    onDoubleClicked: {
+      var r = points.intersect( sceneMouse );
+      console.log(r);
+      curPt = r ? r.index : -1;
+    }
+  }
+
+}

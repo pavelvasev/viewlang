@@ -1,0 +1,24 @@
+Scene {
+
+  FileSelect {
+    property var tag: "left"
+    id: fs
+  }
+
+
+  Points {
+    color: 0xffffff
+
+    // такая вот идея - загружать тупо все ключи из 
+    // jsonSource: "points2.json"
+
+    property var q: loadFile(fs.file, function(res) {
+      var p = parseJson(res);
+
+      positions = p["positions"];
+      colors = p["colors"];
+      console.log(p);
+    });
+    
+  }
+}

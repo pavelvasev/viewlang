@@ -1,0 +1,7 @@
+Scene {
+  property var r: 0.2
+  Spheres {
+    positions: [0,0,0, 1,1,1, 2,2,2, 1,2,3 ]
+    radiuses: [r, r*1, r*2, r*3]
+  }
+}

@@ -1,0 +1,28 @@
+Scene {
+
+  Spheres {
+    positions: [0,0,0]
+    id: sp
+  }
+
+  property var pos: [0,0,0]
+
+  Spheres {
+    positions: pos
+    color: [1,0,0]
+    radius: 0.1
+  }  
+  
+  Text {
+    text: "Double click on sphere. Intersect pos="+pos.join(",")
+  }
+
+  SceneMouseEvents {
+    onDoubleClicked: {
+      var r = sp.intersect( sceneMouse );
+      if (r)  
+        pos = [ r.point.x,r.point.y,r.point.z ];
+    }
+  }
+
+}

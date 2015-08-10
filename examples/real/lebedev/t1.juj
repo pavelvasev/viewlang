@@ -1,0 +1,18 @@
+set scene.d3.spheres = array * 3 <<file D3.txt
+set scene.d3.spheres.radius = 0.03
+
+set scene.d3.trimesh = &triangulate[input=&scene.d3.spheres]
+set scene.d3.trimesh.nodes = &scene.d3.spheres
+set scene.d3.trimesh.back_color = green
+
+##fefe00
+
+#get scene.d3.trimesh.nodes
+#get scene.d3.trimesh.title
+#debug
+#echo IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+#get scene.d3.trimesh binary
+
+
+#get make_json[input=&scene.d3.spheres]
+#get scene.d3.spheres.json

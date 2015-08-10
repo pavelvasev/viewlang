@@ -1,0 +1,95 @@
+Scene  {
+
+  property var q: 5
+
+  Column {
+  x:5
+  
+  Param {
+    title: "q"
+    
+    min: 2
+    max: 15
+    
+    value: q
+    onValueChanged: { q=value; }
+  }
+  
+
+  Param {
+    id: pTimer
+    title: "timer on"
+    min:0
+    max:1
+  }
+
+
+  Param {
+    id: wireParam
+    title: "wire on"
+    min:0
+    max:1
+    value:1
+  }  
+  
+  Param {
+    id: nxParam
+    title: "nx"
+    min:4
+    max:40
+    value: 10
+  }    
+
+  } // column
+
+  
+  RenderTick {
+    id: thetimer
+
+    property var d:1
+    onAction: {
+     if (pTimer.value < 1) return;
+     q = q + d;
+     if (q >= 15) d = -1;
+     if (q <= 2) d = 1;
+    }
+  }
+  
+  
+  Spheres {
+    radius: 1
+
+    radiuses: [q ? q/5 : 0,1.2,1.3,1.4]
+
+    positions: aa.positions
+    //[ q,0,0, 3,3,3, 2,5,7, 1,1,1 ]
+    //color: [ 0.8, 0.5, 0.5 ]
+    colors: aa.colors
+
+    nx: nxParam.value
+    ny: nxParam.value
+    wire: wireParam.value > 0
+  }
+  
+  
+  Trimesh {
+    id: aa
+    property var q2: q
+    
+    positions: [ q,0,0, 3,3,3, 2,5,7, 1,1,1 ]
+
+    indices: [ 0,1,2, 1,2,3 ]
+    
+    colors: [ 0,1-q/15.0,q/15.0, 
+              1,1,0.1,
+              1,0,0,
+              1,1,1 ]
+          
+    //color: "green"
+    //color: [ 0.7, 0.5, 0.2 ]
+    //visible: false
+    opacity: 0.7
+  }
+  
+
+}

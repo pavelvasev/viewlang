@@ -1,0 +1,61 @@
+Scene {
+  text: "Параметры + таймер"
+
+  Param {
+    id: c1
+    text: "count"
+    value: 100
+    max: 1000
+  }
+
+  MyPointCloud {
+    color: 0xffffff
+    radius: 5
+    data: makeRand(c1.value)
+    id: cube1
+  }
+
+  MyPointCloud {
+    color: 0x00
+    radius: 5
+    id: cube2
+    data: sp.positions
+    //visible: false
+  }  
+  
+  RenderTick {
+    onAction: {
+      sp2.center = [50*Math.sin(time),50*Math.cos(time),50*Math.sin(time)*Math.cos(time)];
+      //cube2.color = [0,0,Math.sin(time)*Math.sin(time)];
+      //cube2.data = qq.slice( 0, Math.max( 0, Math.round( Math.cos(time)*qq.length )) );
+      //if (time<5)
+      //cube2.data = qq.slice( 0, 3*Math.round( Math.cos(time/2)*Math.cos(time/2)*((qq.length-1)/3) ) );
+      sp.positions = cube1.data.slice( 0, 3*Math.round( Math.cos(time/2)*Math.cos(time/2)*((cube1.data.length-1)/3) ) );
+    }
+  }
+  
+  Linestrip {
+    positions: cube2.data
+    color: [0,0,0]
+    id: sp
+    opacity: 0.5
+  }
+
+  Spheres {
+    positions: [0,0,0]
+    id: sp2
+    radius: 3
+  }
+  
+  function makeRand( n ) {
+      var acc = [];
+      var r = 100;
+      for (var i=0; i<n; i++) {
+        acc.push( r*(Math.random()-0.5) ); //x
+        acc.push( r*(Math.random()-0.5) ); //y
+        acc.push( r*(Math.random()-0.5) ); //z
+      }
+      return acc;
+  }
+  
+}

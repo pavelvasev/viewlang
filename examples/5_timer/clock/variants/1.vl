@@ -1,0 +1,61 @@
+Scene {
+  property var r: rparam.value
+
+  Param {
+    text: "radius"
+    id: rparam
+    value: 20
+  }
+
+  function coord( angle,z ) {
+    return [r * Math.cos(angle*0.0174532925), r * Math.sin(angle*0.0174532925), z||0 ]
+  }
+  
+  Repeater {
+  model: 100
+  Item {
+    property var zz: -index*r
+    
+  Points {
+    radius: r/10
+    positions: {
+      var acc = [];
+      for (var i=0; i<60; i++) 
+        acc = acc.concat( coord(i*10,zz) );
+      return acc;
+    }
+    //opacity: 0.1 //1-index/100.0
+  }
+    Lines {
+    id: lin
+    positions: [0,0,zz].concat( coord( -(seconds-index)*10,zz ) )
+    }
+    Points {
+      positions: coord( -(seconds-index)*10,zz )
+      //color: [1,0,0]
+      radius: r/5
+    }
+  }
+  
+  }
+  
+  
+  property var start: -15
+  property var seconds: start + tm
+  property var tm: 0
+  
+  Param {
+    text: "go"
+    id: goparam
+    values: ["no","yes"]
+    value:1
+  }
+
+  RenderTick {
+    enabled: goparam.value == 1
+    onAction: {
+      tm = Math.floor( time );
+      //tm=time;
+    }
+  }
+}

@@ -1,0 +1,31 @@
+Scene {
+
+  Spheres {
+    radius: 0.03
+    property var q: loadFile( "D3.txt",function(res) {
+      var lines = res.split("\n");  
+      var arr = [];
+      for (var i=0; i<lines.length; i++) {
+        var nums = lines[i].split(/\s+/);
+        if (nums.length >= 3) {
+         arr.push( parseFloat(nums[0]) );
+         arr.push( parseFloat(nums[1]) );
+         arr.push( parseFloat(nums[2]) );
+        }
+      }
+      positions = arr;
+    });
+    id: sp
+  }
+
+  Triangulate {
+    input: sp.positions
+    id: tri
+  }
+
+  Trimesh {
+    positions: sp.positions
+    indices: tri.output
+    color: [0,0.5,0]
+  }
+}

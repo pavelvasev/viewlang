@@ -1,0 +1,53 @@
+Scene {
+  Param {
+    id: qParam
+    title: "q"; min: 2; max: 15
+  }
+
+  Text {
+    text: qParam.value
+    property var tag:"left"
+  }
+ 
+  center: [0.6070453081736739, 0.2599142024331114, 0.26406543126329296] 
+  cameraPos: [0.6317687822003136, -1.2531548310493745, 0.7518047332590876]
+
+  Tetramesh {
+    //color: [0,1,qParam.value/15]
+    indices: [0,1,2,3, 1,2,3,4 ]
+    positions: [ 0,0,0, 1,0,0,  0,1,0, 0,0,qParam.value/10, 1,1,1 ]
+    
+    colors: [1,1,1,  0,1,0,  1,0,0, 0,0,1, 1,0,0 ]
+    id: tramesh
+    opacity: 0.5
+  }
+
+  Tetramesh {
+    color: 0xff0000
+    id: sel
+    positions: tramesh.positions
+    indices: []
+  }
+  
+  SceneMouseEvents {
+      property var oldr: -1
+      onPositionChanged: {
+        
+        var r = tramesh.intersect( sceneMouse );
+        if (r) r = r.index;
+
+        if (oldr == r) return;
+
+        oldr = r;
+        if (r == null) {
+          sel.visible = false;
+        }
+        else {
+          sel.visible = true;
+          sel.indices = [ tramesh.indices[4*r],tramesh.indices[4*r+1],tramesh.indices[4*r+2],tramesh.indices[4*r+3] ] ;
+        }
+      }
+  }  
+  
+
+}

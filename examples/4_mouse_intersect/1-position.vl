@@ -1,0 +1,19 @@
+Scene {
+
+  Lines {
+    id: lin
+    positions: [0,0,0, 1,1,1]
+  }
+
+  SceneMouseEvents {
+    onPositionChanged: {
+      // mouse - normal event object
+      // sceneMouse [-1,+1] range
+      console.log("mouse=",mouse);
+      console.log("sceneMouse=",sceneMouse);
+      lin.positions[3] = sceneMouse.x;
+      lin.positions[4] = sceneMouse.y;
+      lin.positionsChanged();
+    }
+  }  
+}

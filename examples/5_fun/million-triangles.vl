@@ -1,0 +1,77 @@
+Scene {
+  Param {
+    text: "Тысяч треугольников"
+    min: 1
+    max: 1000
+    id: pNum
+    enableSliding: false
+    property var tag:"left"    
+  }
+
+  property var n: pNum.value*1000
+  property var radius: 50
+  property var computing: false
+
+  Text {
+    text: "Вычисляю.."
+    visible: computing
+    property var tag:"left"
+  }
+
+  Trimesh {
+    id: tris
+    positions: {
+      //debugger;
+      //computing = true;
+      var acc = [];
+      var sr = radius / 100;
+      for (var i=0; i<n; i++)
+      {
+        var ax = radius*Math.random();
+        var ay = radius*Math.random();
+        var az = radius*Math.random();
+        
+        for (var j=0; j<3; j++) {
+          acc.push( ax + Math.random()*sr );
+          acc.push( ay + Math.random()*sr );
+          acc.push( az + Math.random()*sr );
+        }
+      }
+      //computing = false;
+      return acc;
+    } // positions
+
+    indices: {
+      var acc = [];
+      for (var i=0; i<n; i++) {
+        acc.push(3*i);
+        acc.push(3*i+1);
+        acc.push(3*i+2);
+      }
+      return acc;
+    }
+  } // trimesh
+  
+
+  property var pos: [0,0,0]
+
+  Spheres {
+    positions: pos
+    color: [1,0,0]
+    radius: 1
+  }  
+  
+  Text {
+    text: "Дважды-кликните для выбора треугольника.\nКоординаты пересечения:"+pos.join(",")
+    property var tag:"left"    
+  }
+
+  SceneMouseEvents {
+    onDoubleClicked: {
+      var r = tris.intersect( sceneMouse );
+      if (r)  
+        pos = [ r.point.x,r.point.y,r.point.z ];
+    }
+  }  
+
+}

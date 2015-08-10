@@ -1,0 +1,10 @@
+Scene {
+  Points {
+    id: p
+    
+    property var q: loadFile( $basePath + "points.json", function(res) {
+      positions = parseJson(res);
+    });
+    
+  }
+}

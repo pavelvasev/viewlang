@@ -1,0 +1,12 @@
+Scene {
+  Points {
+    color: 0xffffff
+
+    LoadJson {
+      sources: Qt.resolvedUrl("points2.json")
+    }
+
+  }
+  
+
+}

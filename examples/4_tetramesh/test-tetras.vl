@@ -1,0 +1,18 @@
+Scene {
+  Param {
+    id: qParam
+    title: "q"; min: 2; max: 15
+  }
+
+  Text {
+    text: qParam.value
+    property var tag:"left"
+  }
+
+  Tetras {
+//    color: [0,1,qParam.value/15]
+    positions: [ 0,0,0, 1,0,0,  0,1,0, 0,0,qParam.value/15] 
+    colors: [1,1,1,  0,1,0,  1,0,0, 0,0,qParam.value/15	 ]
+  }
+
+}

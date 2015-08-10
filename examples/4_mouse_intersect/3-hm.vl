@@ -1,0 +1,37 @@
+Scene {
+
+  Spheres {
+    positions: [0,0,0]
+    wire: true
+    id: sp
+  }
+
+  property var pos: [0,0,0]
+
+  Spheres {
+    positions: pos
+    color: [1,1,0]
+    radius: aaa.value / 100
+  }
+  
+  Param {
+    id: aaa
+  }
+
+  Lines {
+    positions: pos.concat( [0,0,0] );
+  }
+
+  Text {
+    text: pos
+  }
+
+  SceneMouseEvents {
+    onPositionChanged: {
+      var r = sp.intersect( sceneMouse );
+      if (r)  
+        pos = [ r.point.x,r.point.y,r.point.z ];
+    }
+  }
+
+}

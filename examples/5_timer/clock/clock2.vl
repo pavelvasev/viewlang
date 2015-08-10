@@ -1,0 +1,134 @@
+Scene {
+  property var r: rparam.value
+
+  Param {
+    text: "radius"
+    id: rparam
+    value: 20
+  }
+
+  Param {
+    text: "point radius"
+    id: ppointrad
+    value: 10
+  }  
+
+  function coord( angle,z ) {
+    return [r * Math.cos(angle*0.0174532925), r * Math.sin(angle*0.0174532925), z||0 ]
+  }
+  
+  Param {
+    text: "count"
+    id: pcount
+    value: 60
+    max: 200
+  }  
+  property var acount: pcount.value
+
+  Param {
+    text: "delta"
+    id: pdelta
+    value: 200
+    max: 1000
+    step: 10
+  }  
+  property var acount: pcount.value
+
+  Param {
+    text: "outer type"
+    id: potype
+    values: ["points","spheres"]
+    property var tag: "rightbottom"
+  }    
+  Param {
+    text: "show lines"
+    id: plines
+    value:1
+    values: ["no","yes"]
+    property var tag: "rightbottom"
+  }      
+
+  Repeater {
+  model: acount
+  Item {
+    property var zz: -index*r* (pdelta.value/200)
+    
+  Points {
+    radius: r * (ppointrad.value/10)/10
+    positions: {
+      if (potype.value != 0) return [];
+      var acc = [];
+      for (var i=0; i<60; i++) 
+        acc = acc.concat( coord(i*10,zz) );
+      return acc;
+    }
+    opacity: 1 - index / acount // 0.1 //1-index/100.0
+    visible: ppointrad.value>0
+  }
+  Spheres {
+    radius: r * (ppointrad.value/10)/10
+    color: [1,1,1]
+    positions: {
+      if (potype.value != 1) return [];
+      var acc = [];
+      for (var i=0; i<60; i++) 
+        acc = acc.concat( coord(i*10,zz) );
+      return acc;
+    }
+    opacity: 1 - index / acount // 0.1 //1-index/100.0
+    visible: ppointrad.value>0
+  }  
+
+
+    Lines {
+      visible: plines.value>0
+      id: lin
+      positions: [0,0,zz].concat( coord( -(seconds-index)*10,zz ) )
+      color: potype.value == 0 ? [0,0,1] : [1,1,1]
+    }
+    Points {
+      positions: coord( -(seconds-index)*10,zz )
+      color: [1,0,0]
+      radius: r*(prpointrad.value/10)/5
+      visible: prpointrad.value>0
+      //opacity: 1 - index / acount
+    }
+  }
+  
+  }
+
+  Param {
+    text: "red point radius"
+    id: prpointrad
+    value: 10
+  }    
+  
+  
+  property var start: -15
+  property var seconds: start + tm
+  property var tm: 0
+  
+  Param {
+    text: "go"
+    id: goparam
+    values: ["no","yes"]
+    value:1
+  }
+
+  Param {
+    text: "discrete"
+    id: pdisk
+    values: ["no","yes"]
+    value:1
+  }  
+
+  RenderTick {
+    enabled: goparam.value == 1
+    onAction: {
+      if (pdisk.value > 0)
+        tm = Math.floor( time );
+      else
+        tm=time;
+    }
+  }
+}

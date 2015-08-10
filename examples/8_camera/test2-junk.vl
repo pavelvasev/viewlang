@@ -1,0 +1,56 @@
+Scene {
+  text: "Полная ерунда"
+  id: sc
+  
+  center: [0,0,0]
+  //cameraPos: [c1.value,10,50 ]
+  //cameraPos: [c1.value,10,cameraPosReal[2] ]
+  //cameraPos: [c1.value,threejs.camera.position.y,threejs.camera.position.z ]
+
+  Param {
+    id: c1
+    text: "xx"
+    value: 2
+    min: -30
+    max: 30
+    onValueChanged: {
+      sc.center = [0,0,0];
+      sc.cameraPos = [c1.value,10,50 ];
+    }
+  }
+
+  Button {
+  property var tag:"left"
+  text:"Покружить"
+  onClicked: if (ttt.enabled) stime=0; else stime=time;
+
+  property var stime:0
+  property var time: 1000
+  id: bbb
+
+  RenderTick {
+    id:ttt
+    enabled: bbb.time-bbb.stime < 5
+    onAction: {
+      bbb.time = time;
+      //sc.center = [0,0,0];
+      //sc.cameraPos = [c1.value,10,50 ];    
+      acc = [];
+      var r = 50;
+      acc.push( sc.center[0] + r*Math.sin(time) );
+      acc.push( sc.center[1] + r*Math.cos(time) );
+      acc.push( sc.center[2] );
+      //acc.push( r*Math.sin(time)*Math.cos(time) );
+      sc.cameraPos = acc;
+    }
+  }
+  }
+
+  Spheres {
+    positions: [0,0,0]
+    id: sp2
+    radius: 2
+    color: [0,1,0]
+  }  
+
+}

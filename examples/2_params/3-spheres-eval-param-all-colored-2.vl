@@ -1,0 +1,68 @@
+Scene {
+  Param {
+    text: "rbig"
+    min: 1
+    max: 30
+    id: rbigParam
+    value: 15
+  }
+
+  Param {
+    text: "step"
+    min: 1
+    max: 50
+    id: stepParam
+    value: 10
+  }  
+
+  Param {
+    text: "zmax"
+    min: 1
+    max: 250
+    id: zParam
+    value: 20
+  }    
+
+  Param {
+    text: "Зелено"
+    id: greenParam
+    min: 0
+    max: 100
+  }      
+  
+  property var rbig: rbigParam.value
+  property var step: stepParam.value
+  property var zmax: zParam.value
+  
+  Spheres {
+    positions: f()
+    
+    function f() {
+      var arr = [];
+
+      for (var i=0; i<360; i+=step) {
+        var x = rbig*Math.cos( i/57.7 );
+        var y = rbig*Math.sin( i/57.7 );
+        var z = i*zmax/360;
+        arr.push(x);
+        arr.push(y);
+        arr.push(z);
+      }
+      return arr;
+    }
+    
+    colors: q()
+
+    function q()
+    {
+      var arr = [];
+      console.log(222);
+
+      for (var i=0; i<360; i+=step) {
+        arr.push(i/360); arr.push(greenParam.value/100); arr.push(1-i/360);
+      }
+      return arr;
+    }
+    
+  }
+}

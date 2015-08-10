@@ -1,0 +1,51 @@
+Scene {
+  id: scen
+
+  property var r: rparam.value;
+  
+
+  Param {
+    text: "radius"
+    id: rparam
+    value: 20
+  }
+
+  function coord( angle,z ) {
+    //console.log(angle,r, rparam.value);
+    //debugger;
+    return [r * Math.cos(angle*0.0174532925), r * Math.sin(angle*0.0174532925), z||0 ]
+  }
+  
+  Points {
+    radius: r/10
+    positions: {
+      var acc = [];
+      for (var i=0; i<60; i++) 
+        acc = acc.concat( coord(i*10) );
+      return acc;
+    }
+  }
+
+  Lines {
+    id: lin
+  }
+
+  Param {
+    text: "go"
+    id: goparam
+    values: ["no","yes"]
+    value:1
+  }
+
+  RenderTick {
+    enabled: goparam.value == 1
+    onAction: {
+      var seconds = Math.floor(time);
+      //var a = Math.floor(-time*10);
+      //console.log("assign lin positions seconds=",seconds,coord( -seconds*10 ));
+      lin.positions = [0,0,0].concat( coord( -seconds*10 ) );
+      //console.log( lin.positions );
+    }
+  }
+
+}

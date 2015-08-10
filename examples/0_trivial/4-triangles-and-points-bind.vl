@@ -1,0 +1,11 @@
+Scene {
+  Triangles {
+    id: tris
+    color: [0,1,1]
+    positions: [ 0,0,0, 0,1,1, 2,1,5, 
+                 5,5,5, -4,2,1, 3,3,0 ];
+  }
+  Points {
+    positions: tris.positions
+  }
+}

@@ -1,0 +1,24 @@
+Scene {
+  Spheres {
+    positions: [0,0,0]
+    id: sp
+  }
+
+  Spheres {
+    positions: [0,0,0]
+    id: sel
+    color: [1,0,0]
+    radius: 0.1
+  }  
+
+  SceneMouseEvents {
+    onPositionChanged: {
+      var r = sp.intersect( sceneMouse );
+      console.log(r);
+      if (r) {
+        sel.positions = [ r.point.x,r.point.y,r.point.z ];
+      }
+    }
+  }
+
+}

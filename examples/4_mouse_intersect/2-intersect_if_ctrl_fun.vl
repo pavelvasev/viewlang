@@ -1,0 +1,39 @@
+Scene {
+  text: "Двигаем мышь по сфере, удерживая ctrl или alt"
+  Spheres {
+    positions: [0,0,0]
+    id: sp
+  }
+
+  Spheres {
+    positions: [0,0,0]
+    id: sel
+    color: [1,0,0]
+    radius: 0.1
+  }  
+
+  Spheres {
+    positions: [0,0,0]
+    id: sel2
+    color: [1,1,0]
+    radius: 0.1
+  }    
+
+  SceneMouseEvents {
+    onPositionChanged: {
+      console.log(event);
+      var r = sp.intersect( sceneMouse );
+      console.log(r);
+      if (r) {
+        if (event.ctrlKey)
+         sel2.positions = [ r.point.x,r.point.y,r.point.z ];
+        else
+        //if (event.altKey)
+         sel.positions = [ r.point.x,r.point.y,r.point.z ];
+
+      }
+    }
+
+  }
+
+}

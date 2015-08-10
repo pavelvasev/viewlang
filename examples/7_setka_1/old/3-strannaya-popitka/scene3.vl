@@ -1,0 +1,61 @@
+// Отображение вершин сетки точками + соединение их линией
+
+Scene {
+  id: thescene
+
+  Axes{
+    r: 50
+    color: 0
+  }
+
+  FileParam {
+    text: "Файл сетки"
+    id: inFile
+    file: Qt.resolvedUrl( "ris5.dat" )
+  }
+
+  Text {
+    text: "Zones num = " + loader.zonesCount
+    property var tag: "left"
+  }
+
+  Param {
+    text: "Point radius"
+    id: prParam
+    value: 5
+    min: 0
+    max: 50
+  }
+
+  Param {
+    text: "Show linestrip"
+    id: lsParam
+    value: 1
+    min: 0
+    max: 1
+  }  
+
+  Button {
+    text: "Очистить"
+    property var tag: "left" // left,right, top
+    onClicked: inFile.file=undefined;
+  }
+  
+  /// -------------------------------------------------
+
+  MyLoader {
+    file: inFile.file
+    id: loader
+  }
+
+  Renderer1 {
+    zones: loader.zones
+    pointsRadius: prParam.value / 50.0
+  }
+
+  Renderer2 {
+    zones: loader.zones
+    visible: lsParam.value>0
+  }
+ 
+}

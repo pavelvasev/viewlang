@@ -1,0 +1,22 @@
+Scene {
+
+  Param {
+    text: "go"
+    id: goparam
+    values: ["no","yes"]
+    value:1
+  }  
+
+  RenderTick {
+    enabled: goparam.value == 1
+    onAction: {
+      var seconds = Math.floor(time);
+      pt.positions = [time % 50,0,0, -time % 50,0,0];
+    }
+  }  
+  
+  Points {
+    id: pt
+  }
+
+}

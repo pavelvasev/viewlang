@@ -1,0 +1,82 @@
+Scene {
+  text: "Изменение геометрии по таймеру"
+
+  Param {
+    id: c1
+    text: "count 1"
+    value: 500
+    max: 10000
+  }
+
+  MyPointCloud {
+    color: 0xffffff
+    radius: 5
+    data: makeRand(c1.value)
+    id: cube1
+  }
+
+  Param {
+    id: c2
+    text: "count 2"
+    value: 500
+    max: 10000
+  }
+
+  MyPointCloud {
+    color: 0x0
+    radius: 5
+    data: makeRand(c2.value)
+    id: cube2
+  }  
+
+  Param {
+    text: "enable jitter"
+    values: [0,1]
+    value: 1
+    id: jParam
+  }
+  
+  /*
+  Lines {
+    positions: cube2.data
+    color: cube2.color
+  }
+  */
+  
+  RenderTick {
+    onAction: {
+      if (jParam.value > 0) {
+        jitter( cube1 );
+        jitter( cube2 );
+      }
+    }
+  }
+  
+  // типа так быстрее?
+  function jitter( obj ) {
+    var acc = obj.data;
+    for (var i=0; i<acc.length; i++) 
+      acc[i] = acc[i] + Math.random() - 0.5;
+    obj.dataChanged();   
+  }  
+  
+  /*
+  function jitter( obj ) {
+    for (var i=0; i<obj.data.length; i++) 
+      obj.data[i] = obj.data[i] + Math.random() - 0.5;
+    obj.dataChanged();   
+  }
+  */
+  
+  function makeRand( n ) {
+      var acc = [];
+      var r = 100;
+      for (var i=0; i<n; i++) {
+        acc.push( r*(Math.random()-0.5) ); //x
+        acc.push( r*(Math.random()-0.5) ); //y
+        acc.push( r*(Math.random()-0.5) ); //z
+      }
+      return acc;
+  }
+  
+}

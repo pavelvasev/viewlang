@@ -1,0 +1,9 @@
+Scene {
+  Spheres {
+    positions: [0,0,0, 1,1,1, 2,2,2, 1,2,3 ]
+  }
+
+  light2.position: [50*Math.cos(sceneTime),50*Math.sin(sceneTime),-30]
+
+  showLights: true // показать источник
+}

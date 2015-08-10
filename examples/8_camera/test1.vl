@@ -1,0 +1,36 @@
+Scene {
+  text: "Первые попытки управления камерой"
+  id: sc
+
+  // center - куда должна смотреть камера
+  // cameraPos - откуда должна смотреть камера
+  
+  center: [0,0,0]
+  cameraPos: [c1.value,10,50 ]
+
+  axes.visible: true
+
+  //cameraPos: [c1.value,10,cameraPosReal[2] ]
+  //cameraPos: [c1.value,threejs.camera.position.y,threejs.camera.position.z ]
+
+  Param {
+    id: c1
+    text: "точка зрения"
+    value: 2
+    min: -30
+    max: 30
+    /* // так тоже работает
+    onValueChanged: {
+      sc.center = [0,0,0];
+      sc.cameraPos = [c1.value,10,50 ];
+    }
+    */
+  }
+
+  Spheres {
+    positions: [0,0,0]
+    radius: 2
+    color: [0,1,0]
+  }  
+
+}

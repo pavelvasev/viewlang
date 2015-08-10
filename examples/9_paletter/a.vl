@@ -1,0 +1,45 @@
+Scene {
+
+  Paletter {
+    input: scalardata
+    id: palet
+  }  
+
+
+  Param {
+    id: c1
+    text: "point count"
+    value: 4500
+    max: 1000*100
+    //enableSliding: true
+  }
+
+  Points {
+    positions: makeRand( c1.value,100,50 );
+    colors: palet.output
+    radius: 5
+    id: pts
+  }
+
+  function makeRand( n,r,r0 ) {
+      var acc = [];
+      for (var i=0; i<n; i++) {
+        acc.push( r*Math.random() -r0 ); //x
+        acc.push( r*Math.random() -r0 ); //y
+        acc.push( r*Math.random() -r0 ); //z
+      }
+      return acc;
+  }  
+  
+  /////
+  
+  property var scalardata: {  // вытащим данные по Z
+    if (!pts.positions) return [];
+    var res = [];
+    for (var i=0; i<pts.positions.length; i+=3)
+      res.push( pts.positions[i+2] );
+    return res;
+  }
+
+
+}

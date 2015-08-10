@@ -1,0 +1,52 @@
+Scene {
+  text: "Параметры + таймер"
+
+  Param {
+    id: c1
+    text: "count 1"
+    value: 500
+    max: 10000
+  }
+
+  MyPointCloud {
+    color: 0xffffff
+    radius: 5
+    data: makeRand(c1.value)
+    id: cube1
+  }
+
+  Param {
+    id: c2
+    text: "count 2"
+    value: 500
+    max: 10000
+  }
+
+  MyPointCloud {
+    color: 0x00
+    radius: 5
+    id: cube2
+  }  
+  
+  property var qq: makeRand(c2.value)
+  
+  RenderTick {
+    onAction: {
+      //cube2.color = [0,0,Math.sin(time)*Math.sin(time)];
+      //cube2.data = qq.slice( 0, Math.max( 0, Math.round( Math.cos(time)*qq.length )) );
+      cube2.data = qq.slice( 0, Math.round( Math.cos(time/2)*Math.cos(time/2)*qq.length ) );
+    }
+  }
+  
+  function makeRand( n ) {
+      var acc = [];
+      var r = 100;
+      for (var i=0; i<n; i++) {
+        acc.push( r*(Math.random()-0.5) ); //x
+        acc.push( r*(Math.random()-0.5) ); //y
+        acc.push( r*(Math.random()-0.5) ); //z
+      }
+      return acc;
+  }
+  
+}

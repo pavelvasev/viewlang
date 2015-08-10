@@ -1,0 +1,26 @@
+Scene {
+  Param {
+    id: c1
+    text: "point count"
+    value: 500
+    max: 1000*1000
+  }
+
+  property var n: c1.value
+
+  Points {
+    positions: makeRand( n,100,50 );
+    colors: makeRand( n,1,0 );
+    radius: 5
+  }
+
+  function makeRand( n,r,r0 ) {
+      var acc = [];
+      for (var i=0; i<n; i++) {
+        acc.push( r*Math.random() -r0 ); //x
+        acc.push( r*Math.random() -r0 ); //y
+        acc.push( r*Math.random() -r0 ); //z
+      }
+      return acc;
+  }  
+}

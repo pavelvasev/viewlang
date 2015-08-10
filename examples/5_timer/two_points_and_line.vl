@@ -1,0 +1,21 @@
+Scene {
+
+  RenderTick {
+    onAction: {
+      var seconds = Math.floor(time);
+      pt.positions = [time % 50,0,0, -time % 50,0,0];
+      ll.opacity = 1-Math.log(time); 
+      //ll.opacity = 1.0/time; 
+      //ll.opacity = 1-Math.log((time%50)/10) 
+    }
+  }  
+  
+  Points {
+    id: pt
+  }
+  Lines {
+    id: ll
+    positions: pt.positions
+  }
+
+}

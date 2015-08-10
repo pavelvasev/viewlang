@@ -1,0 +1,43 @@
+Scene {
+  Param {
+    id: qParam
+    title: "q"; min: 2; max: 15
+  }
+  
+  Param {
+    id: pShine
+    title: "shine"; min: 0; max: 100; value: 30
+  }  
+
+  ComboBoxParam {
+    text: "Material"
+    values: ["phong","lambert"]
+    id: pMat
+  }
+
+  Tetras {
+    color: [0,1,1]
+    positions: [ 0,0,0, 1,0,0,  0,1,0, 0,0,qParam.value/10];
+    
+    materials: pMat.value > 0 ? [p2] : [p1] 
+    onMaterialsChanged: console.log(materials);
+    
+    PhongMaterial {
+      id: p1
+      shine: pShine.value
+//      emissive: 0xffff00
+//      color: 0xff0000
+//      specular:0xff0000
+    }
+
+    LambertMaterial {
+      id: p2
+      shine: pShine.value      
+//      emissive: 0xffff00
+//      color: 0xff0000
+//      specular:0xff0000
+    }    
+
+  }
+
+}
