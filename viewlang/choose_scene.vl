@@ -68,7 +68,7 @@ Scene {
     width: 80
     text: "4 сферы"
     onClicked: {
-      inp.text = "https://https://github.com/pavelvasev/viewlang/blob/master/examples/0_trivial/4-spheres-colors-all.vl"
+      inp.text = "https://github.com/pavelvasev/viewlang/blob/master/examples/0_trivial/4-spheres-colors-all.vl"
     }
   }
 
