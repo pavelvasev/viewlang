@@ -61,14 +61,14 @@ Scene {
   Button {
   width: 70
   text: "3 точки"
-  onClicked: inp.text = "https://github.com/pavelvasev/viewlang_examples/blob/master/0_trivial/1-points.vl"
+  onClicked: inp.text = "https://github.com/pavelvasev/viewlang/blob/master/examples/0_trivial/1-points.vl"
   }
 
   Button {
     width: 80
     text: "4 сферы"
     onClicked: {
-      inp.text = "https://github.com/pavelvasev/viewlang_examples/blob/master/0_trivial/4-spheres-colors-all.vl"
+      inp.text = "https://https://github.com/pavelvasev/viewlang/blob/master/examples/0_trivial/4-spheres-colors-all.vl"
     }
   }
 
@@ -76,7 +76,7 @@ Scene {
     width: 110
     text: "Треугольники"
     onClicked: {
-      inp.text = "https://github.com/pavelvasev/viewlang_examples/blob/master/0_trivial/3-triangles-colored.vl"
+      inp.text = "https://github.com/pavelvasev/viewlang/blob/master/examples/0_trivial/3-triangles-colored.vl"
     }
   }  
  
@@ -85,7 +85,7 @@ Scene {
     width: 80
     text: "Тетрамеш"
     onClicked: {
-      inp.text = "https://github.com/pavelvasev/viewlang_examples/blob/master/4_tetramesh/test-tetramesh-mouse.vl"
+      inp.text = "https://github.com/pavelvasev/viewlang/blob/master/examples/4_tetramesh/test-tetramesh-mouse.vl"
     }
   }  
   */
@@ -94,7 +94,7 @@ Scene {
     width: 80
     text: "Параметр"
     onClicked: {
-      inp.text = "https://github.com/pavelvasev/viewlang_examples/blob/master/2_params/1-triangles-and-param.vl"
+      inp.text = "https://github.com/pavelvasev/viewlang/blob/master/examples/2_params/1-triangles-and-param.vl"
     }
   }    
 
@@ -103,7 +103,7 @@ Scene {
   Button {
     width: 70
     text: "Часы"
-    onClicked: inp.text = "https://github.com/pavelvasev/viewlang_examples/blob/master/5_timer/clock/clock2.vl"
+    onClicked: inp.text = "https://github.com/pavelvasev/viewlang/blob/master/examples/5_timer/clock/clock2.vl"
   }
 
   Button {
@@ -119,7 +119,7 @@ Scene {
 
   
   Text {
-  text:   "Еще примеры: <a target='_blank' href='https://github.com/pavelvasev/viewlang_examples'>https://github.com/pavelvasev/viewlang_examples</a>"
+  text:   "Еще примеры: <a target='_blank' href='https://github.com/pavelvasev/viewlang/tree/master/examples'>https://github.com/pavelvasev/viewlang/tree/master/examples</a>"
   }
   
   /*
