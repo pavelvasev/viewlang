@@ -128,8 +128,8 @@ Item {
         }
 
     }
-
-    CheckBox {
+    
+    CheckBoxParam {
         id: redGreenBox
         text: "Красно-синее"
         property var tag: controlsTag
@@ -145,6 +145,7 @@ Item {
                 //	        console.log("anagl loaded");
                 redGreenBox.redGreenEffect = new THREE.AnaglyphEffect( renderer );
                 redGreenBox.redGreenEffect.setSize( window.innerWidth, window.innerHeight );
+                checkedChanged();
             } );
         }
     }

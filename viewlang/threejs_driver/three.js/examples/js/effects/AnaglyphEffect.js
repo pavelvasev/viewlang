@@ -8,7 +8,10 @@ THREE.AnaglyphEffect = function ( renderer, width, height ) {
 
 	var eyeRight = new THREE.Matrix4();
 	var eyeLeft = new THREE.Matrix4();
-	var focalLength = 125;
+	//var focalLength = 125;
+	// подозрительно мелкое значение, 25. но хорошо работает, особенно на примере "часы".
+	// http://viewlang.ru/viewlang/scene.html?s=https%3A%2F%2Fgithub.com%2Fpavelvasev%2Fviewlang%2Fblob%2Fmaster%2Fexamples%2F5_timer%2Fclock%2Fclock2.vl#{"params":{"cameraPos":[-6.7837712694402565,0.7310104875182479,25.689254096007407],"point-radius":39,"red-point-radius":41,"cameraCenter":[-3.5385821051841906,-1.5123295018040173,-1.7292107124435048],"outer-type":1,"krasno-sinee":1}}
+	var focalLength = 25;
 	var _aspect, _near, _far, _fov;
 
 	var _cameraL = new THREE.PerspectiveCamera();
