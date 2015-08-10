@@ -1,7 +1,7 @@
 Scene {
   Spheres {
     positions: [0,0,0, 1,1,1, 2,2,2, 1,2,3 ]
-    color: [bb.value/100,1,1]
+    color: [bb.value/100,1-bb.value/100,1]
     radius: aa.value/10
   }
   Param {
