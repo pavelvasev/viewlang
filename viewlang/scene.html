@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Viewlang scene </title>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            -moz-user-select: -moz-none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+        }
+
+        canvas { 
+          width: 100%; height: 100% 
+          margin: 0; padding: 0; display: block; left: 0px; top: 0px; position: absolute;
+        }
+         
+        #qmlSpace33 {
+          position: absolute !important;
+          left: 0px !important;
+          right: 0px !important;
+          top: 0px !important;
+          bottom: 0px !important;
+          height: auto !important;
+          z-index: 10000;
+        }        
+        
+        #qmlSpace {
+          width: 100vw !important; 
+/*          height: 95vh !important;*/
+          bottom: 0px !important;
+          z-index: 10000;
+        }
+
+        #qmlSpace2 {
+            //width: "100;
+            //heigt: 100px;
+            //height: auto !important;
+
+            z-index: 10000;
+
+            padding:50px 0; 
+            position:absolute !important; 
+            top:0 !important; 
+            bottom:0 !important; 
+            left:0 !important; 
+            right:0 !important;
+        }
+
+        #infoDark {
+          /*background-color: #77ffffff;
+          background: rgba(225, 225, 225, .3)
+          font-weight: bolder;
+          */
+          
+        }
+
+        #console-log-div {
+          position: absolute !important;
+          bottom: 5px;
+          right: 5px;
+          z-index: 50000;
+          width: 220px !important;
+          max-width: 220px !important;
+          
+        }
+        div#console-log-text {
+          width: 220px !important;
+          max-width: 220px !important;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+ 
+        div#fileProgress {
+          position:fixed; 
+          top: 2px; right: 2px; 
+          padding: 2px; 
+          background-color: #070; 
+          color: #fff;
+          z-index: 10005;
+        }
+
+        .TextEdit textarea { padding: 0px; }
+
+        /* firefox sux */
+        /*
+        button::-moz-focus-inner { margin: -1px; padding: 0; border-width: 1px; }
+        */
+        /* http://stackoverflow.com/questions/5517744/remove-extra-button-spacing-padding-in-firefox */
+        
+        button::-moz-focus-inner {
+           border: none;
+           padding: 0;
+        }
+
+        @-moz-document url-prefix() {
+
+        /*
+        button {
+           border: 2px;
+           padding-top: 1px;
+           padding-bottom: 1px;
+        }
+        */
+        
+        /*
+        button {
+           //border: 2px;
+           padding-top: -1px;
+           padding-bottom: -1px;
+        }
+        */
+        
+        button.Button span {
+           margin-left: -3px;
+           -moz-transform:translateY(-1px);
+           
+           /*
+           left: 3px;
+           position: absolute;
+           top: 0px;
+
+           left: 0;
+           right: 0;
+           margin-left: auto;
+           */
+        }
+        
+        input[type="range"] {
+           margin: 4px 0px 0px 0px;
+           padding: 0;
+           border: 0;
+        }
+
+        input[type="text"] {
+           margin: 0px;
+           border: 0px;
+           padding: 0px 0px 2px 0px;
+        }
+
+        }
+
+    </style>
+<!--    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>    
+-->    
+    <script src="depends/jquery-2.1.4.js"></script>    
+    
+    <link href="styles.css" rel="stylesheet"/>
+   
+    <script type="text/javascript" src="depends/qmlweb/src/parser.js"></script>
+    <script type="text/javascript" src="depends/qmlweb/src/process.js"></script>
+    <script type="text/javascript" src="depends/qmlweb/src/import.js"></script>
+    <script type="text/javascript" src="depends/qmlweb/src/qtcore.js"></script>
+    <script type="text/javascript" src="qmlweb_patch.js"></script>
+    
+
+    <script type="text/javascript" src="depends/lazy/lazy.js"></script>    
+    <script type="text/javascript" src="depends/lazy/lazy.browser.js"></script>
+<!-- now in ParamOscRoot.qml
+    <script type="text/javascript" src="osc-browser.min.js "></script>
+-->    
+
+    <script type="text/javascript" src="depends/papaparse/papaparse.js"></script>    
+    <script src="base.js"></script> 
+</head>
+
+<body>
+  
+<!--
+    <script src="console_msg.js" async></script> 
+-->
+
+<div id="viewlanglink" style="position:absolute; top: 5px; left: 10px; z-index: 2000"> <a target='_blank' href="http://viewlang.ru">viewlang.ru</a></div>
+<div id="togglelink" style="position:absolute; top: 5px; right: 10px; z-index: 1001"> <a target='_blank' href="javascript:toggleControls()" title="Ctrl+Q">toggle controls</a></div>
+
+<div id="infoDark">
+
+<!--
+    <a href="?s=test2d_1.qml">test2d 1</a> 
+    <a href="?s=test2d_2.qml">test2d 2</a>
+    
+    <a href="?s=1.vl">scene 1</a>
+    <a href="?s=2.vl">scene 2</a>
+    <a href="?s=3.vl">scene 3</a>
+    <a href="?s=4.vl">scene 4</a>
+    <a href="?s=5.vl">scene 5</a>
+    <a href="?s=sergetetra1.vl">sergetetra 1</a>
+    <a href="?s=sergetetra2.vl">sergetetra 2 (center points)</a>
+    <a href="?s=sergetetra3.vl">sergetetra 3 (center points+zfilter)</a>    
+    <a href="?s=sergetetra4.vl">sergetetra 4 (center points+zfilter+rotated)</a>        
+
+    <a href="?s=sergetetra.vl">sergetetra</a>
+    
+    <a href="?s=spheres_p.vl">spheres_p</a>
+
+    <br/>
+    <a href="?s=6tetra0.vl">6tetra0</a>
+    <a href="?s=6tetra1.vl">6tetra1</a>
+    
+    <a href="?s=7tetraAndPlot.vl">7tetraAndPlot</a>
+-->    
+
+</div>
+
+<div id="guiProgress" style="z-index: 10005; position: fixed; bottom: 50px; left: 50%; width:450px; margin-left:-225px; margin-right:auto;" class="progress progress-striped active">
+  <div id="guiProgressValue" class="progress-bar" role="progressbar" style="width:80%;"></div>
+</div>
+
+<div id="qmlSpace">
+    target space for qml...
+</div>
+
+<div id='fileProgress'></div>
+
+<script>
+  var driver_path = "threejs_driver/";
+  la_require_prefix = driver_path;
+  la_require_write("init.js");
+</script>
+
+<script>
+(function() {
+    var id_counter = 1;
+    Object.defineProperty(Object.prototype, "__uniqueId", {
+        writable: true
+    });
+    Object.defineProperty(Object.prototype, "_uniqueId", {
+        get: function() {
+            if (this.__uniqueId == undefined)
+                this.__uniqueId = id_counter++;
+            return this.__uniqueId;
+        }
+    });
+}());
+
+    var flat = false;
+    
+    var q = document.getElementById("qmlSpace");
+
+    var qmlEngine = new QMLEngine(q);
+
+    var src = getParameterByName2("s") || getParameterByName("s") || "choose_scene.vl";
+
+    // determine viewlang own directory
+    // orig: var a = (window.location.origin + window.location.pathname).split("/");    
+    // we add `window.location.protocol+"/"` because in Firefox window.location.origin is blank when using file://
+    ///var a = ((window.location.origin || window.location.protocol+"/") + window.location.pathname).split("/");
+    var a = (window.location.protocol + (window.location.hostname ? "//"+window.location.hostname : "/") + window.location.pathname);
+    a = a.split("/");
+    a[ a.length-1 ] = "";
+    a = a.join("/");	
+    
+    // qmlEngine.addModulePath( "QtQuick",false );
+    // use hack to ignore QtQuick importing
+    // qmlEngine.qmldirsContents = { "QtQuick": {} };    
+    
+    if (true) {
+    //if (false) {
+      // new way - optimized 01.08.2015
+      // 0. still have to keep current dir in imports due to components
+      // WRONG 
+      qmlEngine.addImportPath( a + "" );
+      
+      // FIX
+      qmlEngine.addModulePath( "components.appmix",a + "components/appmix" );
+      qmlEngine.addModulePath( "components.csv_loader",a + "components/csv_loader" );
+      qmlEngine.addModulePath( "components.show_points",a + "components/show_points" );
+      
+      // 1. specify module path's
+      qmlEngine.addModulePath( "viewlang",a );
+      qmlEngine.addModulePath( "qmlweb.components",a + "depends/qmlweb.components/" );
+      qmlEngine.addModulePath( "QtQuick.Controls",a + "depends/qmlweb.components/" ); // make it synomym to qmlweb.components
+      // 2. autoload modules. use little hack for this.
+      var parseQMLold = parseQML;
+      parseQML = function (src, file) {
+        var src2 = src ? "import viewlang 1.0\nimport qmlweb.components 1.0\n" + src : src;
+        return parseQMLold(src2, file);
+      }
+
+    }
+    else
+    { // old way import
+      qmlEngine.addImportPath( a + driver_path );
+      qmlEngine.addImportPath( a + "qml/" );
+      qmlEngine.addImportPath( a + "" );
+      qmlEngine.addImportPath( a + "../qmlweb.components/src/" );
+    }
+    
+    var loadedSourceFile = src;
+    
+    //qmlEngine.loadFile( src );
+    
+    var errorToReport = "";
+    try {
+      //console.profile();            
+      qmlEngine.loadFile( src );
+      //console.profileEnd();    
+    } catch(e) {
+      jQuery("#qmlSpace").text( "QML parse error. Use browser console to see it.");
+
+      var msg = "";
+      if (e.file) msg = msg + "Error in file " + e.file + "\n\n";
+      if (e.message) msg = msg + e.message + "\n\n";
+      if (e.comment) msg = msg + e.comment + "\n";
+      if (e.stack) {
+        //msg = msg + "stack: " + e.stack.split("\n").slice(4).join("\n");
+        msg = msg + "stack: " + e.stack;
+      }
+      //console.error( msg || e);
+      console.error(e);
+      errorToReport = msg;
+      
+      //if (excount == 0) console.error(e);
+      qmlEngine.loadFile( "Error.qml" );
+    }
+
+    qmlEngine.start();
+    
+    startScene(); // запуск драйвера
+
+    if (errorToReport) qmlEngine.rootObject.info = errorToReport;
+
+    setGuiProgress( -1 );
+    
+    //
+    var recentSrc = (readCookie("recentSources")||"").split("|");
+
+    removeA(recentSrc,src);
+    recentSrc.push( src );
+    //console.log(recentSrc);    
+    writeCookie( "recentSources", recentSrc.join("|") );
+
+    var links = recentSrc.map( function(s) { return "<a href='?s="+s+"'>" +s+ "</a>" } ).join(" ");
+    //console.log(links);
+    
+    /*
+    jQuery("#infoDark").append( links );
+    jQuery("#infoDark").append(" <br/> <a href='"+src+"' target='_blank'>[open current source]</a><br/>");
+    */
+    
+    var tt = qmlEngine.rootObject.text;
+    if (tt) {
+      jQuery("#infoDark").append( qmlEngine.rootObject.text );
+      document.title = tt;
+    }
+    
+    tt = qmlEngine.rootObject.helpText;
+    if (tt) {
+      jQuery("#viewlanglink").append( " | " + tt );
+    }
+
+    /*console.log( qmlEngine.rootObject.info );*/
+    
+    function reval() {
+      jQuery(q).height( jQuery(window).height() - jQuery("#infoDark").height()-10 );
+      q.updateQmlGeometry();
+      //console.log("setted",jQuery(q).height(), q.offsetHeight);
+    }
+    window.addEventListener("resize",reval );
+    reval();
+
+    document.addEventListener('keydown', function(e) {
+       //console.log(e);
+       //console.log(String.fromCharCode(e.which));
+
+       if ( e.ctrlKey && ( String.fromCharCode(e.which) === 'q' || String.fromCharCode(e.which) === 'Q' ) ) {
+         toggleControls();
+       }
+       if ( e.ctrlKey && ( String.fromCharCode(e.which) === 'm' || String.fromCharCode(e.which) === 'M' ) ) {
+         qmlEngine.rootObject.driverControls.movieDialog.toggle();
+       };
+    }, false);
+
+    function toggleControls() {
+         qmlEngine.rootObject.showControls = !qmlEngine.rootObject.showControls;
+         if (qmlEngine.rootObject.showControls) {
+           jQuery("#infoDark").show();
+           jQuery("#viewlanglink").show();
+         }
+         else {
+           jQuery("#infoDark").hide();
+           jQuery("#viewlanglink").hide();
+         }
+    }
+
+</script>
+</body>
+</html>

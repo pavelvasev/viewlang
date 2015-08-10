@@ -1,0 +1,32 @@
+import components.scatter 1.0 
+// as ScatterScene
+
+Scene {
+  GeoTetraScene {
+  }
+  
+  ScatterScene {
+    y: parent.bottom - sph
+    anchors: undefined
+    width: parent.width //-x
+    height: sph
+//    x: parent.leftWidgets.right
+    
+    id: sp
+    
+    scatterPlot.tag: "base" //
+    controlsTag: "left"
+    tag: "space"
+  }
+
+  property var sph: 300
+
+    Button {
+      text: "Спрятать график"
+      width: 150
+      onClicked: sp.visible=!sp.visible
+      property var tag: "left"
+    }    
+  
+
+}

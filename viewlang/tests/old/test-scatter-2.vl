@@ -1,0 +1,130 @@
+Scene {
+  FileSelect {
+    id: fs
+    onFileChanged: {
+    }
+    property var tag:"left"    
+  }
+
+  Param {
+    id: iParam
+    title: "i"
+    enableSliding: false
+    min: 1
+    max: 20
+    property var tag:"left"
+  }
+
+  Text {
+    text: q
+    property var tag: "left"    
+    property var q: {
+      console.log("changed",iParam.value);
+      return 7;
+    }
+  }
+
+  ScatterPlot {
+    id: sp
+    anchors.fill: parent
+    
+    property var q: {
+//      var co = iParam.value;
+//      console.log("co=",co);
+      console.log("loading file",fs.file );
+      loadFile( fs.file, function(res) {
+        console.log("file loaded. splitting to lines");
+        var lines = res.split("\n");
+        var res = [];
+        var lnum = lines.length;
+        console.log("collecting cells from lines" );
+        for (var i=0; i<lnum; i++) {
+          var line = lines[i];
+          var nums = line.split(/\s+/).map( parseFloat );
+          //res.push( [parseFloat(nums[0]), parseFloat(nums[co]) ] );
+
+          res.push( nums );
+          if ( (i % (100000)) == 0) console.log(i);
+        }
+        console.log("collected, moving to renderer");
+
+        arr2d = res;
+      } );
+    }
+    
+    property var arr2d
+    
+ 
+    property var co: iParam.value
+    positions: {
+     if (!arr2d || arr2d.length == 0) return [];
+     
+     console.log("ExtractRows preparse 0");
+     tofloat( arr2d, 0 );
+     console.log("ExtractRows preparse ",co);
+     tofloat( arr2d, co );
+        
+        var lnum = arr2d.length;
+        console.log("allocin target mem",lnum*2);
+        //var res = new Float32Array( lnum*2 );
+        var res = [];
+        
+        var nums;
+        //res.length = lnum*2;
+        console.log("ExtractRows extracting 0 and",co);
+        var arr = arr2d;
+        //var arr = this.$properties["arr2d"].val;
+        //debugger;
+        var coco = co;
+        var jj = 0;
+        outer_for(lnum,arr,res);
+/*        
+        for (var j=0; j<lnum; j++,jj+=2) {
+
+          //nums = arr[j];
+          //res[j] = [nums[0], nums[co] ];
+          
+//          res[jj] = nums[0];
+//          res[jj+1] = nums[coco];
+
+          //res.push( nums[0] );
+          //res.push( nums[co] );
+          if ( (j % (100000)) == 0) console.log(j);
+        }
+*/        
+        console.log("ExtractRows extract done");
+        return res;    
+    }
+
+    function outer_for(lnum,arr,res) {
+    var jj=0; console.log("outer");
+    res.length = lnum;
+    var coco = co;
+        for (var j=0; j<lnum; j++,jj+=2) {
+          var nums = arr[j];
+//          res.push( nums[0] );
+//          res.push( nums[coco] );        
+//          res[jj] = nums[0];
+//          res[jj+1] = nums[coco];
+		  res[j] = [nums[0],nums[coco]];
+          if ( (j % (100000)) == 0) console.log(j);
+        }    
+        console.log("outer done");
+    }
+
+  function tofloat( arr2d,co ) {
+
+    var prenums = arr2d[0];
+    if (!prenums[co] || !prenums[co].substring) return;
+    var n = arr2d.length;
+    for (var j=0; j<n; j++)
+      arr2d[j][co] = parseFloat( arr2d[j][co] );
+  }    
+
+/*  
+    width: 300   
+    height: 200
+    property var tag: "left"
+*/  
+  }
+}

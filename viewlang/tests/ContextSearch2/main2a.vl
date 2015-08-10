@@ -1,0 +1,13 @@
+import QtQuick 2.3
+
+RectWithFoo {
+  color: "green"
+  id: re
+  /*
+  Text {
+    text: "foo="+foo
+  }
+  */
+  Subitem3a {
+  }
+}

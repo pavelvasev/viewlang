@@ -1,0 +1,17 @@
+import components.csv_loader 
+
+Scene {
+  text: app.title
+
+  CsvLoaderApp {
+    id: app
+    text: "Укажите файл данных"
+  }
+
+  TextArea {
+    property var tag: "base"
+    anchors.fill: parent
+    text: app.output.join("\n")
+  }
+
+}

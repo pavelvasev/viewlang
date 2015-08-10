@@ -1,0 +1,99 @@
+SceneObject {
+
+  id: origin
+  property var positions: source.positions
+  property var indices: source.indices
+  property var colors: source.colors
+  property var wire
+
+  title: "Tetramesh"
+
+  function setup( newpositions,newindices )
+  {
+    if (newpositions)
+      positions = newpositions;
+    if (newindices)
+      indices = newindices;
+  }
+
+  //////////////////////////////////
+  
+  property var addTetra: addTetraQ
+  
+  /*
+  function chainAddTetra( newFunc )
+  {
+    var old = addTetra;
+    addTetra = newFunc;
+    return old;
+  }
+  */
+
+  function appendPos( arrpos, arrcolors, index )
+  {
+    arrpos.push( origin.indices[i]
+  }
+
+  function addTetraQ( i, accum )
+  {
+      if (i < 0) return;
+
+      var arr = accum.arr;
+
+          /*
+          arr.push( origin.indices[i] );
+          arr.push( origin.indices[i+1] );
+          arr.push( origin.indices[i+2] );
+          
+          arr.push( origin.indices[i] );
+          arr.push( origin.indices[i+2] );
+          arr.push( origin.indices[i+3] );
+
+          arr.push( origin.indices[i] );
+          arr.push( origin.indices[i+3] );
+          arr.push( origin.indices[i+1] );
+
+          arr.push( origin.indices[i+1] );
+          arr.push( origin.indices[i+3] );
+          arr.push( origin.indices[i+2] );
+          */
+
+  }
+  
+  Triangles {
+    property var nesting: true
+
+    //property var geom: make()
+    
+
+    color: origin.color
+    colors: origin.colors
+    wire: origin.wire
+    priority: origin.priority
+    opacity: origin.opacity
+    //shading: origin.shading
+
+    positions: make()
+
+    function make() 
+    {
+        if (!origin.visual) return [];
+        //console.log( "make tetramesh -> trimesh indices. origin.positions.length=",origin.positions.length, " origin.indices.length =",origin.indices.length);
+
+        if (!origin.indices || !origin.indices.length) return;
+        var inlen = origin.indices.length;
+        console.log("Tetramesh.qml make() going on, inlen=",inlen);
+        
+        var accum = { arr: [] };
+        addTetra( -1,accum );
+        for (var i=0; i<inlen; i+=4)
+          addTetra( i,accum );
+        addTetra( -2,accum );
+
+        console.log("Tetramesh.qml make() finish. New trimesh indices len=",accum.arr.length);
+        return accum.arr;
+    } // make
+
+  } // trimesh
+  
+}

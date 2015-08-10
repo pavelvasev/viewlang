@@ -1,0 +1,16 @@
+import QtQuick 2.3
+Rectangle {
+  property var foo: 0
+  color:"green"
+  Rectangle {
+    color:"red"
+    property var foo: 1
+    Rectangle { 
+      color:"blue"
+      property var foo: 2
+      Text {
+        text: "foo="+foo
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+В FireFox содержит баг:
+
+Реализация CSP блокирует работу bookmarklet-ов.
+Как починить: открыть адрес "about:config" и выставить security.csp.enable в значение false.
+
+```
+Though its highly discouraged, you can disable CSP in Firefox as a temporary workaround. 
+Walk-around: Open up about:config and set security.csp.enable to false.
+```

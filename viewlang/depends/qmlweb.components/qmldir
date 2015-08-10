@@ -1,0 +1,17 @@
+Embed 1.0 src/Embed.qml 	
+FileSelect 1.0 src/FileSelect.qml	
+Slider 1.0 src/Slider.qml
+ComboBox 1.0 src/ComboBox.qml
+GroupBox 1.0 src/GroupBox.qml
+GroupBoxF 1.0 src/GroupBoxF.qml
+SimpleDialog 1.0 src/SimpleDialog.qml 
+ExclusiveGroup 1.0 src/ExclusiveGroup.qml 
+Tab 1.0 src/Tab.qml 
+TabView 1.0 src/TabView.qml 
+TabViewButtonMode 1.0 src/TabViewButtonMode.qml 
+TextField 1.0 src/TextField.qml
+RadioButton 1.0 src/RadioButton.qml
+Loader 1.0 src/Loader.qml
+ParamUrlHashing 1.0 src/ParamUrlHashing.qml
+Binding 1.0 src/Binding.qml
+ProgressBar 1.0 src/ProgressBar.qml

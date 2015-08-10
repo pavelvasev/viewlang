@@ -1,0 +1,10 @@
+RectWithFoo {
+  color: "green"
+  foo: 14
+  Subitem {
+    x:20;y:20;width:100;height:100
+    property var foo: false
+    Subitem2 {
+    }
+  }
+}

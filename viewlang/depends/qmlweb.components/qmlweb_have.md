@@ -1,0 +1,37 @@
+QmlWeb already has built-in components:
+
+```
+    Component: QMLComponent,
+    QMLDocument: QMLComponent,
+    MouseArea: QMLMouseArea,
+    Image: QMLImage,
+    AnimatedImage: QMLAnimatedImage,
+    BorderImage: QMLBorderImage,
+    Item: QMLItem,
+    Column: QMLColumn,
+    Row: QMLRow,
+    Grid: QMLGrid,
+    Flow: QMLFlow,
+    Rotation: QMLRotation,
+    Scale: QMLScale,
+    Translate: QMLTranslate,
+    FontLoader: QMLFontLoader,
+    Text: QMLText,
+    Rectangle: QMLRectangle,
+    Repeater: QMLRepeater,
+    ListModel: QMLListModel,
+    ListElement: QMLListElement,
+    State: QMLState,
+    PropertyChanges: QMLPropertyChanges,
+    Transition: QMLTransition,
+    Timer: QMLTimer,
+    SequentialAnimation: QMLSequentialAnimation,
+    ParallelAnimation: QMLParallelAnimation,
+    NumberAnimation: QMLNumberAnimation,
+    Behavior: QMLBehavior,
+    TextInput: QMLTextInput,
+    Button: QMLButton,
+    TextArea: QMLTextEdit, // non-standard, to be removed!
+    TextEdit: QMLTextEdit,
+    CheckBox: QMLCheckbox
+```   

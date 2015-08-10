@@ -1,0 +1,14 @@
+import QtQuick 1.1
+
+Rectangle {
+    color: "green"
+    anchors.fill: parent
+
+Rectangle {
+    color: "red"
+    anchors.fill: parent
+    anchors.margins: 10
+
+}
+    
+}

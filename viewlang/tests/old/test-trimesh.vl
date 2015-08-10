@@ -1,0 +1,40 @@
+Scene {
+  Param {
+    id: qParam
+    title: "q"; min: 2; max: 15
+  }
+
+  Text {
+    text: qParam.value
+    property var tag:"left"
+  }
+  /*
+  Lines {
+    positions: [ 0,0,0, qParam.value,0,0 ]
+  }
+  */
+  
+  Lines {
+    color: 0xff00
+    positions: [ 0,0,0, 0,qParam.value,0 ]
+  }  
+
+  Trimesh {
+    color: [0,1,qParam.value/15]
+    positions: [ 0,0,0, 1,0,0, 0,1,-qParam.value/15, 0,0,1 ]
+    
+    indices: [0,1,2, 1,0,3 ]
+ 
+    flat: true
+
+    /*
+    materials: [defaultMaterial1]
+    PhongMaterial {
+      id: defaultMaterial1
+      shading: 2
+    }
+    */
+
+  }
+
+}

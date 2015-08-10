@@ -1,0 +1,34 @@
+Scene {
+  Param {
+    id: qParam
+    title: "q"; min: 2; max: 15
+  }
+
+  Text {
+    text: qParam.value
+    property var tag:"left"
+  }
+
+  Param {
+    title: "прозрачность тетраэдра"
+    id: pOpa
+    min: 0
+    max: 100
+    value: 50
+  }
+
+  Tetras {
+    id: tetrs
+    //color: [0,1,qParam.value/15]
+    positions: [ 0,0,0, 1,0,0,  0,1,0, 0,0,qParam.value/10];
+    colors: [1,1,1,  0,1,0,  1,0,0, 0,0,qParam.value/10 ]
+    opacity: pOpa.value/100
+    transparent:true
+  }
+
+  Lines {
+    positions: tetrs.positions
+    colors: tetrs.colors
+  }
+
+}

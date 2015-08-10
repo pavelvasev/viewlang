@@ -1,0 +1,12 @@
+Scene {
+  Points {
+    color: 0xffffff
+
+    LoadJson {
+      sources: "points2.json"
+    }
+
+  }
+  
+
+}

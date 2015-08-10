@@ -1,0 +1,21 @@
+Scene {
+  Column {
+    property var tag: "left"
+    Text {
+      text: "juj endpoint"
+    }
+    TextInput {
+      width: 100
+      id: jujurl
+    }
+    Button {
+      text: "Import!"
+      onClicked: juj()
+    }
+  }
+
+  function juj() {
+  
+  }
+
+}

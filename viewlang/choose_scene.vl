@@ -1,0 +1,172 @@
+//import "https://github.com/pavelvasev/vl_examples/tree/master/6_convert_three_js"
+import "."
+
+Scene {
+//    text: "Viewlang позволяет создавать трехмерные сцены на языке QML."
+  id: scen
+
+  Text {
+    font.pixelSize:15
+    text: "Viewlang позволяет создавать трехмерные сцены на языке QML." // <a target='_blank' href='http://viewlang.ru'>Подробнее..</a>"
+    x: cols.x
+    y: parent.height/4
+  }
+  
+
+  Column {
+    anchors.horizontalCenter: parent.horizontalCenter
+    y: parent.height/3
+    spacing: 10
+    id: cols
+
+
+  Row {
+  
+    TextField {
+    id: inp
+    placeholderText: "Введите URL файла сцены VL или QML (можно и путь к локальному файлу)"
+    width: 500
+    onAccepted: btn.clicked()
+    }
+
+    Button {
+    id: btn
+
+      text: inp.text && inp.text.length > 30 ? "ПОЕХАЛИ" : "Поехали"
+      width:100
+      onClicked: {
+      //alert(window.location.href); //alert(inp.text);
+      //console.log(window.location);
+      //window.location.href = updateQueryStringParameter(window.location.href,"s",encodeURIComponent(inp.text));
+      var dpos = window.location.href.indexOf("#");
+      var loc = dpos >= 0 ? window.location.href.slice( 0, dpos) : window.location.href;
+      var s = loc.replace("s--","q--");
+      s = s.replace("s=","sold=");
+      window.open( s + "?s=" + encodeURIComponent(inp.text) );
+      }
+      }
+
+
+
+  }
+
+  Row {
+  spacing: 5
+  
+  Text {
+  y: 3
+  text: "Примеры:"
+  }
+
+  Button {
+  width: 70
+  text: "3 точки"
+  onClicked: inp.text = "https://github.com/pavelvasev/viewlang_examples/blob/master/0_trivial/1-points.vl"
+  }
+
+  Button {
+    width: 80
+    text: "4 сферы"
+    onClicked: {
+      inp.text = "https://github.com/pavelvasev/viewlang_examples/blob/master/0_trivial/4-spheres-colors-all.vl"
+    }
+  }
+
+  Button {
+    width: 110
+    text: "Треугольники"
+    onClicked: {
+      inp.text = "https://github.com/pavelvasev/viewlang_examples/blob/master/0_trivial/3-triangles-colored.vl"
+    }
+  }  
+ 
+  /*
+  Button {
+    width: 80
+    text: "Тетрамеш"
+    onClicked: {
+      inp.text = "https://github.com/pavelvasev/viewlang_examples/blob/master/4_tetramesh/test-tetramesh-mouse.vl"
+    }
+  }  
+  */
+  
+  Button {
+    width: 80
+    text: "Параметр"
+    onClicked: {
+      inp.text = "https://github.com/pavelvasev/viewlang_examples/blob/master/2_params/1-triangles-and-param.vl"
+    }
+  }    
+
+  
+  
+  Button {
+    width: 70
+    text: "Часы"
+    onClicked: inp.text = "https://github.com/pavelvasev/viewlang_examples/blob/master/5_timer/clock/clock2.vl"
+  }
+
+  Button {
+    width: 70
+    text: "Сетка"
+    onClicked: inp.text = "https://github.com/pavelvasev/viewlang_setki/blob/master/v2/setka.vl"
+  }
+
+  
+  
+  
+  } // 2nd row
+
+  
+  Text {
+  text:   "Еще примеры: <a target='_blank' href='https://github.com/pavelvasev/viewlang_examples'>https://github.com/pavelvasev/viewlang_examples</a>"
+  }
+  
+  /*
+  Text {
+    anchors.bottom: parent.bottom
+    text: "Qt.resolvedUrl test link to myself " + Qt.resolvedUrl("choose_scene.vl")
+  }  
+  */
+
+  Text {
+  property var tag: "left"
+  font.pixelSize: 12
+  text:   "Viewlang умеет загружать прямые ссылки с гитхаб и <a target='_blank' href='https://gist.github.com/'>гист</a>.\n"+
+          "Букмарк для открытия сцен (перетащить в закладки): "+
+          "<a href='javascript:(function(){window.open(\"http://viewlang.ru/viewlang/scene.html?s=\"+window.location.href.toString() ); } )()'>Open in viewlang</a>\n"+
+          "<a href='firefox_notes.txt' target='_blank'>Примечание для пользователей FireFox</a>";
+//          "<a href='javascript:(function(){window.location.href=\"http://viewlang.ru/viewlang/scene.html?s=\"+window.location.href.toString(); } )()'>See in viewlang</a>"
+  }
+  
+  
+  
+  } // col
+  
+  //Intro {}
+
+  //center:  [-45.42792506398018, 18.74023010957537, 49.336266392874876]
+  //property var qqq: 5
+  
+  Spheres {
+    positions: [-15,0,0]
+    radius: {
+      //debugger;
+      return 1 + 0.5*Math.max( 0.8, Math.sin( scen.sceneTime*2 ) );
+    }
+    //wire:true
+    nx: 10
+    ny: 10
+    color: [0,1,0]
+    id: sp
+    Points {
+      color: [0,1,0]
+      positions: sp.atrimesh.positions
+      //nx: 4;ny: 4; color: [1,1,0]; radius: 0.1
+    }  
+  }
+    
+  
+
+} // scene
+  

@@ -1,0 +1,8 @@
+Item {
+  property var bbq:" [the bbq value]"
+  
+  Scene1 {
+  
+  }
+
+}  

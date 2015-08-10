@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> scene </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    
+    <style>
+        body {
+            margin: 0;
+            -moz-user-select: -moz-none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        #qmlSpace {
+          width: 80vw !important; 
+          height: 90vh !important; 
+          bottom: 0px !important;
+          z-index: 10000;
+          left: 10% !important;
+          top: 30px !important;
+          border: 1px solid grey;
+        }
+    </style>
+    
+    <script type="text/javascript" src="../../../qmlweb/src/parser.js"></script>
+    <script type="text/javascript" src="../../../qmlweb/src/process.js"></script>
+    <script type="text/javascript" src="../../../qmlweb/src/import.js"></script>
+    <script type="text/javascript" src="../../../qmlweb/src/qtcore.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+
+<body>
+
+<div id="qmlSpace"></div>
+
+<!-- 
+<script type="text/qml" target="qmlSpace">
+</script>
+-->
+
+<script>
+    var q = document.getElementById("qmlSpace");
+    var qmlEngine = new QMLEngine(q);
+    qmlEngine.addModulePath( "qmlweb.components","../.." );
+    //if (qmlEngine.addImportPath) 
+    //  qmlEngine.addImportPath(""); // for now we have to point to import dir directly 
+    qmlEngine.loadFile( "Index.qml" );
+    qmlEngine.start();
+    console.log("qml engine started")
+</script>
+
+</body>
+</html>

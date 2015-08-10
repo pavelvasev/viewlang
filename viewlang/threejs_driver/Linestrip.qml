@@ -1,0 +1,3 @@
+Lines {
+  linestrip: true
+}

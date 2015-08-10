@@ -1,0 +1,12 @@
+import "foo"
+
+PointsLoader {
+  id: scene1
+  property var kuku: 17
+
+  Text {
+    y: 50
+    text: "pathRoot=" + $basePath
+  }
+
+}

@@ -1,0 +1,16 @@
+import components.csv_loader 
+import components.show_points
+import components.appmix
+
+Scene {
+  id: scen
+
+  Appender {
+    text: "Добавить приложение"
+    apps: ["ShowPointsCsvApp" ]
+    onAppLoaded: {
+      app.ctag = "right";
+    }
+  }
+
+}

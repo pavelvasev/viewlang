@@ -1,0 +1,42 @@
+Scene {
+  Param {
+    id: qParam
+    title: "q"; min: 2; max: 15
+  }
+  
+  property var count: 0
+  Text {
+    text: "Render count = "+count
+    property var tag:"left"
+  }
+  onRender: count++;
+
+  Param {
+    id: pShine
+    title: "shine"; min: 0; max: 500; value: 200
+  }  
+
+  Tetras {
+    color: [0,1,qParam.value/15]
+    positions: [ 0,0,0, 1,0,0,  0,1,0, 0,0,qParam.value/10];
+    
+    materials: [p1] 
+    
+    PhongMaterial {
+      id: p1
+      shine: pShine.value
+//      emissive: 0xffff00
+//      color: 0xff0000
+//      specular:0xff0000
+    }
+
+    LambertMaterial {
+      id: p2
+//      emissive: 0xffff00
+//      color: 0xff0000
+//      specular:0xff0000
+    }    
+
+  }
+
+}

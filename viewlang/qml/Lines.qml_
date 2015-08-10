@@ -1,0 +1,18 @@
+SceneObject {
+    property var positions: source.positions
+
+    property var color
+    property var colors
+    property var radius: 0.25
+
+    property var priority: 0
+
+    property var linestrip: false
+    property var dashed: false
+    
+
+    /////////////////// graphics part
+    id: qmlObject
+
+
+}

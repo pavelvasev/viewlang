@@ -1,0 +1,67 @@
+import components.scatter 1.0 as ScatterScene
+
+Scene {
+  GeoTetraScene {
+  }
+  
+  Item {
+    y: parent.bottom - 300
+    //anchors.bottom: parent.bottom - 300
+    //anchors.right: parent.right
+    width: parent.width
+    height: 300
+
+  ScatterScene {
+    id: sp
+    
+    scatterPlot.tag: undefined
+
+//    scatterPlot.height: 300
+//    scatterPlot.width: sp.width
+
+//    scatterPlot.anchors: undefined
+    
+//    scatterPlot.x: 0
+     property var tag: "export"    
+     showDriverControls: false
+  }
+  }
+
+
+  Button {
+    property var tag: "right"
+    text: "Увеличить"
+    onClicked: { 
+//      debugger;
+      if (sp.scatterPlot.width < 800) {
+        sp.scatterPlot.width = 800;
+        sp.scatterPlot.height = 600;
+      }
+      else
+      {
+        sp.scatterPlot.width = 400;
+        sp.scatterPlot.height = 200;      
+      }
+
+/*   
+//      console.log("base to sp=",sp);
+      if (sp.scatterPlot.tag == "base") {
+        sp.scatterPlot.tag = "right";
+//        sp.scatterPlot.anchors = undefined;
+        sp.scatterPlot.width = 400;
+        sp.scatterPlot.height = 200;
+      }
+      else
+      {
+        sp.scatterPlot.tag = "base";
+      }
+*/      
+    }
+  }  
+
+  Text {
+    text: "123"
+    width: 400
+    property var tag: "right"
+  }
+}

@@ -1,0 +1,9 @@
+Scene {
+  Points {
+    color: 0xffffff
+
+    jsonSources: "points2.json"
+
+  }
+
+}

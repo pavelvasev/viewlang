@@ -1,0 +1,13 @@
+//import "."
+///import "file://D:/sync_data/viewlanging/projects/scatter/"
+import "https://github.com/pavelvasev/vl_scatter/blob/master"
+//import github.pavelvasev.sv_scatter
+
+Scene {
+
+ScatterPlot {
+  tag: "base"
+  anchors.fill: parent
+}
+
+}

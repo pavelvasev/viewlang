@@ -1,0 +1,52 @@
+Scene {
+  Param {
+    id: qParam
+    title: "q"; min: 2; max: 15
+  }
+
+  Text {
+    text: qParam.value
+    property var tag:"left"
+  }
+  
+  Lines {
+    color: 0xff00
+    positions: [ 0,0,0, 0,qParam.value,0 ]
+  }  
+
+  Trimesh {
+    color: [0,1,qParam.value/15]
+    positions: [ 0,0,0, 1,0,0, 0,1,-qParam.value/15, 0,0,1 ]
+    
+    indices: [0,1,2, 1,0,3 ]
+ 
+    property var flat: true
+    id: tritra
+  }
+
+  Trimesh {
+    id:sel
+    color: 0xff
+    positions: tritra.positions
+    indices: []
+  }
+  
+  SceneMouseEvents {
+//    onPositionChanged: {
+//      console.log(mouse.ctrlKey,sceneMouse);
+//    }
+    onClicked: console.log("click");
+    onPositionChanged: {
+      //console.log("2-click");    
+      var r = tritra.intersect( sceneMouse );
+      if (r) {
+        //console.log(r);
+        sel.indices = [r.face.a,r.face.b,r.face.c];
+      }
+      else
+        sel.indices = [];
+
+    }
+  }
+
+}

@@ -1,0 +1,3 @@
+Param {
+  sliderEnabled: false
+}
