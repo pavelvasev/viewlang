@@ -48,7 +48,12 @@ Item {
 
      var strpos = JSON.stringify( oo ); 
      //console.log(">>>> setting url hash from param",paramName,value);
-     location.hash = strpos;
+
+     if (strpos == "{\"params\":{}}") {
+       strpos = "";
+     }
+     if (location.hash != strpos);
+       location.hash = strpos;
      timeout_id = null;
 
      }, timeout );

@@ -15,6 +15,8 @@ Item {
     
     property var radius: 4
 
+    property var border: true
+
     function computeChildrenRect()
     {
         var w=0,h=0;
@@ -57,8 +59,10 @@ Item {
         Component.onCompleted: {
             legend = document.createElement("legend");
             fieldsetItem.dom.appendChild( legend );
-            fieldsetItem.dom.style.cssText += "-webkit-border-radius: "+radius+"px;-moz-border-radius: "+radius+"px; border-radius: "+radius+"px;";// padding: 0px;";
-
+            fieldsetItem.dom.style.cssText += "-webkit-border-radius: "+radius+"px;-moz-border-radius: "+radius+"px; border-radius: "+radius+"px; ";// padding: 0px;";
+            if (!groupbox.border)
+              fieldsetItem.dom.style.cssText += "border-width: 0px;"
+            
             groupbox.titleChanged();
 
             //innerHTML = "<legend>"+title+"</legend>";
