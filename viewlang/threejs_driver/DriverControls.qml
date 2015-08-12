@@ -8,26 +8,6 @@ Item {
       id: movieDlg
     }
 
-    Button {
-        text: "Экспорт в json"
-        width: 120
-        property var tag: controlsTag
-
-        onClicked: {
-            var output = scene.toJSON();
-            output = JSON.stringify( output, null, '\t' );
-            output = output.replace( /[\n\t]+([\d\.e\-\[\]]+)/g, '$1' );
-            exportString( output );
-        }
-
-        function exportString ( output ) {
-            var blob = new Blob( [ output ], { type: 'text/plain' } );
-            var objectURL = URL.createObjectURL( blob );
-            window.open( objectURL, '_blank' );
-            window.focus();
-        }
-
-    }
 
     Button {
         text: "Скриншот"
@@ -43,10 +23,37 @@ Item {
                 window.open( "http://www.svn.lact.ru:4567" +res, '_blank');
             });
         }
+        
+    }
 
+    CheckBoxParam {
+        id: axesBox
+        text: "Оси"
+        guid: "show_axes"
+        checked: axes.visible
+        onCheckedChanged: axes.visible = checked;
+        property var tag: controlsTag
+        visible: controls.parent.isRoot
+        enableAnimation: false
+    }    
+
+    property alias axes: axesA
+    AxesC {
+        id: axesA
+        visible: false
+        onVisibleChanged: if (!controls.parent.isRoot) axesBox.checked = false;
+    }
+    
+    
+    property var showMore: cbMore.checked
+    CheckBox {
+      id: cbMore
+      text: "Дополнительно"
+      property var tag: controlsTag
     }
 
     Button {
+        visible: showMore
         text: "Скриншот 3D"
         property var tag: controlsTag
         width: 120
@@ -128,15 +135,50 @@ Item {
         }
 
     }
+
+    Button {
+        visible: showMore
+        text: "Экспорт в json"
+        width: 120
+        property var tag: controlsTag
+
+        onClicked: {
+            var output = scene.toJSON();
+            output = JSON.stringify( output, null, '\t' );
+            output = output.replace( /[\n\t]+([\d\.e\-\[\]]+)/g, '$1' );
+            exportString( output );
+        }
+
+        function exportString ( output ) {
+            var blob = new Blob( [ output ], { type: 'text/plain' } );
+            var objectURL = URL.createObjectURL( blob );
+            window.open( objectURL, '_blank' );
+            window.focus();
+        }
+
+    }
     
-    CheckBoxParam {
+    
+    property var redGreenFocalValue: 25
+    onRedGreenFocalValueChanged: {
+      if (redGreenBox.redGreenEffect) 
+        redGreenBox.redGreenEffect.setFocalLength( redGreenFocalValue );
+    }
+    CheckBox {
         id: redGreenBox
+        visible: showMore || checked
         text: "Красно-синее"
         property var tag: controlsTag
 
         onCheckedChanged: {
             selectedRenderer = checked && this.redGreenEffect ? this.redGreenEffect : renderer;
             //       console.log(selectedRenderer);
+        }
+        
+        ParamUrlHashing {
+          name: "red-blue"
+          property: "checked"
+          enabled: parent.checked
         }
 
         Component.onCompleted: {
@@ -145,13 +187,26 @@ Item {
                 //	        console.log("anagl loaded");
                 redGreenBox.redGreenEffect = new THREE.AnaglyphEffect( renderer );
                 redGreenBox.redGreenEffect.setSize( window.innerWidth, window.innerHeight );
+                redGreenBox.redGreenEffect.setFocalLength( redGreenFocalValue ); 	
                 checkedChanged();
             } );
         }
+        
     }
+    Param {
+      visible: redGreenBox.checked
+      id: param
+      value: redGreenFocalValue
+      text:""
+      guid: "focal_length"
+      property var tag: "bottom"      
+      height: 20
+      onValueChanged: if (visible) redGreenFocalValue = param.value
+    }    
 
     CheckBox {
         id: cbStereo
+        visible: showMore
         text: "Стерео"
         property var tag: controlsTag
 
@@ -180,41 +235,39 @@ Item {
         }
 
     }
-
+    
     OculusControl {
+        visible: showMore
         property var tag: controlsTag
     }
 
 
     Stats {
         property var tag: controlsTag
+        visible: showMore
     }
 
     ////////////////////
 
-    CheckBoxParam {
-        id: axesBox
-        text: "Оси"
-        guid: "show_axes"
-        checked: axes.visible
-        onCheckedChanged: axes.visible = checked;
-        property var tag: controlsTag
-        visible: controls.parent.isRoot
-        enableAnimation: false
-    }
 
-    property alias axes: axesA
-    AxesC {
-        id: axesA
-        visible: false
-        onVisibleChanged: if (!controls.parent.isRoot) axesBox.checked = false;
-    }
 
+   CheckBox {
+    text: "OSC"
+    property var tag: "bottom"
+    id: thecheck
+    visible: isRoot && driverControls.showMore
+    checked: sceneObj.oscManager.enabled
+    onCheckedChanged: sceneObj.oscManager.enabled = checked;
+  }    
+
+  
     Text {
+        visible: showMore
         y: 2
         property var tag: controlsTag
         text: "  <a href='" + (loadedSourceFile||"") + "' target='_blank'>Исходный код</a>"
     }
 
 
+      
 }

@@ -12,5 +12,5 @@ Axes {
       guid: "axes_size"
       property var tag: "bottom"      
       height: 20
-    }             
+    }
 }

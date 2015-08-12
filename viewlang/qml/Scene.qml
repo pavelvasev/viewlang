@@ -177,14 +177,7 @@ SceneSpace {
      id: oscManagerA
      enabled: false
    }
-   CheckBox {
-    text: "OSC"
-    property var tag: "bottom"
-    id: thecheck
-    visible: isRoot
-    checked: oscManager.enabled
-    onCheckedChanged: oscManager.enabled = checked;
-  }
+
 
   signal animationTick(); 
 
