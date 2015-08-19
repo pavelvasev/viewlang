@@ -31,7 +31,7 @@ SceneObjectThreeJs {
     }
     
     onColorsChanged: {
-
+    
         if (!this.sceneObject) return;
         var colors_good = (colors && positions && colors.length > 0) ? positions.length/3 == colors.length/3 : true;
         var have_colors = (colors && colors.length > 0);
@@ -69,15 +69,75 @@ SceneObjectThreeJs {
         */
     }
 
-    onOpacityChanged: {
+    onOpacityChanged: setupOpacity();
+    
+    function setupOpacity() {
       if (!qmlObject.sceneObject) return makeLater(this);
 
       var mat = qmlObject.sceneObject.material;
       if (!mat) return;
 
       mat.opacity = opacity;
-      mat.transparent = opacity < 1;
+      //mat.transparent = (opacity < 1); // || (!!textureUrl);
+		  mat.transparent = transparent;
+		  //console.log( "mat.transparent=",mat.transparent);
+      mat.blending = additive ? THREE.AdditiveBlending : THREE.NormalBlending;
+      mat.depthTest = depthTest;
+      mat.depthWrite = depthWrite;
+
       mat.needsUpdate = true;  
+    }
+    
+    property var transparent: (opacity < 1) || (!!textureUrl)
+    onTransparentChanged: setupOpacity();
+        
+    property var textureUrl: null
+    onTextureUrlChanged: setupTexture();
+    
+    property var alphaTest: 0.5
+    onAlphaTestChanged: setupTexture();
+
+    property var additive: false
+    onAdditiveChanged: setupOpacity();
+    property var depthTest: true
+    onDepthTestChanged: setupOpacity();    
+    property var depthWrite: true
+    onDepthWriteChanged: setupOpacity();        
+    
+    function setupTexture() {
+      if (!qmlObject.sceneObject) return makeLater(this);
+
+      var mat = qmlObject.sceneObject.material;
+      
+      if (!mat) return;
+      
+      if (qmlObject.loadedTextureUrl !== textureUrl) {
+        if (textureUrl && textureUrl.length > 0)
+          qmlObject.loadedTexture = THREE.ImageUtils.loadTexture(textureUrl);
+        else
+          qmlObject.loadedTexture = null;
+      }
+      
+      if (qmlObject.loadedTexture !== mat.map) {
+        mat.map = qmlObject.loadedTexture;
+
+        mat.alphaTest = alphaTest;
+        
+//        mat.alphaTest = 0.2;
+//        mat.transparent = true;
+//        qmlObject.sceneObject.sortParticles = true;
+
+//        var material = mat;
+//        material.blending = THREE.AdditiveBlending;
+				//material.transparent = true;
+				//qmlObject.sceneObject.sortParticles = true;
+//				material.depthWrite = false;
+
+        //mat.blending = THREE.AdditiveBlending;
+        //mat.depthTest = false;
+        mat.needsUpdate = true;
+      }
+      
     }
     
   function somethingToColor( theColorData )
@@ -148,8 +208,11 @@ SceneObjectThreeJs {
         /////////////////////////////////
         this.sceneObject = new THREE.PointCloud( geometry, material );
         this.sceneObject.visible = visible;
+        this.sceneObject.sortParticles = true;
 
         colorsChanged();
+        textureUrlChanged();
+        transparentChanged();
         
         scene.add( this.sceneObject );
 

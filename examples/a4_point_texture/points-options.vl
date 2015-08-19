@@ -1,0 +1,68 @@
+Scene {
+  Param {
+    id: c1
+    text: "point count"
+    value: 500
+    max: 1000*1000
+  }
+
+  Param {
+    id: c2
+    text: "radius"
+    value: 20
+    max: 100
+  }
+
+  Param {
+    id: c3
+    text: "alpha test"
+    value: 50
+    max: 99
+  }  
+
+  Param {
+    id: c4
+    text: "additive"
+    value: 0
+    max: 1
+  }
+
+  Param {
+    id: c5
+    text: "depth write"
+    value: 1
+    max: 1
+  }  
+
+  Param {
+    id: c6
+    text: "depth test"
+    value: 1
+    max: 1
+  }    
+
+  property var n: c1.value
+ 
+  // see https://github.com/mrdoob/three.js/issues/518#issuecomment-2059659
+  Points {
+    positions: makeRand( n,100,50 );
+    colors: makeRand( n,1,0 );
+    radius: c2.value
+    textureUrl: Qt.resolvedUrl("spark1.png")
+    alphaTest: c3.value / 100
+    additive: c4.value>0
+    depthWrite: c5.value>0
+    depthTest: c6.value>0
+    //opacity: 0.999
+  }
+
+  function makeRand( n,r,r0 ) {
+      var acc = [];
+      for (var i=0; i<n; i++) {
+        acc.push( r*Math.random() -r0 ); //x
+        acc.push( r*Math.random() -r0 ); //y
+        acc.push( r*Math.random() -r0 ); //z
+      }
+      return acc;
+  }  
+}
