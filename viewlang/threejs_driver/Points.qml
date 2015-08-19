@@ -105,6 +105,7 @@ SceneObjectThreeJs {
     onDepthWriteChanged: setupOpacity();        
     
     function setupTexture() {
+      
       if (!qmlObject.sceneObject) return makeLater(this);
 
       var mat = qmlObject.sceneObject.material;
@@ -115,11 +116,13 @@ SceneObjectThreeJs {
         if (textureUrl && textureUrl.length > 0)
           qmlObject.loadedTexture = THREE.ImageUtils.loadTexture(textureUrl);
         else
-          qmlObject.loadedTexture = null;
+          qmlObject.loadedTexture = textureUrl;
       }
       
       if (qmlObject.loadedTexture !== mat.map) {
+        
         mat.map = qmlObject.loadedTexture;
+//        console.log("mat.map = ",mat.map  );
 
         mat.alphaTest = alphaTest;
         
