@@ -79,7 +79,8 @@ body {
     text-align:center;
     color: black;
 
-    background: rgba(225, 225, 225, .3)
+/*    background: rgba(225, 225, 225, .3)*/
+    background: transparent;
 }
 
 #infoDark a {

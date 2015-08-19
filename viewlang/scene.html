@@ -12,11 +12,13 @@
             -moz-user-select: -moz-none;
             -khtml-user-select: none;
             -webkit-user-select: none;
+            background-color: #B2B2CC !important;
         }
 
         canvas { 
           width: 100%; height: 100% 
           margin: 0; padding: 0; display: block; left: 0px; top: 0px; position: absolute;
+          
         }
          
         #qmlSpace33 {
@@ -26,7 +28,7 @@
           top: 0px !important;
           bottom: 0px !important;
           height: auto !important;
-          z-index: 10000;
+          z-index: 10000;          
         }        
         
         #qmlSpace {
@@ -56,7 +58,6 @@
           background: rgba(225, 225, 225, .3)
           font-weight: bolder;
           */
-          
         }
 
         #console-log-div {
@@ -78,7 +79,8 @@
         div#fileProgress {
           position:fixed; 
           top: 2px; right: 2px; 
-          padding: 2px; 
+          /*padding: 2px; */
+          padding: 0px;
           background-color: #070; 
           color: #fff;
           z-index: 10005;
@@ -204,7 +206,7 @@
     
     <a href="?s=7tetraAndPlot.vl">7tetraAndPlot</a>
 -->    
-
+   &nbsp;
 </div>
 
 <div id="guiProgress" style="z-index: 10005; position: fixed; bottom: 50px; left: 50%; width:450px; margin-left:-225px; margin-right:auto;" class="progress progress-striped active">
@@ -243,6 +245,9 @@
     var q = document.getElementById("qmlSpace");
 
     var qmlEngine = new QMLEngine(q);
+
+    var addimportpath = getParameterByName("addimportpath");
+    if (addimportpath) qmlEngine.addImportPath( addimportpath );
 
     var src = getParameterByName2("s") || getParameterByName("s") || "choose_scene.vl";
 
@@ -345,7 +350,8 @@
     
     var tt = qmlEngine.rootObject.text;
     if (tt) {
-      jQuery("#infoDark").append( qmlEngine.rootObject.text );
+      //jQuery("#infoDark").append( qmlEngine.rootObject.text );
+      jQuery("#infoDark").html( qmlEngine.rootObject.text );
       document.title = tt;
     }
     
