@@ -5,13 +5,16 @@ BackgroundImage {
     mixOpacity: pMix.value/100
     property var ctag: "right"
 
-    property var urla: pFon.values[ pFon.value ]
+    property var urla: "" //: pFon.values[ pFon.value ]
+    onUrlaChanged: { console.log("urla=",urla); console.trace(); }
 
     Param {
       valEnabled: false
       id: pFon
       text: "Фон"
-      tag: ctag      
+      tag: ctag
+      onValueChanged: urla = pFon.values[ pFon.value ]
+
       values: [ "http://widefon.com/_ld/41/50310581.jpg", "http://4tololo.ru/files/images/201324101801106989.jpeg","http://7ly.ru/wp-content/uploads/2014/09/kosmos_05.jpg",
                 /// planet
         
@@ -43,5 +46,32 @@ BackgroundImage {
       tag: ctag
     }    
     */
+
+    FileParam {
+      id: fil
+      text: "your file"
+      onFileChanged: {
+        if (!file) return;
+        console.log("file",file)
+        
+        if (file instanceof File) 
+        {
+          var reader  = new FileReader();
+          reader.onloadend = function () {
+            urla = reader.result;
+          }
+          reader.readAsDataURL(file);        
+        }
+        else
+          urla = file;	
+
+      }
+
+      tag: ctag
+    }
+
+    Component.onCompleted: {
+      console.log("fil.file=",fil.file);
+    }
 
 }

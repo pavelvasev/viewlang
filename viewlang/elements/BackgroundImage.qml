@@ -21,7 +21,7 @@ Image {
     }
     
     onMixOpacityChanged: {
-      console.log("q");
+      //console.log("q");
       threejs.renderer.setClearColor( threejs.renderer.getClearColor(), mixOpacity);
     }
 
