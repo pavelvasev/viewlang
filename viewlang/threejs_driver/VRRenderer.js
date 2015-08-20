@@ -3,12 +3,22 @@
 THREE.VRRenderer = function(renderer, hmd) {
 
     var self = this;
-
+/*    
     self.initialize = function() {
         var et = hmd.getEyeTranslation("left");
         self.halfIPD = new THREE.Vector3(et.x, et.y, et.z).length();
         self.fovLeft = hmd.getRecommendedEyeFieldOfView("left");
         self.fovRight = hmd.getRecommendedEyeFieldOfView("right");
+    }
+*/  
+    self.initialize = function() {
+        var paramL = hmd.getEyeParameters("left");
+        var paramR = hmd.getEyeParameters("right");
+        var et = paramL.eyeTranslation;
+        self.halfIPD = new THREE.Vector3(et.x, et.y, et.z).length();
+        self.fovLeft = paramL.recommendedFieldOfView; //hmd.getRecommendedEyeFieldOfView("left");
+        self.fovRight = paramR.recommendedFieldOfView; //hmd.getRecommendedEyeFieldOfView("right");
+
     }
     
     self.FovToNDCScaleOffset = function(fov) {
