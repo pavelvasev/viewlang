@@ -35,7 +35,8 @@ Item {
 
   anchors.fill: parent
   
-  Row {
+  Flow {
+    width: parent.width
     id: buttons
     spacing: 2
     Repeater {
@@ -58,7 +59,7 @@ Item {
 
   Item {
         x: 2
-        y: 20
+        y: 2 + buttons.height
         width: tabview.width
         height: tabview.height - buttons.height - 2
 
