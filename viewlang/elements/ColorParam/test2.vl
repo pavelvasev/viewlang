@@ -1,0 +1,13 @@
+Scene {
+  Points {
+    radius: 10
+    RandomGenerator {
+      property: "positions"
+      radius: 100
+      delta: 50
+    }
+    ColorParam {
+    }    
+  }
+
+}

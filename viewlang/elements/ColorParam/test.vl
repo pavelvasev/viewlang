@@ -1,0 +1,8 @@
+Scene {
+  Spheres {
+    positions: [0,0,0]
+    ColorParam {
+    }    
+  }
+
+}

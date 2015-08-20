@@ -29,11 +29,13 @@ Column {
     // globalName, globalText
   }
 
+  property bool colorizeText: true
   Text {
     id: toptext
     visible: param.text && param.text.length > 0
     text: param.text;
     Rectangle {
+      visible: colorizeText
       color: param.color 
       z:-1
       width: parent.width
@@ -42,6 +44,7 @@ Column {
     } 
   } //text
   
+  property alias textInput: txt
   TextInput {
     y: 2
     id: txt
@@ -51,16 +54,16 @@ Column {
 
     onAccepted: {
       param.value = text;
-      console.log("hitted acc");
+      //console.log("hitted acc");
       param.accepted();
     }
     onTextChanged: {
       if (fastUpdate) param.value = text;
     }
   }
-
+  
   onValueChanged: {
     txt.text = value;
   }
   
-}  
+}

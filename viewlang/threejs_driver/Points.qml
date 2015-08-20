@@ -10,6 +10,14 @@ SceneObjectThreeJs {
     /////////////////// graphics part
     id: qmlObject
 
+    onColorChanged: {
+      if (!this.sceneObject || !this.sceneObject.material) return;
+      
+      this.sceneObject.material.color=somethingToColor(color);
+      this.sceneObject.material.needsUpdate=true;
+    }
+    
+
     onRadiusChanged: {
       if (!this.sceneObject || !this.sceneObject.material) return;
       this.sceneObject.material.size=radius;

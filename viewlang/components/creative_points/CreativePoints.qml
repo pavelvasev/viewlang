@@ -65,4 +65,8 @@ Points {
    tag:ctag
   }
 
+  ColorParam {
+   tag: ctag
+  }
+
 }

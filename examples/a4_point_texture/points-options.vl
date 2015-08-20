@@ -64,5 +64,5 @@ Scene {
         acc.push( r*Math.random() -r0 ); //z
       }
       return acc;
-  }  
+  }
 }
