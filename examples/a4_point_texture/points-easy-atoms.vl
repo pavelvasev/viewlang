@@ -1,0 +1,23 @@
+Scene {
+  property var n: 500
+
+  Points {
+    positions: makeRand( n,100,50 );
+    colors: makeRand( n,1,0 );
+    radius: 20
+    textureUrl: Qt.resolvedUrl("spark1.png")
+    alphaTest: 0.5
+    additive: false
+    depthWrite: true
+  }
+
+  function makeRand( n,r,r0 ) {
+      var acc = [];
+      for (var i=0; i<n; i++) {
+        acc.push( r*Math.random() -r0 ); //x
+        acc.push( r*Math.random() -r0 ); //y
+        acc.push( r*Math.random() -r0 ); //z
+      }
+      return acc;
+  }
+}
