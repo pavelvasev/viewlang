@@ -9,7 +9,7 @@ Scene {
   }  
 
   BackgroundImage {
-    source: "http://picsfab.com/download/image/76208/2048x1536_planeta-kosmos-zemlya.jpg"
+    // source: "http://picsfab.com/download/image/76208/2048x1536_planeta-kosmos-zemlya.jpg"
     /// cosmo
     // source: "http://vicvapor.com/files/2014/02/Outer-Space-Wallpaper-Space-Stars.jpg"
     //aspect: true
