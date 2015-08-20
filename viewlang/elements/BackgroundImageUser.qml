@@ -49,7 +49,7 @@ BackgroundImage {
 
     FileParam {
       id: fil
-      text: "your file"
+      text: "файл фона"
       onFileChanged: {
         if (!file) return;
         console.log("file",file)
