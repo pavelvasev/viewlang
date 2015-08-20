@@ -2,7 +2,8 @@ BackgroundImage {
     source: urla
     //aspect: true
     //mixOpacity: 0.0
-    mixOpacity: pMix.value/100
+    //mixOpacity: pMix.value/100
+    opacity: 1-pMix.value/100
     property var ctag: "right"
 
     property var urla: "" //: pFon.values[ pFon.value ]

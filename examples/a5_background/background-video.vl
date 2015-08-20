@@ -1,0 +1,38 @@
+Scene {
+/*
+  Spheres {
+    positions: [0,0,0]
+    id: sp2
+    radius: 5
+    color: [0,0,1]
+    OpacityParam {
+    }
+  }  
+*/
+  Loader {
+    anchors.fill:parent
+    source:"https://github.com/pavelvasev/show_ogurca/blob/master/1-structur/ogurec_creative.vl"
+  }
+
+  Video {
+    //source: "http://jwst.nasa.gov/sciencevids/EvolutionoftheUniverse/Re-Ionization-Galaxy_Evolution_wideshot-1080p_ipod_sm.mp4"
+    //source: "http://images.all-free-download.com/footage_preview/webm/clouds_timelapse_129.webm"
+    source: "http://jwst.nasa.gov/sciencevids/PlanetaryEvolution/Nebula_to_cu_of_Protoplanetary_disc_ipod_sm.mp4"
+    anchors.fill:parent
+    anchors.bottomMargin: -40
+    z: -5
+    id: imga
+    controls:false
+    autoPlay:true
+    fillMode: VideoOutput.PreserveAspectCrop
+    onStopped: play();
+
+    Component.onCompleted: {
+      var element = jQuery(imga.dom).detach();
+      jQuery('body').append(element);
+      threejs.renderer.setClearColor( threejs.renderer.getClearColor(), 0.2);
+      imga.play(); // надо, а то после перекидывания проигрыватель останавливается
+    }
+    
+  }
+}

@@ -15,3 +15,4 @@ Loader 1.0 src/Loader.qml
 ParamUrlHashing 1.0 src/ParamUrlHashing.qml
 Binding 1.0 src/Binding.qml
 ProgressBar 1.0 src/ProgressBar.qml
+Camera 1.0 src/Camera.qml

@@ -1,0 +1,26 @@
+Scene {
+  Spheres {
+    positions: [0,0,0]
+    id: sp2
+    radius: 5
+    color: [0,0,1]
+    OpacityParam {
+    }
+  }  
+
+  Camera {
+    anchors.fill:parent
+    anchors.bottomMargin: -40
+    z: -5
+    id: imga
+    fillMode: VideoOutput.PreserveAspectCrop
+
+    Component.onCompleted: {
+ //     imga.dom.children[0].style.height = "110%";
+      var element = jQuery(imga.dom).detach();
+      jQuery('body').append(element);
+      threejs.renderer.setClearColor( threejs.renderer.getClearColor(), 0.2);
+    }
+    
+  }
+}
