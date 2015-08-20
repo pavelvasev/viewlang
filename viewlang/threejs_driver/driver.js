@@ -99,8 +99,9 @@ var vrHMD, vrHMDSensor, vrHMDSensorFound;
 
 //var container = document.getElementById("canvas-1");
 
-//var renderer = new THREE.WebGLRenderer( { canvas: container } );
+//var renderer = new THREE.WebGLRenderer( { canvas: container  } );
 var renderer = new THREE.WebGLRenderer({
+  alpha: true,
   preserveDrawingBuffer   : true   // required to support .toDataURL()
 });
 threejs.renderer = renderer;

@@ -1,0 +1,12 @@
+Scene {
+  Spheres {
+    positions: [0,0,0]
+    id: sp2
+    radius: 5
+    color: [0,0,1]
+    OpacityParam {
+    }
+  }  
+
+  BackgroundImageUser {  }
+}

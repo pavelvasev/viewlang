@@ -1,0 +1,19 @@
+Scene {
+  Spheres {
+    positions: [0,0,0]
+    id: sp2
+    radius: 5
+    color: [0,0,1]
+    OpacityParam {
+    }
+  }  
+
+  BackgroundImage {
+    source: "http://picsfab.com/download/image/76208/2048x1536_planeta-kosmos-zemlya.jpg"
+    /// cosmo
+    // source: "http://vicvapor.com/files/2014/02/Outer-Space-Wallpaper-Space-Stars.jpg"
+    //aspect: true
+    mixOpacity: 0.0
+  }
+
+}
