@@ -94,6 +94,7 @@ SceneObject {
     wire: origin.wire
     priority: origin.priority
     opacity: origin.opacity
+    visible: origin.visible
     //shading: origin.shading
     
     indices: make()

@@ -13,6 +13,15 @@ Param {
   function go() {
     if (!source) return;
     source.opacity = mult * param.value/100.0;
-    source.visible = source.radius > 0 && source.opacity > 0;
+    if (source["radiusChanged"])
+      source.visible = source.radius > 0 && source.opacity > 0;
+    else
+      if (source.play)  // camera or video
+      { // do nothing
+      }
+    else {
+      source.visible = source.opacity > 0;
+      //console.log("checked and set source.visible=",source.visible);
+    }
   }
 }
