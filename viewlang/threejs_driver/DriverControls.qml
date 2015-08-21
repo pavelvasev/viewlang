@@ -268,6 +268,13 @@ Item {
         text: "  <a href='" + (loadedSourceFile||"") + "' target='_blank'>Исходный код</a>"
     }
 
+    Text {
+        visible: showMore
+        y: 2
+        property var tag: controlsTag
+        text: "  <a href='' target='_blank' onclick='this.href=\"http://tinyurl.com/create.php?url=\"+encodeURIComponent(location.href)'>TinyURL!</a>"
+    }    
+
 
       
 }
