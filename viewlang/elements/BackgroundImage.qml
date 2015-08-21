@@ -14,7 +14,7 @@ Image {
       // надо перекинуть элемент из области qmlSpace, т.к. canvas живет вне ее, а нам надо чтобы наше z было меньше него.
       var element = jQuery(imga.dom).detach();
       jQuery('body').append(element);
-
+      
       //renderer.setClearColor( 0xff0000, 0.1);
       aspectChanged();
       mixOpacityChanged();

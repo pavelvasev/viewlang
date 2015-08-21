@@ -1,9 +1,9 @@
 BackgroundImage {
     source: urla
     //aspect: true
-    //mixOpacity: 0.0
-    //mixOpacity: pMix.value/100
-    opacity: 1-pMix.value/100
+    mixOpacity: 0.0
+    mixOpacity: pMix.value/100
+    //opacity: 1-pMix.value/100
     property var ctag: "right"
 
     property var urla: "" //: pFon.values[ pFon.value ]
@@ -11,6 +11,7 @@ BackgroundImage {
 
     Param {
       valEnabled: false
+      enableSliding: false
       id: pFon
       text: "Фон"
       tag: ctag
@@ -31,22 +32,22 @@ BackgroundImage {
                 ""
               ]
     }
+    
 
     Param {
       id: pMix
-      text: "mix opacity"
+      text: "прозрачность canvas-a"
       tag: ctag      
+      //visible:false
     }
-    
-    /* походу т о же самое что и микс.. а токда зачем?
-    opacity: pOp.value/100
-    Param {
-      id: pOp
-      value:100
-      text: "opacity"
-      tag: ctag
-    }    
-    */
+
+    OpacityParam {
+      text: "прозрачность фона"
+      tag: ctag      
+      value: 100
+      visible: false
+    }
+    // решено пока так. картинка - прозрачность не меняется. если есть то есть. а вот прозрачность канвас-а настраиваем.
 
     FileParam {
       id: fil

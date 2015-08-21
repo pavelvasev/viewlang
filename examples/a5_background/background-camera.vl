@@ -11,7 +11,7 @@ Scene {
   Camera {
     anchors.fill:parent
     anchors.bottomMargin: -40
-    z: -5
+    z: -4
     id: imga
     fillMode: VideoOutput.PreserveAspectCrop
 

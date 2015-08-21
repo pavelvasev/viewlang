@@ -1,0 +1,60 @@
+Scene {
+  id: scen
+
+  Loader {
+    anchors.fill:parent
+    source:"https://github.com/pavelvasev/show_ogurca/blob/master/1-structur/ogurec_creative.vl"
+    onLoaded: scen.refineSelf();
+  }
+  
+
+  Video {
+    source: "http://jwst.nasa.gov/sciencevids/PlanetaryEvolution/Nebula_to_cu_of_Protoplanetary_disc_ipod_sm.mp4"
+    anchors.fill:parent
+    anchors.bottomMargin: -40
+    z: -4
+    id: vimga
+    controls:false
+    autoPlay:true
+    fillMode: VideoOutput.PreserveAspectCrop
+    onStopped: play();
+
+    Component.onCompleted: {
+      var element = jQuery(vimga.dom).detach();
+      jQuery('body').append(element);
+      threejs.renderer.setClearColor( threejs.renderer.getClearColor(), 0.2);
+      vimga.play(); // надо, а то после перекидывания проигрыватель останавливается
+    }
+    
+    OpacityParam {
+      text: "прозрачность видео"
+      tag: "right"
+      value: 80
+    }    
+    
+  }
+
+  Camera {
+    anchors.fill:parent
+    anchors.bottomMargin: -40
+    z: -3
+    id: imga
+    fillMode: VideoOutput.PreserveAspectCrop
+
+    Component.onCompleted: {
+      var element = jQuery(imga.dom).detach();
+      jQuery('body').append(element);
+      threejs.renderer.setClearColor( threejs.renderer.getClearColor(), 0.2);
+    }
+
+    
+    OpacityParam {
+      text: "прозрачность камеры"
+      tag: "right"
+      value: 20
+    }
+    
+  }
+
+  
+}
