@@ -12,7 +12,7 @@ Scene {
     source: "http://jwst.nasa.gov/sciencevids/PlanetaryEvolution/Nebula_to_cu_of_Protoplanetary_disc_ipod_sm.mp4"
     anchors.fill:parent
     anchors.bottomMargin: -40
-    z: -4
+    z: -6
     id: vimga
     controls:false
     autoPlay:true
@@ -29,8 +29,8 @@ Scene {
     OpacityParam {
       text: "прозрачность видео"
       tag: "right"
-      value: 80
-    }    
+      value: 100
+    }
     
   }
 

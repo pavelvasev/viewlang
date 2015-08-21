@@ -38,16 +38,17 @@ BackgroundImage {
       id: pMix
       text: "прозрачность canvas-a"
       tag: ctag      
-      //visible:false
+      visible:false
     }
 
     OpacityParam {
       text: "прозрачность фона"
       tag: ctag      
       value: 100
-      visible: false
+      //visible: false
     }
     // решено пока так. картинка - прозрачность не меняется. если есть то есть. а вот прозрачность канвас-а настраиваем.
+    // не, наоборот. картинку меняем. а фон всегда в 0.
 
     FileParam {
       id: fil

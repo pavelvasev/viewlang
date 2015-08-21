@@ -1,13 +1,11 @@
 Scene {
+  id: scen
 
-  Spheres {
-    positions: [0,0,0]
-    id: sp2
-    radius: 5
-    color: [0,0,1]
-    OpacityParam {
-    }
-  }  
+  Loader {
+    anchors.fill:parent
+    source:"https://github.com/pavelvasev/show_ogurca/blob/master/1-structur/ogurec_creative.vl"
+    onLoaded: scen.refineSelf();
+  }
 
   Video {
     //source: "http://jwst.nasa.gov/sciencevids/EvolutionoftheUniverse/Re-Ionization-Galaxy_Evolution_wideshot-1080p_ipod_sm.mp4"
@@ -15,7 +13,7 @@ Scene {
     source: "http://jwst.nasa.gov/sciencevids/PlanetaryEvolution/Nebula_to_cu_of_Protoplanetary_disc_ipod_sm.mp4"
     anchors.fill:parent
     anchors.bottomMargin: -40
-    z: -5
+    z: -4
     id: imga
     controls:false
     autoPlay:true
@@ -28,7 +26,7 @@ Scene {
       threejs.renderer.setClearColor( threejs.renderer.getClearColor(), 0.0);
       imga.play(); // надо, а то после перекидывания проигрыватель останавливается
     }
-
+    
     OpacityParam {
       text: "прозрачность видео"
       tag: "right"
