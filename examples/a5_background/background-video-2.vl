@@ -3,7 +3,7 @@ Scene {
 
   Loader {
     anchors.fill:parent
-    source:"https://github.com/pavelvasev/show_ogurca/blob/master/1-structur/ogurec_creative.vl"
+    source:"https://github.com/pavelvasev/show_ogurca/blob/master/1-structur/ogurec_mix_distort.vl"
     onLoaded: scen.refineSelf();
   }
 
