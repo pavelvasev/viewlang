@@ -1,0 +1,100 @@
+Scene {
+  id: s
+  property var n: 500
+
+  Points {
+    id: pt
+    positions: makeRand( n,100,50 );
+    colors: makeRand( n,1,0 );
+    radius: 20
+    textureUrl: Qt.resolvedUrl("spark1.png")
+    opacity: 0.9700123456789
+    alphaTest: 0.5
+    additive: false
+    depthWrite: true
+  }
+
+  function makeRand( n,r,r0 )
+  {
+      var acc = [];
+      for (var i=0; i<n; i++)
+      {
+        acc.push( r*Math.random() - r0 ); //x
+        acc.push( r*Math.random() - r0 ); //y
+        acc.push( r*Math.random() - r0 ); //z
+      }
+      return acc;
+  }
+
+  Param
+  {
+    id: param111
+    value: 20
+    text: "радиус орбиты"
+  }
+
+  Param {
+    id: param112
+    value: 1
+    text: "скорость вращения"
+    min: 0.1
+    max: 20
+    step: 0.1
+  }
+
+
+  Points {
+    id: pt2
+    positions: {
+      var x,y,z,r;
+      r = param111.value;
+      x = r*Math.cos(s.sceneTime * param112.value);
+      y = r*Math.sin(s.sceneTime * param112.value);
+      z = r/10*Math.sin(s.sceneTime*10 * param112.value);
+      return [x,y,z];
+    }
+    color: [1,0,0]
+    radius: 30
+    textureUrl: Qt.resolvedUrl("spark1.png")
+    alphaTest: 0.5
+    additive: false
+    depthWrite: true
+  }
+//  Lines {
+//    positions: [0,0,0].concat( pt2.positions );  
+//  }
+  Linestrip {
+  //Points {
+    positions: {
+      var a=[];
+      var x,y,z, r, N;
+      r = param111.value;
+      pi = 3.14159265;
+      N = 300;
+      for (var i=0; i<N+1; i++) {
+
+        x = r*Math.cos(i*2*pi/N);
+        y = r*Math.sin(i*2*pi/N);
+	z = r/10*Math.sin(i*10*2*pi/N);
+        a.push( x );
+        a.push( y );
+        a.push( z );
+
+      }
+
+      return a;
+    }
+  }
+
+/*  
+  RenderTick {
+    enabled: true //goparam.value == 1
+    onAction: {
+      
+      var seconds = Math.floor(time);
+      pt.positions = [time % 50,0,0, -time % 50,0,0];
+    }
+  }  
+*/
+
+}
