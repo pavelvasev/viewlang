@@ -98,7 +98,10 @@ Item {
   }
 
   Component.onCompleted: {
-    if (typeof(tabview.currentIndex)==="undefined") tabview.currentIndex = 0;
+    if (typeof(tabview.currentIndex)==="undefined") 
+      tabview.currentIndex = 0; 
+    else 
+      tabview.currentIndexChanged();
   }
   
 }

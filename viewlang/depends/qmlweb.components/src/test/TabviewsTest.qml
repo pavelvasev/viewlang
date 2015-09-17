@@ -9,6 +9,7 @@ Item {
   TabView {
     width: 200
     height: 200
+    currentIndex: 1
 
     Tab {
         title: "Red"
