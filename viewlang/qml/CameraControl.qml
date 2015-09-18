@@ -1,9 +1,9 @@
-// TODO
+// Работает только для ThreeJs...
 
 Item {
   property var centerPoint: [0,0,0]
-  property var cameraPosition: [0,0,50] // надо изучать отдельно. пока не используется
-  property var realCameraPosition: [0,0,50]
+  property var cameraPosition: [0,0,50]     // задается извне
+  property var realCameraPosition: [0,0,50] // считывается из ThreeJs
   
   property var sceneControl: undefined
   

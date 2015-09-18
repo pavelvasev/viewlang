@@ -41,7 +41,9 @@ Item {
     AxesC {
         id: axesA
         visible: false
-        onVisibleChanged: if (!controls.parent.isRoot) axesBox.checked = false;
+        onVisibleChanged: {
+          if (controls.parent.isRoot === false) axesBox.checked = false;
+        }
     }
     
     
