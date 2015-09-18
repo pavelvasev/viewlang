@@ -1,53 +1,47 @@
 Scene {
-  text: "Полная ерунда"
+  text: "Управление камерой из анимации"
   id: sc
+
+  axes.visible: true
   
-  center: [0,0,0]
-  //cameraPos: [c1.value,10,50 ]
-  //cameraPos: [c1.value,10,cameraPosReal[2] ]
-  //cameraPos: [c1.value,threejs.camera.position.y,threejs.camera.position.z ]
+  cameraCenter: [0,0,0]
 
   Param {
     id: c1
-    text: "xx"
+    text: "camera z"
     value: 2
-    min: -30
-    max: 30
+    min: 5
+    max: 300
     onValueChanged: {
-      sc.center = [0,0,0];
-      sc.cameraPos = [c1.value,10,50 ];
+      sc.cameraPos = [sc.cameraPosReal[0] || 10, sc.cameraPosReal[1] || 50, c1.value ];
     }
   }
 
-  Button {
-  property var tag:"left"
-  text:"Покружить"
-  onClicked: if (ttt.enabled) stime=0; else stime=time;
-
-  property var stime:0
-  property var time: 1000
-  id: bbb
+  CheckBoxParam {
+    property var tag:"left"
+    text:"Кружить"
+    checked:false
+    id: bbb
 
   RenderTick {
     id:ttt
-    enabled: bbb.time-bbb.stime < 5
+    enabled: bbb.checked
     onAction: {
       bbb.time = time;
-      //sc.center = [0,0,0];
-      //sc.cameraPos = [c1.value,10,50 ];    
-      acc = [];
+
       var r = 50;
+      acc = [];
       acc.push( sc.center[0] + r*Math.sin(time) );
       acc.push( sc.center[1] + r*Math.cos(time) );
-      acc.push( sc.center[2] );
-      //acc.push( r*Math.sin(time)*Math.cos(time) );
+      acc.push( c1.value );
+
       sc.cameraPos = acc;
     }
   }
   }
 
   Spheres {
-    positions: [0,0,0]
+    positions: [0,10,0]
     id: sp2
     radius: 2
     color: [0,1,0]

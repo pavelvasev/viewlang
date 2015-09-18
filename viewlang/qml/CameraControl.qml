@@ -45,7 +45,9 @@ Item {
   }
   onCenterPointChanged: updateCenter();
 
-  onCameraPositionChanged: writeCamPosToThreeJs();
+  onCameraPositionChanged: {
+    writeCamPosToThreeJs();
+  }
 
   //property var imRoot: (parent === qmlEngine.rootObject)
   property var imRoot: parent.findRootSpace() === parent

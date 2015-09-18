@@ -665,6 +665,7 @@ QMLProperty.prototype.update = function() {
 QMLProperty.prototype.get = function() {
     //if (this.needsUpdate && !evaluatingPropertyPaused) {
     if (this.needsUpdate && engine.operationState !== QMLOperationState.Init) {
+    //if (this.needsUpdate) { not working...
       this.update();
     }
 
@@ -885,8 +886,29 @@ function applyProperties(metaObject, item, objectScope, componentScope) {
                       if (!targetProp) {
                         console.error("qtcore: target property [",prop.val.objectName,"].",prop.val.propertyName," not found for alias ",prop.name );
                       }
-                      else
-                        targetProp.changed.connect( prop.changed );
+                      else {
+                        // targetProp.changed.connect( prop.changed );
+                        // it is not sufficient to connect to `changed` of source property
+                        // we have to propagate own changed to it too
+                        // seems the best way to do this is to make them identical?..
+                        // prop.changed = targetProp.changed;
+                        // obj[i + "Changed"] = prop.changed;
+                        // no. because those object might be destroyed later.
+                        ( function() {
+                          var loopWatchdog = false;
+                          targetProp.changed.connect( item, function() { 
+                              if (loopWatchdog) return; loopWatchdog = true;
+                              prop.changed.apply( item,arguments ); 
+                              loopWatchdog = false;
+                          } );
+                          prop.changed.connect( obj, function() { 
+                              if (loopWatchdog) return; loopWatchdog = true;
+                              targetProp.changed.apply( obj, arguments ); 
+                              loopWatchdog = false;
+                          } );
+                        } ) ();
+
+                      }
                      }
                   }                
                   engine.pendingOperations.push( [con,item.$properties[i]] );

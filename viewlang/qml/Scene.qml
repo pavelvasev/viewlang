@@ -42,6 +42,7 @@ SceneSpace {
   property alias centerPoint: cameraControl.centerPoint
   property alias center: cameraControl.centerPoint
   property alias cameraCenter: cameraControl.centerPoint  
+  // property alias cameraLook: cameraControl.centerPoint
 
   property alias cameraPos: cameraControl.cameraPosition
   property alias cameraPosReal: cameraControl.realCameraPosition
