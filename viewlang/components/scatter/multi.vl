@@ -1,0 +1,100 @@
+import "." 
+// as ScatterScene
+
+ScatterPlotY { // matreshka !
+  id: s
+  property alias paramX: iParamX
+
+  property var columnColors: [ [0,0,1], [0,1,0], [1,0,0], [1,1,0], [0,1,1], [1,0,1], [1,0.5,1] ];
+  property var subLineContext
+  
+  Param {
+    id: iParamX
+    text: "Колонка X"
+    enableSliding: false
+    value: 1
+    min: 0
+    max: s.columnsCount
+    values: ["по порядку"].concat(s.columnsTitles.slice(1))
+    property var tag: s.controlsTag
+    property var tag_priority: 1
+  }
+
+  property var xtitle: "Колонка X"
+  property var ycount: 3
+
+  //// impl
+
+  onYcountChanged: setTimeout( function() { s.findRootSpace().refineAll() }, 100 );
+
+  color: columnColors[0]
+  xindex: paramX.value-1
+
+  paramY.color: tri2hex( columnColors[0] );
+  paramY.text: ycount > 1 ? ytitle + "1" : ytitle
+
+  ExclusiveGroup {
+    id: radioButtons
+  }
+
+  radioGroup: radioButtons
+  radioChecked: true
+  
+  property var selectedParam: paramY
+  onRadioCheckedChanged: if (s.radioChecked) selectedParam = s.paramY 
+  
+  Repeater {
+    id: repeater
+    model: ycount-1
+    ScatterPlotY {
+      anchors.fill:parent
+      //attach: s // на всякий случай, если вдруг нас растащат..
+      //tag: ""
+
+      id: s1
+      controlsTag: s.controlsTag
+      
+      positions: s.positions
+      xindex: s.xindex
+      color: columnColors[(1+index) % columnColors.length]
+      lineContext: s.subLineContext || s.lineContext
+      
+      paramY.text: ytitle + (index+2)
+      paramY.color: tri2hex( columnColors[(1+index) % columnColors.length] )
+      paramY.value: 0
+      
+      visible: paramY.value > 0
+      timeout: s.timeout
+      
+      radioGroup: s.radioGroup
+      onRadioCheckedChanged: {
+        if (s1.radioChecked) selectedParam = s1.paramY 
+      }
+    }
+  }
+
+   function findRootSpace() {
+      var foundRoot = this;
+      var o = this;
+      while (o = o.parent) {
+        if (o.findRootSpace) 
+          foundRoot = o;
+      }
+      return foundRoot;
+   }  
+   
+  ManageYCount {
+    target: s
+    tag: s.controlsTag
+    property var tag_priority: -5
+  }
+
+  property var columnYvalues: {
+    var res = [];
+    res.push( yindex );
+    for (var i=0; i<repeater.model; i++)
+      res.push( repeater.itemAt(i).yindex );
+    return res;
+  }   
+
+}

@@ -1,0 +1,56 @@
+import "." 
+// as ScatterScene
+
+ScatterPlot { // matreshka !
+  id: s
+
+  property var columnsCount: {
+    //debugger;
+    var v = positions && positions.length > 0 ? positions[0].length : 30
+    return v;
+  }
+  property var columnsTitles: computeColumnsTitles(columnsCount)
+  property var radioGroup: null
+  property alias radio: radioBtn
+  property alias radioChecked: radioBtn.checked
+  
+  function computeColumnsTitles(n) 
+  {
+    //if (n > 10000) return undefined;
+    
+    var acc=[];
+    for (var i=0; i<=n; i++)
+      acc.push(i);
+    return acc;
+  }
+  
+  yindex: paramY.value-1
+
+  property alias paramY: iParamY
+  property var ytitle: "Колонка Y"
+
+  
+  Row {
+    property var tag: s.controlsTag
+    RadioButton {
+      exclusiveGroup: radioGroup
+      visible: !!radioGroup
+      id: radioBtn
+    }
+  
+      
+  Param {
+    //y: 35
+    id: iParamY
+    text: ytitle
+    enableSliding: false
+    values: columnsTitles
+    value: 2 // нумерация с 1 идет
+    min: 0
+    max: columnsCount
+    //tag: ""
+    property var tag: s.controlsTag
+  }  
+
+  }
+}

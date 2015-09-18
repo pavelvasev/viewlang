@@ -1,0 +1,39 @@
+import "."
+MultiScatterPlotBase {
+  id: s
+
+  Poi { }
+
+  property var detectColumns: true
+  property alias fileParam: fs
+ 
+  FileParam {
+    id: fs
+    text: "Укажите файл *.json"
+    property var tag: s.controlsTag
+    showChosenFile: false
+    property var tag_priority: s.ycount+3
+  }
+  
+  // sm up Poi { }
+  ResetButton { target: s }
+  
+  JsonLoader {
+    file: fs.file
+    id: loader
+  }
+  
+  positions: loader.output
+
+  lineContext: lin
+    
+    function lin (ctx) {
+      ctx.lineWidth = 3;
+      ctx.shadowBlur=10;
+      ctx.shadowOffsetX=2;
+      ctx.shadowOffsetY=2;
+      ctx.shadowColor="black";
+      return 1;
+    }  
+  
+}

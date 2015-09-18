@@ -1,0 +1,74 @@
+import "."
+MultiScatterPlotBase {
+  id: s
+
+  Poi { }
+
+  property var detectColumns: true
+  property alias fileParam: fs
+ 
+  FileParam {
+    id: fs
+    text: "Укажите файл *.csv"
+    onFileChanged: {
+    }
+    property var tag: s.controlsTag
+    showChosenFile: false
+    property var tag_priority: s.ycount+3+2
+    //property var tag_priority: 5
+  }
+
+  // sm up Poi { }
+  ResetButton { target: s }
+  
+
+  // TODO это должОн быть цсв-лоадер
+  property var q: {
+      console.log("loading file",fs.file );
+      loadFile( fs.file, function(res) {
+        console.log("file loaded. splitting to lines. fs.file=",fs.file);
+        var lines = res.split("\n");
+        var res = [];
+        var lnum = lines.length;
+        console.log("collecting cells from lines" );
+        //debugger;
+        var firstGoodLine = false;
+        var lastAlphaLine = "";
+        for (var i=0; i<lnum; i++) {
+          var line = lines[i];
+          if (/[A-DF-Za-df-z#]/.test(line)) {
+            console.log("skipped line ",line);
+            lastAlphaLine = line;
+            continue; // если есть буква, но не "e". Ибо "Е" есть разрешенная буква, экспонента то бишь.
+          }
+          
+          if (!firstGoodLine) { // первая числовая строка
+             var items = line.split(/\s+/);
+             if (detectColumns) { // если заказ на определение колонок
+               columnsCount = items.length; // вычислим число
+               console.log("computed columnsCount=",columnsCount);
+
+               if (lastAlphaLine.length > 0) { // вычислим названия
+                 var titleitems = lastAlphaLine.split(/\s+/);
+                 
+                 var titles = titleitems;
+                 for (var j=titleitems.length+1; j<=columnsCount; j++)
+                   titles.push(j);
+                 columnsTitles = titles;
+               }
+             }
+          }
+          firstGoodLine = true;
+          var nums = line.split(/\s+/).map( parseFloat );
+          //res.push( [parseFloat(nums[0]), parseFloat(nums[co]) ] );
+
+          res.push( nums );
+          if ( (i % (100000)) == 0) console.log(i);
+        }
+        console.log("collected, moving to renderer");
+
+        s.positions = res;
+      } );
+  }
+  
+}

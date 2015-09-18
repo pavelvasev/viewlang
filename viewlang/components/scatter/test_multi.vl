@@ -1,0 +1,12 @@
+import "."
+Scene {
+  MultiScatterPlot {
+    tag: "base"
+    anchors.fill:parent
+    id: s
+    ResetButton { 
+        text: "1-1 зеленый"
+        target: s
+    }
+  }
+}

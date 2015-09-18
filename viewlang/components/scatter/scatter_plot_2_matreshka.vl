@@ -1,0 +1,139 @@
+import "."
+
+ScatterPlotBase {
+   id: sp
+
+   function findRoot() {
+     var r = this;
+     while (r.attach && r.attach.connectMouseHandlers)
+       r = r.attach;
+     return r;
+   }
+   property var treeSize: 0
+
+   property var subscribers: []
+   
+   property var attach: parent && parent.connectMouseHandlers ? parent : null
+   
+   //selection: attach ? attach.selection : undefined
+
+   opaque: attach ? true : false;
+   onSelectionChanged: {
+     if (attach)
+       setSel( attach, selection );
+     subscribers.map( function(s) { setSel( s, selection ); } );
+   }
+   
+   function setSel( tgt, sel )
+   {
+     for (var i=0; i<4; i++)
+       if (tgt.selection[i] != sel[i])
+         {
+           tgt.selection = sel;
+           return;
+         }
+   }
+
+   property var mousePosX
+   property var mousePosY
+
+//   function sendMouse
+
+   function mouseHandler(event) {
+     if (event.offsetX == mousePosX && event.offsetY == mousePosY) return;
+     mousePosX = event.offsetX;
+     mousePosY = event.offsetY;
+     if (attach) attach.chart.mouseMoveHandler(event);     
+     subscribers.map( function(s) { s.chart.mouseMoveHandler(event); } );
+   }
+   
+   function connectMouseHandlers() {
+     chart.nextMouseMoveHandler = mouseHandler;
+   }
+   
+   
+   property bool attachedToTree: false
+   Component.onCompleted: {
+//     console.log("!!!!!!!!!!! scatter completed. attach=",attach );
+//     debugger;
+     
+     if (attach) {
+       attachedToTree = true;
+       attach.subscribers.push( sp );
+       //console.log( "findRoot().treeSize = ",findRoot().treeSize );
+       findRoot().treeSize = findRoot().treeSize+1;
+       sp.z = findRoot().treeSize;
+       sp.shift = sp.z*20;
+       console.log("sp.z=",sp.z );
+       //debugger;
+       
+       // ех... selection то у него еще не создано, не вычислено.. attach.selection.changed.connect( attachChangedSel );
+     }
+   }
+   
+   Component.onDestruction: {
+//     console.log("!!!!!!!!!!! scatter destruct. attach=",attach );
+     if (attach && attachedToTree) {
+//       debugger;
+       console.log("decreasing tree size.. before that, findRoot().treeSize=",findRoot().treeSize);
+       findRoot().treeSize = findRoot().treeSize-1;
+       for (var i=0; i<attach.subscribers.length; i++)
+         if (attach.subscribers[i] == sp) {
+           attach.subscribers.splice( i,1 );
+           break;
+         }
+     }
+   }
+
+   property var rminmax: [] // устанавливаемые пользователем значения 
+   // но наша система графиков может делать реальный диапазон и побольше, если вдруг все графики не влазиют
+   property var force_set_minmax: [] // устанавливаемые пользователем значения, жесткие и неменяемые    
+
+   function matrMinmaxRecomputed(newval,doNotSendUp) {
+       // итак, произошло вычисление у нас... Но!
+       var p = newval.slice(0);
+       
+       if (rminmax) {
+         var m = Math.min(4,rminmax.length);
+         for (var i=0; i<m; i++)
+           if (!isNaN(rminmax[i])) p[i] = rminmax[i];
+       }
+       // p теперь это новое значение, но измененное с учетом рекомендаций пользователя
+
+       if (attach && attach.chart)
+       {
+         // если есть главнее график, надо взять его данные, а не пользователя
+         p = attach.chart.dataMinMax.slice(0);
+       }
+     
+       var flag = false;
+       if (p[0] < newval[0]) { newval[0] = p[0]; flag = true; };
+       if (p[1] > newval[1]) { newval[1] = p[1]; flag = true; };
+       if (p[2] < newval[2]) { newval[2] = p[2]; flag = true; };
+       if (p[3] > newval[3]) { newval[3] = p[3]; flag = true; };
+       
+       chart.dataMinMax = newval;
+       
+       // мы расширились
+       if (flag && attach) {
+         attach.matrMinmaxRecomputed( newval );
+         return; // смело выходим, так как нас вызовут опять
+       }
+
+       if (!attach) chart.reset();
+       
+       minmaxRecomputed( chart.dataMinMax ); /// это вызов метода scatter_plot.vl, там будет присвоение в minmax или еще что
+       subscribers.map( function(x) { if (x.chart) { x.matrMinmaxRecomputed( newval ); x.chart.reset(); } } ); // детей computeMinMax 
+   }
+   
+   onInited: {
+     connectMouseHandlers();
+     chart.minmaxRecomputed = matrMinmaxRecomputed;
+     
+     // еххма ручками на всяк случай
+     if (findRoot() === this) {
+       chart.computeMinMax();
+       chart.reset();
+     }
+   }
+}

@@ -1,0 +1,129 @@
+Item {
+   id: sp
+   property var controlsTag: "left"
+   property var tag: ""
+   //tag: "base"
+   //tag: ""
+ 
+   property var chart
+   
+   // массив вида [ [x,y],[x,y],[x,y],...]
+   property var positions: sample_positions()
+
+   onPositionsChanged: update(); 
+
+   property var opaque: false
+   
+   property var timeout
+   property var xindex: 0 // должен принимать значения -1 -- значит по порядку, а не по индексам
+   property var yindex: 1
+   onXindexChanged: update(); 
+   onYindexChanged: update(); 
+   
+   onHeightChanged: if (chart) chart.invalidateLayout();
+   onWidthChanged: if (chart) chart.invalidateLayout();   
+
+   property var color: 0xff
+   property var shift: 0
+   property var histogram: false
+
+   property var lineContext
+
+   property var chartBorderSize: chart.borderSize || 0
+   property var chartWidth: width - 2*chartBorderSize 
+   property var chartHeight: width - 2*chartBorderSize 
+   
+   property var selection: [0,1,0,1] // область приближения выбора, вида [xmin,xmax,ymin,ymax] в диапазоне 0...1
+   onSelectionChanged: if (chart) chart.setSelection( selection );
+
+   property var minmax: [] // мин и макс значения по графику [xmin,xmax,ymin,ymax] в диапазоне данных
+   
+   function minmaxRecomputed(newval) { // вызывается из chart
+// 
+//     for (var i=0; i<4; i++)
+//       if (!isNaN(set_minmax[i])) chart.dataMinMax[i] = set_minmax[i];
+       
+     minmax = chart.dataMinMax;
+   }   
+
+   function reset() {
+     selection = [0,1,0,1];
+     if (chart) {
+       chart.reset();
+     }
+   }
+
+   signal inited();
+   
+   function update() { 
+       if (typeof(BitmapChart) === "undefined") return;
+       if (!targetDivCreated) return;
+       //if (!positions) return;
+   
+       if (!chart)
+         chart = new BitmapChart( "chart"+chartNum, [], histogram, color,shift, null,function(newsel) { selection=newsel; } );
+         
+       console.log("updating chart. xindex=",xindex," yindex=",yindex );
+       chart.horizontalAttribute = xindex; 
+       chart.verticalAttribute = yindex; 
+       chart.opaque = opaque;
+       chart.timeout = timeout;
+       chart.lineContext = lineContext;
+       chart.minmaxRecomputed = minmaxRecomputed;
+//       connectNextChart();
+	     
+       if (xindex < 0) {
+         var chartPositions = [];
+         var p = positions;
+         for (var i=0; i<p.length; i++) {
+           chartPositions[i] = [i].concat( p[i] );
+         }
+         chart.horizontalAttribute = 0;
+         if (chart.verticalAttribute >= 0)
+           chart.verticalAttribute = chart.verticalAttribute+1;
+
+         inited();
+
+         chart.update( chartPositions );
+       }
+       else
+       {
+         inited();
+         chart.update( positions );
+       }
+       //chart.verticalMax = 1;
+
+       
+   }
+
+   property var chartNum: someGlobalCounter++
+
+   property var jsPath: Qt.resolvedUrl("bitmaprender/js/BitmapChart.js")
+
+   property var targetDivCreated: false
+
+   Embed {
+     //anchors.fill: parent
+     height: parent.height > 0 ? parent.height-30 : 1
+     width: parent.width
+    
+     html: '<div id="chart' + chartNum + '" style="width:100%; height:100%;"></div>'
+     
+     Component.onCompleted: {
+       la_require( jsPath, function() {
+         targetDivCreated = true;
+  	     update();
+       } );
+     }
+
+   }
+   
+   function sample_positions() { 
+       var nn = [];
+	     for ( var x=0; x<50000; x+=2 ) {
+	       nn.push( [ Math.random()*100 * Math.sin(x), Math.random()*100 * Math.sin(x), Math.random()*100 * Math.cos(x)] );
+	     }
+	   return nn;
+   }
+  
+}

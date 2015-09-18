@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta 
+   name="viewport" 
+   content="width=device-width, target-densityDpi=device-dpi, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Bitmap-Based Charting with HTML5 Canvas</title>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script>!window.jQuery && document.write('<script src="./js/jquery.min.js"><\/script>')</script>
+
+<script type="application/javascript" src="js/BitmapChart.js"></script>
+<script type="application/javascript">
+
+var datum = [];
+
+function init() {
+	var data;
+	for ( var x=0; x<50000; x++ ) {
+		data = [ Math.random()*100 * Math.sin(x), Math.random()*100* Math.sin(x) ] ;
+		datum.push( data );
+	}
+	//var chart = new BitmapChart( "chart", datum, true, drawCross );
+	var chart = new BitmapChart( "chart", datum, true, [1,0,1] );
+}
+
+</script>
+
+<style>
+* {
+padding: 0;
+margin: 0;
+}
+
+html, body {
+height: 100%;
+width: 100%;
+overflow:hidden;
+}
+
+#chart {
+	min-height: 100%;
+	height: 100%;
+	width: 100%;
+}
+</style>
+
+</head>
+
+ <body onload="init()" style="margin:0;padding: 0;">  
+
+   <div id="chart" style="width:100%; height:100%;"></div>
+   <input type="button" onclick="chartMap['chart'].reset()" value="reset" style="position:absolute;right:5px;top:5px;" /> 
+
+ </body> 
+</html>

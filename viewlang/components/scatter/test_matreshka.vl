@@ -1,0 +1,50 @@
+import "."
+
+Scene {
+
+ScatterPlot {
+  anchors.fill: parent
+  rminmax: [-10,0,-500,0]
+
+  ScatterPlot {
+  
+    anchors.fill: parent
+    color: [1,0,0]
+
+    ScatterPlot {
+      anchors.fill: parent
+      color: [1,1,0]
+    }
+  }
+
+    ScatterPlot {
+      anchors.fill: parent
+      color: [0,1,0]
+
+    }  
+    
+    
+    Item { /// этот отдельно
+      width: 400
+      height: 300
+      x: 50
+      y: 50
+//      anchors.right: parent.right
+//      anchors.bottom: parent.bottom
+      z: 25
+      ScatterPlot {
+        id: grn
+
+        ResetButton { 
+          text: "1-1 зеленый"
+          target: grn
+        }
+        anchors.fill: parent
+        color: [0,1,0]
+      }  
+    }
+    
+  
+}
+
+}
