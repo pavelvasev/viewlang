@@ -1,3 +1,5 @@
+import components.creative_points 1.0 
+
 Scene {
   property var n: 500
 

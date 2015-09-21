@@ -4,6 +4,31 @@
  * @private
  * @return {mixed} String of contents or false in errors.
  */
+
+// временная штука для экспериментов со ссылками вида eval://чего-то-сделать
+var _orig_getUrlContents = getUrlContents;
+getUrlContents = function (url,skipErrorLogging) {
+    if (url && url.startsWith && url.startsWith("eval://")) {
+      var code = url.split("eval://")[1];
+      var result;
+      try {
+        console.log("getUrlContents eval'ling code=",code);
+        result = eval(code);
+        console.log("result = ",result);
+      } catch (e) {
+        // same logic as with xhr
+        if (!skipErrorLogging) 
+          throw e;
+        return false;
+      }
+  
+      return result;
+    }
+
+    return _orig_getUrlContents(url,skipErrorLogging);
+}    
+     
+
 /* 
 getUrlContents = function (url,skipErrors) {
     var xhr = new XMLHttpRequest();

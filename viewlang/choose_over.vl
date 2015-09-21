@@ -1,0 +1,34 @@
+Scene {
+  
+TabView {
+ anchors.fill:parent
+  //x: 5
+  //y: 5
+  anchors.topMargin:5
+  anchors.leftMargin:5
+  Tab {
+    title: "Редактор"
+    source: "choose_scene_edit.vl"
+  }
+  Tab {
+    title: "Загрузка по URL"
+    source: "choose_scene.vl"
+  }
+  Tab {
+    title: "Загрузка из файла"
+    source: "choose_scene_file.vl"
+  }  
+  Tab {
+    title: "Доп. примеры"
+  }
+}
+
+  Component.onCompleted: {
+    jQuery("#viewlanglink").hide();
+    jQuery("#togglelink").hide();
+    jQuery("#infoDark").hide();
+    
+  }
+  showControls: false
+  //property var text: "123"
+}

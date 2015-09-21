@@ -8,8 +8,8 @@ SceneObject {
   property var radius: 1
   property var radiuses: []
  
-  property var nx: 8
-  property var ny: 8
+  property var nx: 16
+  property var ny: 24
   property var wire
 
   title: "Spheres"

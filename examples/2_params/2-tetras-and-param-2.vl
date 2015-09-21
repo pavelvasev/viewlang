@@ -1,0 +1,14 @@
+Scene {
+  Param {
+    id: qParam
+    title: "q"; min: 4; max: 37
+  }
+
+  Tetras {
+    positions: [ 0,0,0, 1,0,0,  0,1,0, 0,0,qParam.value/15, 
+                 -5,-5,2, 1,-3,-3,  2,1,4, 2,0,10+qParam.value/2
+    ] 
+    color: [ 1, qParam.value/37,qParam.value/15	 ]
+  }
+
+}

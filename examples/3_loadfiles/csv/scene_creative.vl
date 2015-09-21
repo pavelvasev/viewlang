@@ -1,0 +1,15 @@
+import components.creative_points 1.0 
+
+Scene {
+  CsvLoader {
+    //file: Qt.resolvedUrl( "s2.txt" )
+    file: "https://dl.dropboxusercontent.com/u/523104/viewlang-data/s2.txt"
+    Flatten {
+      id: arr
+    }
+  }
+  CreativePoints {
+    positions: arr.output
+    radius: 1.5
+  }
+}
