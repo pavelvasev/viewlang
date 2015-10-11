@@ -1,14 +1,19 @@
 Scene {
-  CsvLoader {
-    //file: Qt.resolvedUrl( "s2.txt" )
+
+  FileParam {
+    id: fileParam
     file: "https://dl.dropboxusercontent.com/u/523104/viewlang-data/s2.txt"
+  }
+
+  CsvLoader {
+    file: fileParam.file
     Flatten {
       id: arr
     }
   }
+
   Points {
     positions: arr.output
   }
-  Text {
-  }
+
 }

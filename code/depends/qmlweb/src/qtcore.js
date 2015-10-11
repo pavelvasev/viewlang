@@ -4356,6 +4356,9 @@ function QMLTextInput(meta) {
     createSimpleProperty("enum", this, "echoMode", "text");
     this.accepted = Signal();
 
+    this.focused = Signal();
+    this.unfocused = Signal();
+
     this.Component.completed.connect(this, function() {
         this.implicitWidth = this.dom.firstChild.offsetWidth;
         this.implicitHeight = this.dom.firstChild.offsetHeight;
@@ -4386,6 +4389,14 @@ function QMLTextInput(meta) {
 
     this.dom.firstChild.oninput = updateValue;
     this.dom.firstChild.onpropertychanged = updateValue;
+
+    this.dom.firstChild.onfocus = function(e) {
+      self.focused();    
+    }
+
+    this.dom.firstChild.onblur = function(e) {
+      self.unfocused();    
+    }
 }
 
 QW_INHERIT(QMLButton, QMLItem);
@@ -4439,16 +4450,21 @@ function QMLTextEdit(meta) {
     var self = this;
 
     this.font = new QMLFont(this);
-
+    
     this.dom.innerHTML = "<textarea></textarea>"
     this.dom.firstChild.style.pointerEvents = "auto";
     this.dom.firstChild.style.width = "100%";
     this.dom.firstChild.style.height = "100%";
+    this.dom.firstChild.style.padding = "0";
+
     // In some browsers text-areas have a margin by default, which distorts
     // the positioning, so we need to manually set it to 0.
     this.dom.firstChild.style.margin = "0";
 
     createSimpleProperty("string", this, "text", "");
+
+    this.focused = Signal();
+    this.unfocused = Signal();
 
     this.Component.completed.connect(this, function() {
         this.implicitWidth = this.dom.firstChild.offsetWidth;
@@ -4468,6 +4484,14 @@ function QMLTextEdit(meta) {
 
     this.dom.firstChild.oninput = updateValue;
     this.dom.firstChild.onpropertychanged = updateValue;
+
+    this.dom.firstChild.onfocus = function(e) {
+      self.focused();    
+    }
+
+    this.dom.firstChild.onblur = function(e) {
+      self.unfocused();    
+    }
 }
 
 QW_INHERIT(QMLCheckbox, QMLItem);

@@ -1,9 +1,16 @@
 import QtQuick.Controls 1.2
 
 Rectangle {
+/* Потоки данных
+   - file, files - первичные входящие урль-имена файлов от внешних компонент
+
+   далее FileSelect при filesChanged их меняет
+   во втором таб-е можно кликнуть "Редактировать" и тогда..
+ 
+*/
     id: param
     property var tag: "left"
-//    border.color: "grey"
+    //    border.color: "grey"
     color: "transparent"
     radius: 2
 
@@ -15,22 +22,34 @@ Rectangle {
 
     property alias value: param.file
     
-    property var file: fs.file
-    property var files: fs.files
+    property var file
+    property var files
+
+    onFilesChanged: file = files[0];
     
     property var showChosenFile: true
 
     property var guid: translit(text)
 
     onFileChanged: {
-      if (fs.file !== file) {
-        //console.log("i reset fs.file to ",file );
-        //fs.file = file;
-      }
+        if (file !== files[0]) {
+            files = [file];
+            //console.log("i reset fs.file to ",file );
+            //fs.file = file;
+        }
     }
-
+    
+    
+    /*
+    function setFile(file) {
+      param.files = [file];
+    }
+    function setFiles(files) {
+      param.files = files;
+    }*/
+    
     property var multiple: false
-
+    
     property var enableSliding: true
 
     property var values
@@ -57,15 +76,15 @@ Rectangle {
     //title: text
     
     width: 220
-  //  height: param.multiple ? 65 : 90
+    //  height: param.multiple ? 65 : 90
     //height: 100
     height: col.implicitHeight+5
 
     Column {
-      id: col
-      Text {
-        text: param.text
-      }    
+        id: col
+        Text {
+            text: param.text
+        }
         spacing: 5
 
         TabView {
@@ -81,7 +100,6 @@ Rectangle {
                     multiple: param.multiple
                     onFilesChanged: {
                         param.files = fs.files;
-                        param.file = fs.file;
                     }
                     transparent: true
                 }
@@ -94,42 +112,51 @@ Rectangle {
                 
                 Row {
 
-                Button {
-                    z: 5
-                    //anchors.right: parent.right+15+35
-                    id: applyBtn
-                    visible: false
-                    text: "ДА"
-                    onClicked: {
-                        param.files = txt.text.split("\n");
-                        param.file = files[0];
-                        applyBtn.visible = false;
-                    }
-                }                 
-                
-
-                TextEdit {
-                    id: txt
-                    //anchors.fill: parent
-                    //width: parent.width
-                    width: 190
-                    height: 20
-                    text: { 
-                      var t = "";
-                      if (param.files.length > 0) {
-                        for (var i=0; i<param.files.length; i++)
-                          if (!param.files[i].name)
-                            t = t + param.files[i] + "\n";
-                        return t;
+                    Button {
+                      text: "Редактировать..."
+                      onClicked: {
+                        dialogFilesText.text = param.files && param.files.join ? param.files.join("\n") : param.file;
+                        dlg.open();
                       }
-                      return param.file;
                     }
-                    //z: 5100
-                    onTextChanged: {
-                        if (text != param.file)
-                        applyBtn.visible = true
+
+                    
+                    SimpleDialog {
+                        id: dlg
+                        title: param.text || "&nbsp;"
+                        width: co.width + 30
+                        height: co.height + 33
+                        
+                        Column {
+                            id: co
+                            width: 500
+                            spacing: 8
+                            y: 8
+                            x: 10
+
+                            Text {
+                              text: "Укажите URL файлов, по одному в строке"
+                            }
+                            
+                            TextEdit {
+                                height: 300
+                                width: parent.width
+                                id: dialogFilesText
+                            }
+
+                            Button {
+                                text: "Ввести адреса"
+                                //width: parent.width
+                                width: 150
+                                onClicked: { 
+                                  dlg.close(); 
+                                  param.files = dialogFilesText.text.split("\n");
+                                }
+                            }
+                        }
+
+                        //onAfterOpen: dialogFilesText.text = txt.text;
                     }
-                 }
 
                 }
 
@@ -138,35 +165,35 @@ Rectangle {
         } //tabview
 
         Text {
-          visible: param.showChosenFile
-//            visible: !param.multiple
+            visible: param.showChosenFile
+            // visible: !param.multiple
             text: {
-              if (!param.file)
-                return "";
-              if (param.files.length > 1)
-                return "Выбрано файлов:" + param.files.length;
-              if (param.file.name)
-                return "Выбран лок. файл: " + param.file.name;
-
-              var co = param.file.split("/");
-              return "Выбран файл: <a target='_blank' href='" + param.file + "'>"+co[co.length-1]+"</a>\n\n"
+                if (!param.file)
+                    return "-";
+                if (param.files.length > 1)
+                    return "Выбрано файлов:" + param.files.length;
+                if (param.file.name)
+                    return "Выбран лок. файл: " + param.file.name;
+                    
+                var co = param.file.split("/");
+                return "Выбран файл: <a target='_blank' href='" + param.file + "'>"+co[co.length-1]+"</a>\n\n"
             }
             //"Файл <a target='_blank' href='"+Qt.resolvedUrl(datafile)+"'>"+datafile+"</a>\n\n"
         }
 
     }
 
-  ParamUrlHashing {
-    name: globalName
-    property: "files"
-    enabled: !(param.file instanceof File)
-    // записывать надо param.files но только если это не локальные файлы
-  }
+    ParamUrlHashing {
+        name: globalName
+        property: "files"
+        enabled: !(param.file instanceof File)
+        // записывать надо param.files но только если это не локальные файлы
+    }
 
-  property var globalName: scopeNameCalc.globalName
-  ScopeCalculator {
-    id: scopeNameCalc
-    name: param.guid
-  }
-  
+    property var globalName: scopeNameCalc.globalName
+    ScopeCalculator {
+        id: scopeNameCalc
+        name: param.guid
+    }
+
 }

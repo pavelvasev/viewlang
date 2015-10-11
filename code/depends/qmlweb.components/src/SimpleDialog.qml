@@ -22,7 +22,7 @@ Rectangle {
   anchors.verticalCenter: parent.verticalCenter
   
   signal afterOpen();
-  signal afterClose();  
+  signal afterClose();
   
   function open() { visible=true; afterOpen(); }
   function close() { visible=false; afterClose(); }

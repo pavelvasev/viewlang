@@ -54,11 +54,27 @@ Column {
 
     onAccepted: {
       param.value = text;
-      //console.log("hitted acc");
       param.accepted();
+      btEnter.visible = false;
     }
+
+    property bool constructed: false
+    Component.onCompleted: constructed = true;
+
     onTextChanged: {
-      if (fastUpdate) param.value = text;
+      if (fastUpdate) 
+        param.value = text;
+      else
+        if (constructed) btEnter.visible = true;
+    }
+    
+    Button {
+      id: btEnter
+      text: "ВВОД"
+      anchors.right: parent.right
+      anchors.margins: -10
+      visible: false
+      onClicked: { txt.accepted(); }
     }
   }
   
