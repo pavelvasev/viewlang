@@ -11,7 +11,9 @@ if (r) {
 ```  
 
 # Обработка кликов мышкой
-На сцену надо добавить объект `SceneMouseEvents`, который содержит сигналы мышки. Каждый сигнал несет аргументы: sceneMouse - 
+На сцену надо добавить объект `SceneMouseEvents`, который содержит сигналы мышки. Каждый сигнал несет аргументы: 
+* sceneMouse - объект с координатами мышки 
+* event - полностью dom событие
 ```
 SceneMouseEvents {
     onDoubleClicked: console.log( sceneMouse, event );
