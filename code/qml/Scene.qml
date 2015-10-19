@@ -12,6 +12,9 @@ SceneSpace {
   property var flat: false
   property var text: "Сцена"
 
+  property string userLang: (navigator.language || navigator.userLanguage)
+  property bool userLangRu: userLang && userLang.indexOf && userLang.indexOf("ru") >= 0
+
   property var help: ""
   ///property var helpTitle: ""
 
