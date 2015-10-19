@@ -560,8 +560,21 @@ function createSimpleProperty(type, obj, propName) {
     setupGetterSetter(obj, propName, getter, setter);
     if (obj.$isComponentRoot) {
         setupGetterSetter(obj.$context, propName, getter, setter);
-        //if (obj.$context.__proto__)
-        //  setupGetterSetter(obj.$context.__proto__, propName, getter, setter);
+
+       /* this is very slow. without this, heart load is 4 sec; with this 10-20 sec. 
+        if (propName === "children" || propName === "data" || propName === "resources" || propName === "parent") {
+          return;
+        }
+        console.log(propName);
+
+        // propagate property to upper levels object specs...
+        var protoContext = obj.$context.__proto__;
+        while (protoContext instanceof QMLContext) {
+          setupGetterSetter(protoContext, propName, getter, setter);
+          protoContext = protoContext.__proto__;
+        }
+       */
+        
     }
 }
 
