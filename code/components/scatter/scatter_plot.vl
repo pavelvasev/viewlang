@@ -118,10 +118,14 @@ Item {
 
    }
    
+   property var sample_radius_x: 100
+   property var sample_radius_y: 100
    function sample_positions() { 
        var nn = [];
+       var rx = sample_radius_x;
+       var ry = sample_radius_y;
 	     for ( var x=0; x<50000; x+=2 ) {
-	       nn.push( [ Math.random()*100 * Math.sin(x), Math.random()*100 * Math.sin(x), Math.random()*100 * Math.cos(x)] );
+	       nn.push( [ Math.random()*rx * Math.sin(x), Math.random()*ry * Math.sin(x), Math.random()* 100 * Math.cos(x)] );
 	     }
 	   return nn;
    }

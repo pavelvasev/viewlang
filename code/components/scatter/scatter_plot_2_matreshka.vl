@@ -1,5 +1,8 @@
 import "."
 
+/* Замысел в том, чтобы можно было вкладывать графики друг в друга ScatterPlot { ScatterPlot {...} }
+   Но при этом они 1) Пришли к общему знаменателю по диапазону отображения, и 2) Делали приближение-удаление синхронно.
+*/
 ScatterPlotBase {
    id: sp
 
@@ -9,15 +12,16 @@ ScatterPlotBase {
        r = r.attach;
      return r;
    }
-   property var treeSize: 0
+   property var treeSize: 0 // общий размер наросшего дерева
 
-   property var subscribers: []
+   property var subscribers: [] // дети в поддереве графиков
    
+   // родительский график
    property var attach: parent && parent.connectMouseHandlers ? parent : null
    
-   //selection: attach ? attach.selection : undefined
-
+   // если мы дите - то идем без фона
    opaque: attach ? true : false;
+
    onSelectionChanged: {
      if (attach)
        setSel( attach, selection );
@@ -87,22 +91,35 @@ ScatterPlotBase {
 
    property var rminmax: [] // устанавливаемые пользователем значения 
    // но наша система графиков может делать реальный диапазон и побольше, если вдруг все графики не влазиют
-   property var force_set_minmax: [] // устанавливаемые пользователем значения, жесткие и неменяемые    
+   // окончательное значение пишется в minmax
 
+   property var rminmax_force: [] 
+   // устанавливаемые пользователем значения, жесткие и неменяемые
+
+   // Диапазон данный независимый от родительского графика.
+   property bool rminmax_independent: false
+   
+   // вызывается, когда сработало  BitmapChart.prototype.computeMinMax2
    function matrMinmaxRecomputed(newval,doNotSendUp) {
        // итак, произошло вычисление у нас... Но!
        var p = newval.slice(0);
+
+       if (rminmax_independent) {
+          chart.rminmax_independent = true;
+          return;
+       }
        
+       // если на этом графике задано ограничение пользователем - учтем его
        if (rminmax) {
          var m = Math.min(4,rminmax.length);
          for (var i=0; i<m; i++)
            if (!isNaN(rminmax[i])) p[i] = rminmax[i];
        }
        // p теперь это новое значение, но измененное с учетом рекомендаций пользователя
-
+       
        if (attach && attach.chart)
        {
-         // если есть главнее график, надо взять его данные, а не пользователя
+         // если есть родительский график, надо взять его данные, а не этого графика и не пользователя
          p = attach.chart.dataMinMax.slice(0);
        }
      
@@ -112,10 +129,12 @@ ScatterPlotBase {
        if (p[2] < newval[2]) { newval[2] = p[2]; flag = true; };
        if (p[3] > newval[3]) { newval[3] = p[3]; flag = true; };
        
+       // Обновляем данные JS-графику!!! Типо рисоваться будешь в этом диапазоне! Ну, далее он учтет selection конечно
        chart.dataMinMax = newval;
        
-       // мы расширились
+       // наш minmax данных расширился - благодаря заданному rminmax или родительскому графику
        if (flag && attach) {
+         // сообщаем родителю, что вот мол, минимальный диапазон такой-то
          attach.matrMinmaxRecomputed( newval );
          return; // смело выходим, так как нас вызовут опять
        }

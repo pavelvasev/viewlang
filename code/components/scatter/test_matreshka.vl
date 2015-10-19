@@ -4,23 +4,25 @@ Scene {
 
 ScatterPlot {
   anchors.fill: parent
-  rminmax: [-10,0,-500,0]
+  rminmax: [-10,0,-200,0]
 
   ScatterPlot {
   
     anchors.fill: parent
     color: [1,0,0]
+    
 
     ScatterPlot {
       anchors.fill: parent
-      color: [1,1,0]
+      color: [0,1,0]
+      sample_radius_y: 300
+      rminmax_independent: true
     }
   }
 
     ScatterPlot {
       anchors.fill: parent
-      color: [0,1,0]
-
+      color: [1,1,0]
     }  
     
     

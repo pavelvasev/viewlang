@@ -579,7 +579,8 @@ BitmapChart.prototype.mouseMoveHandler = function(event) {
 	//var chart = chartMap[ this.id ]; 
 	var chart = this;
 
-	if (this.shift > 0) {
+	if (this.shift > 0 && !this.rminmax_independent) {
+	
 	}
 	else
 	{
