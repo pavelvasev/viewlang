@@ -1,0 +1,54 @@
+<html>
+<body>
+<style>
+textarea { width: 800px; height: 200px; }
+iframe { width: 800px; height: 400px; }
+</style>
+<script>
+function run() {
+  var code = document.getElementById('txt').value;
+  code = encodeURIComponent( code );
+  //document.getElementById('fra').src = "http://viewlang.ru/code/scene.html?text=" + code;
+  var fra = document.getElementById('fra');
+  var contentWnd = fra.contentWindow;
+  var hash = "";
+  try { hash = contentWnd.window.location.hash } catch (e) { console.log(e);};
+  
+  console.log("hash=",hash);
+  //fra.src = "scene.html?text=" + code + hash;
+  fra.src = "http://viewlang.ru/code/scene.html?text=" + code + hash;
+  return "";
+}
+</script>
+
+<textarea id="txt" >
+Scene {
+Param {
+  id: xlen
+  text: "x limit "
+  value: 50
+}
+Triangles {
+  positions: {
+    var a=[];
+    var xlim = xlen.value;
+    for (var i=0; i<10000; i++) {
+      var x=Math.random()*xlim-xlim/2, y=Math.random()*10*Math.cos(x), z=Math.random()*10;
+      for (var j=0; j<3; j++) {
+        a.push( x+Math.random(10) );
+        a.push( y+Math.random(10) );
+        a.push( z+Math.random(10) ); 
+      }
+    }
+    return a;
+  }
+}
+}
+</textarea>
+<br/>
+<button onclick="run()">Run</button>
+<br/>
+<iframe id="fra" src="">
+
+</body>
+</html>

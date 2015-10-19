@@ -251,7 +251,11 @@
     var addimportpath = getParameterByName("addimportpath");
     if (addimportpath) qmlEngine.addImportPath( addimportpath );
 
-    var src = getParameterByName2("s") || getParameterByName("s") || "choose_scene.vl";
+    var qmlsrc = getParameterByName2("s") || getParameterByName("s") || "choose_scene.vl";
+    var qmlcode = getParameterByName("text") || getParameterByName("code") || undefined;
+    if (qmlcode) qmlcode = decodeURIComponent( qmlcode );
+    var qmldir  = getParameterByName("dir") || undefined;
+    
 
     // determine viewlang own directory
     // orig: var a = (window.location.origin + window.location.pathname).split("/");    
@@ -308,14 +312,22 @@
       qmlEngine.addImportPath( a + "../qmlweb.components/src/" );
     }
     
-    var loadedSourceFile = src;
+    var loadedSourceFile = qmlsrc;
     
     //qmlEngine.loadFile( src );
     
     var errorToReport = "";
     try {
       //console.profile();            
-      qmlEngine.loadFile( src );
+      if (qmlcode && qmlcode.length > 0) {
+        qmlEngine.$basedir = (qmldir || a);
+        console.log("qmlEngine.$basedir=",qmlEngine.$basedir);
+        
+        qmlEngine.loadQML(qmlcode,qmldir + "/inlinecode.qml");
+      }
+      else 
+        qmlEngine.loadFile( qmlsrc );
+
       //console.profileEnd();    
     } catch(e) {
       jQuery("#qmlSpace").text( "QML parse error. Use browser console to see it.");
@@ -347,8 +359,8 @@
     //
     var recentSrc = (readCookie("recentSources")||"").split("|");
 
-    removeA(recentSrc,src);
-    recentSrc.push( src );
+    removeA(recentSrc,qmlsrc);
+    recentSrc.push( qmlsrc );
     //console.log(recentSrc);    
     writeCookie( "recentSources", recentSrc.join("|") );
 

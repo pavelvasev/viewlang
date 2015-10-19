@@ -3,6 +3,7 @@ ScatterPlot 1.0 scatter_plot_2_matreshka.vl
 ScatterPlotY 1.0 scatter_plot_3_select_y.vl
 MultiScatterPlotBase 1.0 multi.vl 
 MultiScatterPlotWithPoi 1.0 multi_with_poi.vl 
+MultiScatterPlotWithFile 1.0 multi_with_file.vl
 MultiScatterPlot 1.0 multi_with_file.vl
 MultiScatterPlotJson 1.0 multi_with_file_json.vl
 ResetButton 1.0 ResetButton.qml
