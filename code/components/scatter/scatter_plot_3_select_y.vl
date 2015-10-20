@@ -16,10 +16,11 @@ ScatterPlot { // matreshka !
   
   function computeColumnsTitles(n) 
   {
-    //if (n > 10000) return undefined;
+    //if (n > 1000) return [];
     
     var acc=[];
-    for (var i=0; i<=n; i++)
+    var mmax = Math.min( n,1005 );
+    for (var i=0; i<=mmax; i++)
       acc.push(i);
     return acc;
   }
@@ -48,6 +49,7 @@ ScatterPlot { // matreshka !
     value: 2 // нумерация с 1 идет
     min: 0
     max: columnsCount
+
     //tag: ""
     property var tag: s.controlsTag
   }  

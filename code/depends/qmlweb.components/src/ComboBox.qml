@@ -20,7 +20,7 @@ Item {
   property int    size: 1 
 
   Component.onCompleted: {
-    init();
+    init(true);
   }
 
   onSizeChanged: {
@@ -42,9 +42,10 @@ Item {
   // sometimes we do not want to force the change currentIndex if it more than count
   property bool checkCurrentIndex: true
 
-  function init() {
+  function init(installHandler) {
     self.dom.style.pointerEvents = "auto";
-
+    //self.dom.innerHTML = ''; // TODO optimize
+    
     count = model.length;
     if (checkCurrentIndex)
       currentIndex = (currentIndex >= count) ? count-1 : currentIndex;
@@ -59,8 +60,9 @@ Item {
 
     var item = self.dom; //.firstChild;
     item.style.width = width + 'px';
-
-    item.addEventListener('change', handleSelectItem, false);
+   
+    if (installHandler)
+        item.addEventListener('change', handleSelectItem, false);
   }
 
   onCurrentIndexChanged: {
@@ -75,7 +77,7 @@ Item {
   }
 
   onModelChanged: {
-    init();
+    init(false);
   }
 }
 

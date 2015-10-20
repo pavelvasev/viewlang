@@ -13,8 +13,8 @@ Column {
   property var guid: translit(text)
   
   property var enableSliding: !bigCase
-  property bool bigCase: (param.max - param.min) / param.step > 10000
-
+  property bool bigCase: (param.max - param.min) / param.step > 1000
+  
   property var values
   
   ////////////////
@@ -161,22 +161,27 @@ Column {
     }
     
     checkCurrentIndex: false
-
+    
     model: generate()
     width: 70
+
+    onVisibleChanged: if (!visible) model = []; 
     
     anchors.right: parent.right
     
     function generate() {
+      
       if (!enabled) return [];
       var acc = [];
       
-      var maxco = 100*1000;
+      var maxco = 1000;
       var pmax = param.max;
       var pstep = param.step;
       var pmin = param.min;
 
       var count = (pmax - pmin)/pstep;
+      if (count > maxco) { bigCase=true; return []; }
+
       // acc.push( param.min );
       for (var k=0; k<=count; k++) {
         var v = pmin + k * pstep;
