@@ -16,10 +16,8 @@ ScatterPlot { // matreshka !
   
   function computeColumnsTitles(n) 
   {
-    //if (n > 1000) return [];
-    
     var acc=[];
-    var mmax = Math.min( n,1005 );
+    var mmax = Math.min( n,100 );
     for (var i=0; i<=mmax; i++)
       acc.push(i);
     return acc;
@@ -45,10 +43,11 @@ ScatterPlot { // matreshka !
     id: iParamY
     text: ytitle
     enableSliding: false
-    values: columnsTitles
     value: 2 // нумерация с 1 идет
     min: 0
     max: columnsCount
+    values: columnsTitles
+    computeMaxFromValues: false
 
     //tag: ""
     property var tag: s.controlsTag

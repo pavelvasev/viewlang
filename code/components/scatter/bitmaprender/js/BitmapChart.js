@@ -700,7 +700,8 @@ try{
         var relarr = [chart.getHorizontalRelValue( h1 ), chart.getHorizontalRelValue( h2 ),
 					  chart.getVerticalRelValue( v1 ),chart.getVerticalRelValue( v2 ) ]
 
-		
+    if (isNaN(relarr[0]) || isNaN(relarr[1]) || isNaN(relarr[2]) || isNaN(relarr[3])) 
+      relarr = [0,1,0,1];
  
 		//console.log("mousa apaa",relarr);
     if (Math.abs(relarr[1]-relarr[0]) < 0.00001 || Math.abs(relarr[3]-relarr[2]) < 0.00001 ) {
@@ -790,6 +791,8 @@ BitmapChart.prototype.setSelection = function( relativeArr ) {
 		chart._verticalMin = newVMin;
 		chart._verticalMax = newVMax;
 		
+		if (isNaN(newHMin)) 
+		  debugger;
 
 		chart.render();
 }

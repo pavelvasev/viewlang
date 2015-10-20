@@ -12,7 +12,7 @@ MultiScatterPlotBase {
     text: "Укажите файл *.json"
     property var tag: s.controlsTag
     showChosenFile: false
-    property var tag_priority: s.ycount+3
+    property var tag_priority: s.ycount+5
   }
   
   // sm up Poi { }

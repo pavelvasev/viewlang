@@ -38,7 +38,7 @@ Video {
       
       var hasmedia = !!(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
-      callGetUserMedia({video:true, audio:true},
+      callGetUserMedia({video:true, audio:false},
           function(stream) {
             camera.source =  URL.createObjectURL(stream);
           }, function (error) {

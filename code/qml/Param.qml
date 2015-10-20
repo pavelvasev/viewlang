@@ -13,12 +13,14 @@ Column {
   property var guid: translit(text)
   
   property var enableSliding: !bigCase
-  property bool bigCase: (param.max - param.min) / param.step > 1000
+  property bool bigCase: (param.max - param.min) / param.step > 1000 || (!computeMaxFromValues && values && values.length < max)
   
   property var values
+
+  property bool computeMaxFromValues: true
   
   ////////////////
-
+  
   property var comboEnabled: !bigCase
   property var textEnabled: bigCase
 
@@ -29,9 +31,9 @@ Column {
   onValuesChanged: {
     if (values && values.length > 0) {
       min = 0;
-      max = values.length -1;
+      if (computeMaxFromValues) max = values.length - 1;
       step = 1;
-      combo.model = values;
+      //combo.model = values;
     }
   }
 
@@ -165,13 +167,12 @@ Column {
     model: generate()
     width: 70
 
-    onVisibleChanged: if (!visible) model = []; 
-    
     anchors.right: parent.right
     
     function generate() {
-      
       if (!enabled) return [];
+      if (param.values && param.values.length > 0) return param.values;
+
       var acc = [];
       
       var maxco = 1000;
@@ -181,20 +182,21 @@ Column {
 
       var count = (pmax - pmin)/pstep;
       if (count > maxco) { bigCase=true; return []; }
-
-      // acc.push( param.min );
+      
       for (var k=0; k<=count; k++) {
         var v = pmin + k * pstep;
         acc.push( Number( v.toFixed( 7 ) ) ); 
         // обрываем все что было после N знаков при отображении
         // иначе на экране будут числа вида 15.0000000001 иногда
       }
-      /*
+
+      /* корявый метод, округление сбоит
       var i = param.min;
       while (i <= pmax && maxco-- > 0) {
         acc.push(i); i+=pstep;
       }
       */
+
       return acc;
     }
   }

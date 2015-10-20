@@ -16,6 +16,8 @@ ScatterPlotY { // matreshka !
     min: 0
     max: s.columnsCount
     values: ["по порядку"].concat(s.columnsTitles.slice(1))
+    computeMaxFromValues: false
+
     property var tag: s.controlsTag
     property var tag_priority: 1
   }
@@ -50,6 +52,8 @@ ScatterPlotY { // matreshka !
       anchors.fill:parent
       //attach: s // на всякий случай, если вдруг нас растащат..
       //tag: ""
+
+      columnsTitles: s.columnsTitles
 
       id: s1
       controlsTag: s.controlsTag
@@ -95,6 +99,6 @@ ScatterPlotY { // matreshka !
     for (var i=0; i<repeater.model; i++)
       res.push( repeater.itemAt(i).yindex );
     return res;
-  }   
+  }
 
 }
