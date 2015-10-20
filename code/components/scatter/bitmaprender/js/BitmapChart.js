@@ -315,10 +315,12 @@ BitmapChart.prototype.height = function() {
 
 
 BitmapChart.prototype.render = function() {
+  if (this.verticalAttribute < 0) return;
+
 	this.renderTime = new Date().getTime();
 	//log( this );
 	console.log( "rendering BitmapChart, dataProvider.length=",this.dataProvider.length, "verticalAttribute=",this.verticalAttribute, 
-	                   "sel=",this.selection, "dataMinMax=",this.dataMinMax,"horizontalMin=",this._horizontalMin);
+	                   "sel=",this.selection, "dataMinMax=",this.dataMinMax,"horizontalMin=",this._horizontalMin );
 	var i = 0;
 	
 	var w = this.targetDiv.width();
@@ -353,11 +355,12 @@ BitmapChart.prototype.render = function() {
 
 	var horizontalDiff = this._horizontalMax - this._horizontalMin;
 	var verticalDiff = this._verticalMax - this._verticalMin;
+	console.log( "verticalDiff=",verticalDiff );
 	
 	var _x;
 	var _y;
 	var o;
-
+	
 	
 
 	var ll = this.dataProvider.length;

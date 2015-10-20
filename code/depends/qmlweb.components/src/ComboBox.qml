@@ -50,15 +50,27 @@ Item {
     if (checkCurrentIndex)
       currentIndex = (currentIndex >= count) ? count-1 : currentIndex;
 
-    var str = '';
-    var k = count;
+
+    /*
     for(var i = 0; i < k; i++) {
       str += '<option value="'+i+'" '+(i==currentIndex?'selected':'')+'> '+model[i]+'</option>';
     }
-    //self.dom.innerHTML = '<select>'+str+'</select>';
     self.dom.innerHTML = str;
+    */
 
+    // http://www.tigir.com/javascript_select.htm
+    // var newOpt = new Option("text", "value", isDefaultSelected, isSelected);
+    
     var item = self.dom; //.firstChild;
+    var k = count;
+
+    item.options.length = k;
+    for(var i = 0; i < k; i++) {
+      var isselected = (i==currentIndex);
+      item.options[i] = new Option(model[i], i, isselected,isselected); // i==currentIndex second time?
+    }    
+    
+    
     item.style.width = width + 'px';
    
     if (installHandler)
