@@ -9,5 +9,12 @@ Scene {
     tag: "base"
     anchors.fill:parent
     id: s
+    rminmax: [null,null,0, 0.5]
+
+    ScatterPlot {
+      anchors.fill: parent
+      independentFromTree: true
+      z: 2
+    }
   }
 }

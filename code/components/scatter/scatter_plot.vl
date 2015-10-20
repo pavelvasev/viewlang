@@ -36,15 +36,37 @@ Item {
    property var selection: [0,1,0,1] // область приближения выбора, вида [xmin,xmax,ymin,ymax] в диапазоне 0...1
    onSelectionChanged: if (chart) chart.setSelection( selection );
 
-   property var minmax: [] // мин и макс значения по графику [xmin,xmax,ymin,ymax] в диапазоне данных
+   property var dataMinmax: [ 0,0,0,0 ] 
+   // высчитанный рисователем мин и макс значения указанных данных
+   // [xmin,xmax,ymin,ymax]
+   // реальное рисование происходит в долях selection, да еще и возможно на других min max.
+
+   // назначенный рисователем диапазон данных для рисования, с учетом rminmax и дерева графиков
+   property var assignedMinmax: [ 0,0,0,0 ]
+
+   // назначенные рисователем ширина-высота данных
+   property var assignedWH: [ assignedMinmax[1] - assignedMinmax[0], assignedMinmax[3] - assignedMinmax[2] ]
+
+   // текущий min max данных с учетом selection
+   property var currentMinmax: [ assignedMinmax[0] + selection[0] * assignedWH[0], 
+                                 assignedMinmax[0] + selection[1] * assignedWH[0],
+                                 assignedMinmax[2] + selection[2] * assignedWH[1], 
+                                 assignedMinmax[0] + selection[3] * assignedWH[1] ]
    
    function minmaxRecomputed(newval) { // вызывается из chart
 // 
 //     for (var i=0; i<4; i++)
 //       if (!isNaN(set_minmax[i])) chart.dataMinMax[i] = set_minmax[i];
        
-     minmax = chart.dataMinMax;
-   }   
+     assignedMinmax = chart.dataMinMax;
+     dataMinmax     = chart.dataMinMax;
+   }
+
+   onAssignedMinmaxChanged: {
+     chart.dataMinMax = assignedMinmax;
+     chart.reset();
+   }
+
 
    function reset() {
      selection = [0,1,0,1];
@@ -70,6 +92,12 @@ Item {
        chart.timeout = timeout;
        chart.lineContext = lineContext;
        chart.minmaxRecomputed = minmaxRecomputed;
+       
+/*       
+       b = chart.targetDiv[0];
+       b.style.zIndex = sp.z;
+*/       
+       
 //       connectNextChart();
 	     
        if (xindex < 0) {

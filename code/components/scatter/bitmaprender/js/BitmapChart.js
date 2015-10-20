@@ -56,14 +56,9 @@ function BitmapChart( targetDivId, dataProvider, histogram, pixelColor, shift, p
 
 	this.selectionChangedHandler = selectionChangedHandler;
 	
-//	this.mouseLabel = $( "<div id='mouseLabel' style='position:absolute; text-shadow: 2px 2px 2px #FFF; color:#fff; background-color: #000; z-index:20000;'></div>" )
-
-//	this.mouseLabel = $( "<div id='mouseLabel' style='position:absolute; color:#fff; background-color: #000; z-index:20000;'></div>" )
-  //console.log(colorToHex(this.color));
-
-    if (!shift) shift=0;
-    this.shift = shift;
-  //console.log("used shift=",this.shift);
+  if (!shift) shift=0;
+  this.shift = shift;
+ 
 	this.mouseLabel = $( "<div id='mouseLabel"+this.targetDivId+"' style='position:absolute; color:#fff; background-color: #" + colorToHex(this.color)+ ";margin-top:"+shift+"px; z-index:20000;'></div>" )
 	this.selectionDiv = $( "<div id='selection' style='position:absolute; background:red; opacity:0.4; z-index:20000; '></div>" )
 	this.isSelecting = false;
@@ -165,7 +160,7 @@ BitmapChart.prototype.computeMinMax2 = function() {
 BitmapChart.prototype.update = function( dataProvider ) {
   this.dataProvider = dataProvider;
   this.computeMinMax();
-  this.reset();
+  //will be called.. by qml.. this.reset();
 }
 
 BitmapChart.prototype.reset = function( event,resetSel ) {
@@ -315,7 +310,7 @@ BitmapChart.prototype.height = function() {
 
 
 BitmapChart.prototype.render = function() {
-  if (this.verticalAttribute < 0) return;
+  if (this.verticalAttribute < 0 && this.opaque) return;
 
 	this.renderTime = new Date().getTime();
 	//log( this );
@@ -582,7 +577,7 @@ BitmapChart.prototype.mouseMoveHandler = function(event) {
 	//var chart = chartMap[ this.id ]; 
 	var chart = this;
 
-	if (this.shift > 0 && !this.rminmax_independent) {
+	if (this.shift > 0 && !this.independentFromTree) {
 	
 	}
 	else
@@ -595,8 +590,11 @@ BitmapChart.prototype.mouseMoveHandler = function(event) {
 
 	mouseLabel.css( "left", event.pageX+20 );
 	mouseLabel.css( "top", event.pageY+20 );
+	var color = this.independentFromTree ? colorToHex(this.color) : "#333";
+	mouseLabel.css( "background-color", color);
 	
-	if ( this.verticalAttribute >= 0 && event.offsetX > chart.borderSize && event.offsetX < chart.targetDiv.width() - chart.borderSize &&
+	// this.verticalAttribute >= 0 && 
+	if ( event.offsetX > chart.borderSize && event.offsetX < chart.targetDiv.width() - chart.borderSize &&
 		event.offsetY > chart.borderSize && event.offsetY < chart.targetDiv.height() - chart.borderSize)
 	{
 		mouseLabel.fadeIn();

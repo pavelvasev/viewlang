@@ -69,6 +69,7 @@ ScatterPlotY { // matreshka !
       
       visible: paramY.value > 0
       timeout: s.timeout
+      rminmax: s.rminmax
       
       radioGroup: s.radioGroup
       onRadioCheckedChanged: {

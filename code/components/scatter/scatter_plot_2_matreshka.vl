@@ -2,17 +2,22 @@ import "."
 
 /* Замысел в том, чтобы можно было вкладывать графики друг в друга ScatterPlot { ScatterPlot {...} }
    Но при этом они 1) Пришли к общему знаменателю по диапазону отображения, и 2) Делали приближение-удаление синхронно.
+
+   Вопрос пункта 1 два варианта 
+     - первый определяет, вложенные подстраиваются, и 
+     - выстраивают максимум. Сделаем так.
 */
 ScatterPlotBase {
    id: sp
-
+   
+   // головной график в дереве
    function findRoot() {
      var r = this;
      while (r.attach && r.attach.connectMouseHandlers)
        r = r.attach;
      return r;
    }
-   property var treeSize: 0 // общий размер наросшего дерева
+   property var treeSize: 0 // общий размер наросшего дерева, высчитывается только в головном графике
 
    property var subscribers: [] // дети в поддереве графиков
    
@@ -43,14 +48,21 @@ ScatterPlotBase {
 
 //   function sendMouse
 
-   function mouseHandler(event) {
+   function mouseHandler(event,cookie) {
+     // это есть условие непрохождения повторных вызовов!
      if (event.offsetX == mousePosX && event.offsetY == mousePosY) return;
+
      mousePosX = event.offsetX;
      mousePosY = event.offsetY;
+
+     // tell to parental graph
      if (attach) attach.chart.mouseMoveHandler(event);     
+     
+     // tell to children graphs
      subscribers.map( function(s) { s.chart.mouseMoveHandler(event); } );
    }
    
+   // so after our move, we tell to parent and childs... and this is O(Q)
    function connectMouseHandlers() {
      chart.nextMouseMoveHandler = mouseHandler;
    }
@@ -58,8 +70,6 @@ ScatterPlotBase {
    
    property bool attachedToTree: false
    Component.onCompleted: {
-//     console.log("!!!!!!!!!!! scatter completed. attach=",attach );
-//     debugger;
      
      if (attach) {
        attachedToTree = true;
@@ -68,8 +78,7 @@ ScatterPlotBase {
        findRoot().treeSize = findRoot().treeSize+1;
        sp.z = findRoot().treeSize;
        sp.shift = sp.z*20;
-       console.log("sp.z=",sp.z );
-       //debugger;
+       //console.log("sp.z=",sp.z );
        
        // ех... selection то у него еще не создано, не вычислено.. attach.selection.changed.connect( attachChangedSel );
      }
@@ -79,7 +88,7 @@ ScatterPlotBase {
 //     console.log("!!!!!!!!!!! scatter destruct. attach=",attach );
      if (attach && attachedToTree) {
 //       debugger;
-       console.log("decreasing tree size.. before that, findRoot().treeSize=",findRoot().treeSize);
+//       console.log("decreasing tree size.. before that, findRoot().treeSize=",findRoot().treeSize);
        findRoot().treeSize = findRoot().treeSize-1;
        for (var i=0; i<attach.subscribers.length; i++)
          if (attach.subscribers[i] == sp) {
@@ -88,66 +97,79 @@ ScatterPlotBase {
          }
      }
    }
-
-   property var rminmax: [] // устанавливаемые пользователем значения 
-   // но наша система графиков может делать реальный диапазон и побольше, если вдруг все графики не влазиют
-   // окончательное значение пишется в minmax
-
-   property var rminmax_force: [] 
-   // устанавливаемые пользователем значения, жесткие и неменяемые
-
-   // Диапазон данный независимый от родительского графика.
-   property bool rminmax_independent: false
    
-   // вызывается, когда сработало  BitmapChart.prototype.computeMinMax2
-   function matrMinmaxRecomputed(newval,doNotSendUp) {
-       // итак, произошло вычисление у нас... Но!
-       var p = newval.slice(0);
+   property var rminmax: [0,0,0,0] // устанавливаемые пользователем значения 
+   // но наша система графиков может делать реальный диапазон и побольше, если вдруг все графики не влазиют
+   // окончательное значение пишется в assignedMinmax
 
-       if (rminmax_independent) {
-          chart.rminmax_independent = true;
-          return;
-       }
-       
-       // если на этом графике задано ограничение пользователем - учтем его
-       if (rminmax) {
-         var m = Math.min(4,rminmax.length);
-         for (var i=0; i<m; i++)
-           if (!isNaN(rminmax[i])) p[i] = rminmax[i];
-       }
-       // p теперь это новое значение, но измененное с учетом рекомендаций пользователя
-       
-       if (attach && attach.chart)
-       {
-         // если есть родительский график, надо взять его данные, а не этого графика и не пользователя
-         p = attach.chart.dataMinMax.slice(0);
-       }
-     
+   // Данный график по рисуемому диапазону независим от остального дерева
+   property bool independentFromTree: false
+
+   function maximizeTo( from, to ) {
        var flag = false;
-       if (p[0] < newval[0]) { newval[0] = p[0]; flag = true; };
-       if (p[1] > newval[1]) { newval[1] = p[1]; flag = true; };
-       if (p[2] < newval[2]) { newval[2] = p[2]; flag = true; };
-       if (p[3] > newval[3]) { newval[3] = p[3]; flag = true; };
-       
-       // Обновляем данные JS-графику!!! Типо рисоваться будешь в этом диапазоне! Ну, далее он учтет selection конечно
-       chart.dataMinMax = newval;
-       
-       // наш minmax данных расширился - благодаря заданному rminmax или родительскому графику
-       if (flag && attach) {
-         // сообщаем родителю, что вот мол, минимальный диапазон такой-то
-         attach.matrMinmaxRecomputed( newval );
-         return; // смело выходим, так как нас вызовут опять
-       }
 
-       if (!attach) chart.reset();
-       
-       minmaxRecomputed( chart.dataMinMax ); /// это вызов метода scatter_plot.vl, там будет присвоение в minmax или еще что
-       subscribers.map( function(x) { if (x.chart) { x.matrMinmaxRecomputed( newval ); x.chart.reset(); } } ); // детей computeMinMax 
+       if (to[0] < from[0] || isNaN(from[0])) { from[0] = to[0]; flag = true; };
+       if (to[1] > from[1] || isNaN(from[1])) { from[1] = to[1]; flag = true; };
+       if (to[2] < from[2] || isNaN(from[2])) { from[2] = to[2]; flag = true; };
+       if (to[3] > from[3] || isNaN(from[3])) { from[3] = to[3]; flag = true; };
+
+       return flag;
+   }
+
+   function eq( p,q ) { 
+       if (p[0] === q[0] && p[1] === q[1] && p[2] === q[2] && p[3] === q[3]) return true;
+       return false;
+   }
+   
+   function getMySubtreeMinmax() {
+     var p = dataMinmax ? dataMinmax.slice(0) : [0,0,0,0];
+     
+     maximizeTo( p, rminmax );
+
+     for (var i=0; i<subscribers.length; i++ ) {
+       if (subscribers[i].independentFromTree) continue;
+
+       var q = subscribers[i].getMySubtreeMinmax();
+       maximizeTo( p, q );
+       console.log("p maxI =",p, "i=",i)
+     }
+     return p;
+   }
+
+   function setMinmaxToSubtree( newvalue ) {
+     assignedMinmax = newvalue;
+     if (!attach) chart.reset();
+     
+     for (var i=0; i<subscribers.length; i++ ) {
+       if (subscribers[i].independentFromTree) continue;
+       subscribers[i].setMinmaxToSubtree( newvalue );
+     }
+   }
+   
+   function updateTreeMinmax() {
+     console.log( "updateTreeMinmax called, chart.dataMinMax=",chart.dataMinMax);
+
+     if (independentFromTree) {
+        chart.independentFromTree = true;
+        return;
+     }
+   
+     if (attach) 
+        return attach.updateTreeMinmax();
+        
+     // only in head node
+     if (!chart) return;
+     var p = getMySubtreeMinmax();
+     
+     setMinmaxToSubtree( p );
+   }
+
+   onDataMinmaxChanged: {
+     updateTreeMinmax();    
    }
    
    onInited: {
      connectMouseHandlers();
-     chart.minmaxRecomputed = matrMinmaxRecomputed;
      
      // еххма ручками на всяк случай
      if (findRoot() === this) {

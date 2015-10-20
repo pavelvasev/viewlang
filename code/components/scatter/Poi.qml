@@ -2,6 +2,8 @@
     property var firstPlot: parent
     property var s: parent
 
+    visible: !firstPlot.eq( firstPlot.selection,[0,1,0,1] )
+
     width: 100
     height: 100 * firstPlot.height / firstPlot.width 
     anchors.left: firstPlot.left + 50
