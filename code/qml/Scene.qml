@@ -64,12 +64,21 @@ SceneSpace {
     name: isRoot? "cameraPos" : ""
   }  
  
-  property var rootScene: sceneObj.findRootSpace()
-  property var isRoot: rootScene === sceneObj
+  property var rootScene: {
+    var rr = sceneObj.findRootSpace();
+    //console.log( "rootScene=",rr,"sceneObj=",sceneObj);
+    return rr;
+  }
+  property var isRoot: {
+    var res = rootScene === sceneObj;
+    //console.log("isRoot=",res);
+    return res;
+  }
   
   Component.onCompleted: {
      if (sceneObj.findRootSpace() === sceneObj) { //if (!parent) {
        showDriverControls = true;
+       //console.log("showDriverControls->true");
        refineSelf();
      }
   }

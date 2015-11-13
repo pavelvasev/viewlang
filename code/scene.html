@@ -362,7 +362,9 @@
     removeA(recentSrc,qmlsrc);
     recentSrc.push( qmlsrc );
     //console.log(recentSrc);    
-    writeCookie( "recentSources", recentSrc.join("|") );
+    //типо не надо нам етого пока что 
+    // writeCookie( "recentSources", recentSrc.join("|") );
+    writeCookie( "recentSources", "" );
 
     var links = recentSrc.map( function(s) { return "<a href='?s="+s+"'>" +s+ "</a>" } ).join(" ");
     //console.log(links);

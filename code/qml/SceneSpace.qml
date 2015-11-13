@@ -405,6 +405,7 @@ SceneObject {
         if (o.findRootSpace) 
           foundRoot = o;
       }
+      //console.log("findRootSpace foundRoot=",foundRoot);
       return foundRoot;
    }
 

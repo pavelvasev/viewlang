@@ -1,0 +1,50 @@
+<html>
+<style>
+select { display: none; }
+</style>
+<body>
+
+Hi there! 
+
+<div id="diva" style="width:100px; height: 100px; background-color: #0ff"></div>
+<a href="#">click me</a>
+<!--
+<button onclick="makemecrazy()">makemecrazy()</button>
+-->
+
+<script>
+var d = document.getElementById("diva");
+
+function mova(e) {
+  var d = document.getElementById("diva");
+  d.innerHTML = e.toString();
+}
+
+function makemecrazy() {
+//  document.write("Making crazy.. please wait");
+  makeme("s1");
+  makeme("s2");
+  makeme("s3");
+  makeme("s4");
+
+  document.write("Please click on the link and on cyan square about 5-15 times. This will hang Chrome for ~2 minutes.");
+}
+
+function makeme(id) 
+{
+  var selnode = document.createElement("select");
+  document.getElementById("diva").appendChild(selnode);
+
+  var s = "";
+  for (var i=0; i<50000; i++)
+  {
+    s += "<option value='"+i+"'>"+i+"</option>";
+  }
+  selnode.innerHTML=s.toString();
+}
+
+makemecrazy();
+
+</script>
+</body>
+</html>

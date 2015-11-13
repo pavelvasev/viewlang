@@ -1,0 +1,48 @@
+<html>
+<style>
+select { display: none; }
+</style>
+<body>
+Hi there!
+<select id="s1"></select>
+<select id="s2"></select>
+<select id="s3"></select>
+<select id="s4"></select>
+
+<div id="diva" style="width:100px; height: 100px; background-color: #0ff" onmousemove="mova(event)">
+</div>
+<!--
+<button onclick="makemecrazy()">makemecrazy()</button>
+-->
+
+<script>
+var d = document.getElementById("diva");
+
+function mova(e) {
+  var d = document.getElementById("diva");
+  d.innerHTML = e.toString();
+}
+
+function makemecrazy() {
+  makeme("s1");
+  makeme("s2");
+  makeme("s3");
+  makeme("s4");
+  document.write("Ok, I made you crazy! Click on cyan div: Inspect Element. And in inspection, try go deep inside body. Bang!");
+}
+
+function makeme(id) 
+{
+  var s = "";
+  for (var i=0; i<80000; i++)
+  {
+    s += "<option value='"+i+"'>"+i+"</option>";
+  }
+  document.getElementById(id).innerHTML=s.toString();
+}
+
+makemecrazy();
+
+</script>
+</body>
+</html>

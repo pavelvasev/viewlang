@@ -4,7 +4,7 @@ FilterNumbers {
   function filter(num,acc) {
     if (isnan(acc.min)) acc.min = 10000000;
     if (isnan(acc.max)) acc.max = -10000000;
-
+    
     if (acc.max < num) acc.max = num;
     if (acc.min > num) acc.min = num;
   }

@@ -1,7 +1,7 @@
 // проходит по всем числам N-мерного массива и набирает аккумулятор
 Item {
   // вход
-  property var source: parent
+  property var source: parent // объект с полем output
   property var input: source ? source.output : [] // N-мерный массив значений csv
 
   property var start: 0
@@ -13,7 +13,7 @@ Item {
   
   // выход
   property var output: go( input )  // значение аккумулятора
-
+  
   function go(data,initacc) {
     var acc = initacc || [];
 
