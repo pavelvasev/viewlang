@@ -11,6 +11,7 @@ SceneObject {
   property var nx: 16
   property var ny: 24
   property var wire
+  property var wireon
 
   title: "Spheres"
 
@@ -154,6 +155,7 @@ SceneObject {
     colors: geom ? geom[4] : []
     normals: geom ? geom[1] : []
     wire: spheres.wire
+    wireon: spheres.wireon
     opacity: spheres.opacity
     visible: spheres.visible
     center: spheres.center

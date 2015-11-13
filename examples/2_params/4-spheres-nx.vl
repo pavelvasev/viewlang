@@ -1,0 +1,29 @@
+Scene {
+  Param {
+    text: "nx"
+    min: 2
+    max: 10
+    id: nxParam
+    value: 2
+  }
+
+  Param {
+    text: "ny"
+    min: 2
+    max: 10
+    id: nyParam
+    value: 2
+  }  
+  CheckBoxParam {
+    id: wireParam
+    text: "wire"
+  }
+  
+  Spheres {
+    nx: nxParam.value
+    ny: nyParam.value    
+    RandomGenerator {
+    }
+    wireon: wireParam.checked
+  }
+}
