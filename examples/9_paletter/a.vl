@@ -1,4 +1,5 @@
 Scene {
+  text: "Раскраска облака точек в форме куба сообразно их z-координатe"
 
   Paletter {
     input: scalardata

@@ -1,4 +1,5 @@
 Scene {
+  text: "Раскраска облака точек в форме куба сообразно их z-координатe, палитра слева и вертикальная"
 
   Param {
     id: c1
@@ -37,7 +38,7 @@ Scene {
   Paletter {
     input: scalardata
     id: palet
-    mode: 2
+    mode: 1
     ctag: "left"
   }  
 
