@@ -1,11 +1,8 @@
-MouseArea {
+Item {
 
-/*
-  signal positionChanged( var mouse );
-  signal clicked( var mouse );
-*/  
-  signal doubleClicked( object mouse );
-
+  signal positionChanged( object event );
+  signal clicked( object event );
+  signal doubleClicked( object event );
   
   Component.onCompleted: {
     jQuery(driverDomElement).mousemove( function(event) {
@@ -18,5 +15,4 @@ MouseArea {
       doubleClicked(event);
     } );        
   }
-
 }
