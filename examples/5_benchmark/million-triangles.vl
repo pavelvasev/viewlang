@@ -1,7 +1,8 @@
 Scene {
   Param {
     text: "Тысяч треугольников"
-    min: 1
+    min: 0
+    value:1
     max: 1000
     id: pNum
     enableSliding: false

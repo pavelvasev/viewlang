@@ -1,0 +1,58 @@
+Scene {
+  id: scen
+  Param {
+    text: "Тысяч точек"
+    min: 0
+    value:1
+    max: 1000
+    id: pNum
+    enableSliding: false
+    property var tag:"left"    
+  }
+
+  Param {
+    text: "Множитель"
+    min: 1
+    max: 20
+    id: pMul
+    enableSliding: false
+    property var tag:"left"    
+  }  
+  
+
+  property var n: pNum.value*1000*pMul.value
+  property var radius: 50
+  property var computing: false
+
+  Text {
+    text: "Вычисляю.."
+    visible: computing
+    property var tag:"left"
+  }
+
+  Points {
+    id: tris
+    positions: {
+      //debugger;
+      //computing = true;
+      var acc = [];
+      var sr = radius / 100;
+      var nn = n;
+      var rad = scen.radius;
+      for (var i=0; i<nn; i++)
+      {
+        var ax = rad*Math.random();
+        var ay = rad*Math.random();
+        var az = rad*Math.random();
+        
+        acc.push( ax );
+        acc.push( ay );
+        acc.push( az );
+      }
+      //computing = false;
+      return acc;
+    } // positions
+
+  } 
+ 
+}

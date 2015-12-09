@@ -1,0 +1,7 @@
+import "."
+
+Scene {
+  MillionPoints { }
+  MillionLines { }
+  MillionTriangles { }
+}

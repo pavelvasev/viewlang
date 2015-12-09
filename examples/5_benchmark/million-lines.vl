@@ -1,7 +1,9 @@
 Scene {
+  id: scen
   Param {
-    text: "Тысяч треугольников"
-    min: 1
+    text: "Тысяч отрезков"
+    min: 0
+    value:1
     max: 1000
     id: pNum
     enableSliding: false
@@ -16,6 +18,7 @@ Scene {
     enableSliding: false
     property var tag:"left"    
   }  
+  
 
   property var n: pNum.value*1000*pMul.value
   property var radius: 50
@@ -26,23 +29,24 @@ Scene {
     visible: computing
     property var tag:"left"
   }
-
-  Trimesh {
+  
+  Lines {
     id: tris
+    color: [0,0.5,0]
     positions: {
       //debugger;
       //computing = true;
       var acc = [];
-      var sr = radius / 100;
+      var sr = scen.radius / 10;
       var nn = n;
-      var rad = radius;
+      var rad = scen.radius;
       for (var i=0; i<nn; i++)
       {
         var ax = rad*Math.random();
         var ay = rad*Math.random();
         var az = rad*Math.random();
         
-        for (var j=0; j<3; j++) {
+        for (var j=0; j<2; j++) {
           acc.push( ax + Math.random()*sr );
           acc.push( ay + Math.random()*sr );
           acc.push( az + Math.random()*sr );
@@ -52,38 +56,6 @@ Scene {
       return acc;
     } // positions
 
-    indices: {
-      var acc = [];
-      var nn = n;      
-      for (var i=0; i<nn; i++) {
-        acc.push(3*i);
-        acc.push(3*i+1);
-        acc.push(3*i+2);
-      }
-      return acc;
-    }
-  } // trimesh
-  
-
-  property var pos: [0,0,0]
-
-  Spheres {
-    positions: pos
-    color: [1,0,0]
-    radius: 1
-  }  
-  
-  Text {
-    text: "Дважды-кликните для выбора треугольника.\nКоординаты пересечения:"+pos.join(",")
-    property var tag:"left"    
-  }
-
-  SceneMouseEvents {
-    onDoubleClicked: {
-      var r = tris.intersect( sceneMouse );
-      if (r)  
-        pos = [ r.point.x,r.point.y,r.point.z ];
-    }
-  }  
-
+  } 
+ 
 }

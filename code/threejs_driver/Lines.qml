@@ -21,6 +21,11 @@ SceneObjectThreeJs {
     onColorsChanged: {
         makeLater(this);
     }
+
+    onColorChanged: {
+        makeLater(this);
+    }
+        
     onOpacityChanged: {
       if (!this.sceneObject || !this.sceneObject.material) return;
       this.sceneObject.material.opacity = opacity;
