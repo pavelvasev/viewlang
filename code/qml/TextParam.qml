@@ -13,7 +13,7 @@ Column {
   signal accepted(); // when user hit 'enter'
   
   property var tag: "left"
-  property var showEnter: true
+  property var sliderEnabled: false
   
   ParamUrlHashing {
     name: globalName

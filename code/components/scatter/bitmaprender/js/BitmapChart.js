@@ -31,7 +31,7 @@ function BitmapChart( targetDivId, dataProvider, histogram, pixelColor, shift, p
 	if (!pixelColor) pixelColor = [0,0,1];
 	
 	if (pixelColor.length) {
-	  this.color = pixelColor.map( function(x) { return x*255; } );  // eg input [1,0,0.5]
+	  this.color = pixelColor.map( function(x) { return Math.floor( x*255 ); } );  // eg input [1,0,0.5]
 	  if (this.color.length == 3) this.color.push(255); // alpha
 	}
   else
