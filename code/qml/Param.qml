@@ -26,7 +26,7 @@ Column {
 
   property var sliderEnabled: true
   property var valEnabled: true
-  property var textLeft: false
+  //property var textLeft: false
 
   onValuesChanged: {
     if (values && values.length > 0) {

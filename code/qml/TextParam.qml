@@ -13,6 +13,7 @@ Column {
   signal accepted(); // when user hit 'enter'
   
   property var tag: "left"
+  property var showEnter: true
   
   ParamUrlHashing {
     name: globalName
@@ -22,6 +23,7 @@ Column {
   
   property var globalName: scopeNameCalc.globalName
   property var globalText: scopeNameCalc.globalText
+
   ScopeCalculator {
     id: scopeNameCalc
     name: param.guid
