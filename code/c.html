@@ -1,0 +1,177 @@
+<html>
+<head>
+<meta charset="utf-8">
+<script src="depends/jquery-2.1.4.js"></script>    
+<script src="base.js"></script>    
+
+</head>
+<body>
+<style>
+textarea { width: 800px; height: 200px; }
+iframe { width: 800px; height: 400px; }
+</style>
+<script>
+
+function run() {
+  reload();
+}
+
+function reload() {
+  var fra = document.getElementById('fra');
+  //fra.contentWindow.location.reload(true);
+  fra.contentWindow.location.reload();
+}
+
+</script>
+
+<div id="leftpane">
+<div id="heading">
+Вьюланга
+</div>
+<div id="controls">
+Примеры:
+<select id="samples">
+<option value="0" >Свой код</option>
+<optgroup label="Простые">
+<option value="../examples/0_trivial/1-points.vl">3 точки</option>
+<option value="../examples/0_trivial/4-spheres-colors-all.vl">4 сферы</option>
+<option value="../examples/0_trivial/3-triangles-colored.vl">Треугольники</option>
+<option value="../examples/2_params/1-triangles-and-param.vl">Параметры</option>
+<option value="../examples/5_timer/clock/clock2.vl">Часы</option>
+</optgroup>
+<optgroup label="Сложные">
+<!--  надо думать над каталогами
+<option value="https://github.com/pavelvasev/viewlang_setki/blob/master/v2/setka.vl">Сетка 1</option>
+-->
+</optgroup>
+</select>
+&nbsp;
+<button onclick="run()">Запуск (ctrl+enter)</button>
+</div>
+<textarea id="txt" >
+Scene {
+
+Param {
+  id: xlen
+  text: "x limit "
+  value: 50
+}
+
+Linestrip {
+  positions: tri.positions
+  opacity: 0.25
+}
+
+Triangles {
+  id: tri
+  color: [1,0,0]
+  positions: {
+    var a=[];
+    var xlim = xlen.value;
+    for (var i=0; i<10000; i++) {
+      var x=Math.random()*xlim-xlim/2, y=Math.random()*10*Math.cos(x), z=Math.random()*10;
+      for (var j=0; j<3; j++) {
+        a.push( x+Math.random(10) );
+        a.push( y+Math.random(10) );
+        a.push( z+Math.random(10) ); 
+      }
+    }
+    return a;
+  }
+}
+
+}
+</textarea>
+</div>
+
+<iframe id="fra" src="scene.html?s=message" allowfullscreen> </iframe>
+
+<script>
+  document.getElementById("fra").addEventListener('load', function(event) {
+    // https://viget.com/extend/using-javascript-postmessage-to-talk-to-iframes
+    console.log("myframe is loaded - sensing message");
+    var code = document.getElementById('txt').value;
+    if (code.indexOf("Scene") < 0) code = "Scene {\n" + code + "\n}"
+
+    event.target.contentWindow.postMessage( {cmd:"useCode",args:[code]},"*");
+  });
+
+document.addEventListener('keydown', function(e) 
+{
+	if (((e.keyCode == 13) || (e.keyCode == 10)) && (e.ctrlKey == true)) run();
+});
+
+getUrlContents = function (url,skipErrorLogging) {
+    //console.log("getUrlContents",url);
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, false);
+    try {
+    xhr.send(null);
+    if (xhr.status != 200 && xhr.status != 0) { // 0 if accessing with file://
+        if (!skipErrorLogging)
+          console.log("Retrieving " + url + " failed: " + xhr.responseText, xhr);
+        return false; // which return values is better here? "" or false?
+    }
+    } catch (e) {
+       // it seems to be good idea to throw exception here in case skipErrorLogging is not set.
+       // because without exception, "" then goes to parser, and it failes with strange errors. 
+       if (!skipErrorLogging) 
+         throw e;
+       return false;
+    }
+    return xhr.responseText;
+}
+
+jQuery("#samples").change( function(e) {
+  var urla = jQuery( this ).val();
+  if (urla == "0") return;
+  urla = formatSrc( urla ); // base.js
+  console.log( "loading urla..",urla );
+  
+  var cod = getUrlContents( urla, false );
+  console.log( "loaded" );
+  jQuery( "#txt" ).val( cod );
+  run();
+});
+</script>
+
+<style>
+
+#leftpane {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 30%;
+    height: 95vh;
+}
+#txt {
+    width: 100%;
+    height: 100%;
+}
+#heading {
+    float: left;
+    margin: 5px;
+}
+#controls {
+    float:right;
+    margin: 4px;
+}
+#fra {
+    position: fixed;
+    top: 0px;
+    left: 30%; 
+    width: 70%;
+    height: 100vh;
+}
+
+
+</style>
+
+<!-- todo
+  * dir for github samples
+  * think on editor for any opened scene
+  * open scene to new window
+-->
+
+</body>
+</html>
