@@ -13,20 +13,24 @@ Item {
 
     Tab {
         title: "Red"
-        Rectangle { color: "red" 
         anchors.fill: parent
+        Rectangle { 
+          color: "red" 
+          anchors.fill: parent
         }
     }
     Tab {
         title: "Green"
-        Rectangle { color: "green"
+        Rectangle { 
+          color: "green"
           anchors.fill: parent
-         }
+        }
     }
     Tab {
         title: "Blue"
-        Rectangle { color: "blue" 
-        anchors.fill: parent
+        Rectangle { 
+          color: "blue" 
+          anchors.fill: parent
         }
     }
     

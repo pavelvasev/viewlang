@@ -10,6 +10,7 @@ Item {
         title: "Video"
         Video {
           anchors.fill: parent
+          width: 720
 
           //source: "http://jwst.nasa.gov/sciencevids/EvolutionoftheUniverse/Re-Ionization-Galaxy_Evolution_wideshot-1080p_ipod_sm.mp4"
           //source: "http://jwst.nasa.gov/sciencevids/PlanetaryEvolution/Nebula_to_cu_of_Protoplanetary_disc_ipod_sm.mp4"
@@ -42,10 +43,12 @@ Item {
           active: tabview.currentIndex == 2
           opacity: 0.75
           //z: -1
+          id: camv2
         }
         Video {
           //z:-2
           opacity: 0.5
+          width: camv2.width
           
           anchors.fill: parent
           source: "http://jwst.nasa.gov/sciencevids/EvolutionoftheUniverse/Re-Ionization-Galaxy_Evolution_wideshot-1080p_ipod_sm.mp4"

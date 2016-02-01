@@ -18,8 +18,6 @@ Column {
                 }
             }
 
-            Row {
-
             Button {
                 id: btn3
                 text: "newModel"
@@ -27,18 +25,10 @@ Column {
             }
 
             Button {
-                id: btn3
-                text: "empty Model"
-                onClicked: select.model = []
-            }            
-
-            Button {
                 id: btn4
                 text: "change currentIndex to 3"
                 width: 150
                 onClicked: select.currentIndex = 3
-            }
-
             }
 
         } // column
