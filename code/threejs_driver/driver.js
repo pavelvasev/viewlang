@@ -282,10 +282,10 @@ function render() {
 animate();
 
 function threeJsWindowResize() {
-
+console.log(">>>>>>>>>>>>>>>>>>>>>> threeJsWindowResize" );
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
-
+				
 				if (selectedRenderer.setSize)
   				  selectedRenderer.setSize( window.innerWidth, window.innerHeight );
 
@@ -298,6 +298,10 @@ function threeJsWindowResize() {
 }
 
 window.addEventListener( 'resize', threeJsWindowResize, false );
+// nooneed - resize event is working window.addEventListener( 'mozfullscreenchange', threeJsWindowResize, false );
+// window.addEventListener( 'webkitfullscreenchange', threeJsWindowResize, false );
+// http://robertnyman.com/2012/03/08/using-the-fullscreen-api-in-web-browsers/
+
 
 /// **********************************************
 

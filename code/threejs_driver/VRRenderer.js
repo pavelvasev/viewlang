@@ -84,15 +84,16 @@ THREE.VRRenderer = function(renderer, hmd) {
         renderer.enableScissorTest(true);
         var width = renderer.domElement.width / 2;
         var height = renderer.domElement.height;
-
+        //console.log("333 width=",width );
+        
         renderer.setViewport(0, 0, width, height);
         renderer.setScissor(0, 0, width, height);
         renderer.render(scene, cameraLeft);
-
+        
         renderer.setViewport(width, 0, width, height);
         renderer.setScissor(width, 0, width, height);
         renderer.render(scene, cameraRight);
     }
-
+    
     self.initialize();
 }

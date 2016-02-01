@@ -1,11 +1,20 @@
 ﻿Row {
+/*
+    Button {
+      text: cbOculus.text
+      onClicked: cbOculus.checked = !cbOculus.checked;
+    }
+*/
 
     CheckBox {
+//        visible: false
         id: cbOculus
         width: 140
         text: enabled ? "Окулус" : "Где Окулус?"
         property var enabled: false
         onCheckedChanged: {
+            //window.focus(); // we need to release focus from this checkbox, because DK2 will ask to hit any key
+            cbOculus2.dom.focus();
             if (checked && this.vrrenderer) {
               selectedRenderer = this.vrrenderer;
               goFullScreen();
@@ -17,6 +26,9 @@
               threeJsWindowResize();
             }
         }
+    }
+    CheckBox {
+        id: cbOculus2
     }
 
     // vrHMD объявлено в driver.js
@@ -70,7 +82,7 @@
 
         if (vrHMD) {
             la_require( "VRRenderer.js",function() {
-                cbOculus.vrrenderer = new THREE.VRRenderer(renderer, vrHMD	);
+                cbOculus.vrrenderer = new THREE.VRRenderer(renderer, vrHMD );
                 cbOculus.enabled = true;
             } );
 
