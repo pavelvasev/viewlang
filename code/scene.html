@@ -259,7 +259,6 @@
     var qmlcode = getParameterByName("text") || getParameterByName("code") || undefined;
     if (qmlcode) qmlcode = decodeURIComponent( qmlcode );
     var qmldir  = getParameterByName("dir") || undefined;
-    
 
     // determine viewlang own directory
     // orig: var a = (window.location.origin + window.location.pathname).split("/");    
@@ -315,10 +314,12 @@
       qmlEngine.addImportPath( a + "" );
       qmlEngine.addImportPath( a + "../qmlweb.components/src/" );
     }
-    
-    var loadedSourceFile = qmlsrc;
-    
-    //qmlEngine.loadFile( src );
+
+    var loadedSourceFile;
+
+    function loadQmlAndStart() {
+
+    loadedSourceFile = qmlsrc;
     
     var errorToReport = "";
     try {
@@ -360,24 +361,6 @@
 
     setGuiProgress( -1 );
     
-    //
-    var recentSrc = (readCookie("recentSources")||"").split("|");
-
-    removeA(recentSrc,qmlsrc);
-    recentSrc.push( qmlsrc );
-    //console.log(recentSrc);    
-    //типо не надо нам етого пока что 
-    // writeCookie( "recentSources", recentSrc.join("|") );
-    writeCookie( "recentSources", "" );
-
-    var links = recentSrc.map( function(s) { return "<a href='?s="+s+"'>" +s+ "</a>" } ).join(" ");
-    //console.log(links);
-    
-    /*
-    jQuery("#infoDark").append( links );
-    jQuery("#infoDark").append(" <br/> <a href='"+src+"' target='_blank'>[open current source]</a><br/>");
-    */
-    
     var tt = qmlEngine.rootObject.text;
     if (tt) {
       //jQuery("#infoDark").append( qmlEngine.rootObject.text );
@@ -390,8 +373,8 @@
       jQuery("#viewlanglink").append( " | " + tt );
     }
 
-    /*console.log( qmlEngine.rootObject.info );*/
-    
+    /////////////////////////////////////////////////////////////
+  
     function reval() {
       jQuery(q).height( jQuery(window).height() - jQuery("#infoDark").height()-10 );
       q.updateQmlGeometry();
@@ -412,6 +395,8 @@
        };
     }, false);
 
+    } // loadQmlAndStart
+
     function toggleControls() {
          qmlEngine.rootObject.showControls = !qmlEngine.rootObject.showControls;
          if (qmlEngine.rootObject.showControls) {
@@ -424,6 +409,23 @@
          }
     }
 
+    if (qmlsrc == "message") {
+      console.log("scene.html: installing handler for message..");
+      window.addEventListener("message", receiveMessage, false);
+    }
+    else
+      loadQmlAndStart();
+
+    // ловим сообщения..
+    function receiveMessage(event) {
+        var cmd = event.data.cmd;
+        var args = event.data.args;
+        //console.log("cmd=",cmd, "args=",args)
+        if (cmd == "useCode") {
+          qmlcode = args[0];
+          loadQmlAndStart();
+        }
+    }
 </script>
 
 </body>

@@ -5,20 +5,11 @@ textarea { width: 800px; height: 200px; }
 iframe { width: 800px; height: 400px; }
 </style>
 <script>
+
 function run() {
-  var code = document.getElementById('txt').value;
-  code = encodeURIComponent( code );
-  //document.getElementById('fra').src = "http://viewlang.ru/code/scene.html?text=" + code;
-  var fra = document.getElementById('fra');
-  var contentWnd = fra.contentWindow;
-  var hash = "";
-  try { hash = contentWnd.window.location.hash } catch (e) { console.log(e);};
-  
-  console.log("hash=",hash);
-  //fra.src = "scene.html?text=" + code + hash;
-  fra.src = "http://viewlang.ru/code/scene.html?text=" + code + hash;
-  return "";
+  reload();
 }
+
 function reload() {
   var fra = document.getElementById('fra');
   //fra.contentWindow.location.reload(true);
@@ -29,12 +20,21 @@ function reload() {
 
 <textarea id="txt" >
 Scene {
+
 Param {
   id: xlen
   text: "x limit "
   value: 50
 }
+
+Linestrip {
+  positions: tri.positions
+  opacity: 0.25
+}
+
 Triangles {
+  id: tri
+  color: [1,0,0]
   positions: {
     var a=[];
     var xlim = xlen.value;
@@ -49,13 +49,27 @@ Triangles {
     return a;
   }
 }
+
 }
 </textarea>
 <br/>
-<button onclick="run()">Run</button>
+<button onclick="run()">Run the code</button>
+<!--
 <button onclick="reload()">Reload</button>
+-->
 <br/>
-<iframe id="fra" src="">
+<iframe id="fra" src="scene.html?s=message"> </iframe>
+
+<script>
+  document.getElementById("fra").addEventListener('load', function(event) {
+    // https://viget.com/extend/using-javascript-postmessage-to-talk-to-iframes
+    console.log("myframe is loaded - sensing message");
+    var code = document.getElementById('txt').value;
+    if (code.indexOf("Scene") < 0) code = "Scene {\n" + code + "\n}"
+
+    event.target.contentWindow.postMessage( {cmd:"useCode",args:[code]},"*");
+  });
+</script>
 
 </body>
 </html>
