@@ -2,8 +2,10 @@
 
 Viewlang это веб-среда трехмерной визуализации на основе языка QML. 
 
-## Online-версия
-Размещена по адресу: http://viewlang.ru
+## Online-редактор
+http://viewlang.ru/code/c.html
+## Online-просмотр
+http://viewlang.ru/code/scene.html
 
 ## Настройка локальной версии
 
