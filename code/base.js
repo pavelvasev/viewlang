@@ -230,10 +230,85 @@ function removeA(arr) {
     function diff(p1,p2) {
       return [ p1[0]-p2[0], p1[1]-p2[1],p1[2]-p2[2] ];
     }
+
+    function vAdd(p1,p2) {
+      return [ p1[0]+p2[0], p1[1]+p2[1],p1[2]+p2[2] ];
+    }
     
     function dotProduct(a,b) {
       return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
     }    
+
+    // http://evanw.github.io/lightgl.js/docs/vector.html
+    function vNorm(a) {
+      var l = vLen( a );
+      if (l > 0.00001)
+        return vMulScal( a, 1.0 / l );
+      return a;
+    }
+    function vNormSelf(a) {
+      var l = vLen( a );
+      if (l < 0.000001) return;
+      a[0] /= l;
+      a[1] /= l;
+      a[2] /= l;
+      return a;
+    }
+
+    function vLen(a) {
+      return Math.sqrt(dotProduct(a,a));
+    }
+
+    function vMul(a,b) {
+      return [ a[0]*b[0], a[1]*b[1], a[2]*b[2] ];
+    }
+
+    function vMulScal(a,b) {
+      return [ a[0]*b, a[1]*b, a[2]*b ];
+    }
+
+/*
+        private void BuildBasis(Point3D p1, Point3D p2, out Vector3D v1, out Vector3D v2, out Vector3D v3)
+        {
+            v1 = p2 - p1;
+            v1.Normalize();
+
+            if (v1.X == 0)
+                v2 = new Vector3D(0, -v1.Z, v1.Y);
+            else
+                v2 = new Vector3D(-v1.Y, v1.X, 0);
+            v2.Normalize();
+
+            v3 = Vector3D.CrossProduct(v1, v2);
+        }
+*/
+
+  function vBasis( p1, p2 ) {
+    var v1 = diff( p2, p1 ); 
+    vNormSelf( v1 );
+    var v2;
+    if (Math.abs(v1.x) < 0.0000001)
+      v2 = [ 0, -v[2], v1[1] ];
+    else
+      v2 = [ -v1[1], v1[0], 0 ];
+    vNormSelf( v2 );
+
+    v3 = crossProduct( v1, v2 );
+    return [ v1, v2, v3 ];
+  }
+
+  // use this? https://github.com/toji/gl-matrix/blob/master/src/gl-matrix/vec3.js
+
+  function vLerp (a, b, t) {
+    var ax = a[0],
+        ay = a[1],
+        az = a[2];
+    var out = [0,0,0];
+    out[0] = ax + t * (b[0] - ax);
+    out[1] = ay + t * (b[1] - ay);
+    out[2] = az + t * (b[2] - az);
+    return out;
+  };
 
     ////////////////////////////////////////////////////////////////////////////////////
 

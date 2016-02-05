@@ -2,7 +2,7 @@ SceneObjectThreeJs {
     property var positions
     property var indices
     property var color
-    property var colors
+    property var colors // по вершинам (не по индексам)
     property var wire
     property var normals
 
