@@ -1,0 +1,15 @@
+Scene {
+  Triangles {
+    positions: [0,0,0, 5,0,0, 0,10,0 ]
+    id: tri
+  }
+
+    ComputeTrimeshCenters {
+      source: tri
+
+      Spheres {
+        positions: parent.output
+      }
+    }
+
+}

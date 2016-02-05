@@ -1,0 +1,46 @@
+Scene {
+  Param {
+    value: 200
+    max: 1000
+    id: pcounter
+    text: "count"
+  }
+
+  Param {
+    min: 1
+    value: 1
+    id: sides
+    text: "sides"
+  }
+
+  Param {
+    min: 0.01
+    max: 5
+    id: prad
+    text: "radius"
+    step: 0.01
+    value: 2
+  }
+
+  Boxes {
+    radius: prad.value
+
+    nx: sides.value
+    colors: rand2.output
+    positions: rand1.output
+
+    MakeRand {
+      id:rand1
+      radius: 50
+      minus: 25
+      count: pcounter.value
+    }
+
+    MakeRand {
+      id:rand2
+      radius: 1
+      count: rand1.count
+    }
+
+  }
+}

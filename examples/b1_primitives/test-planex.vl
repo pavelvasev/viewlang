@@ -1,0 +1,6 @@
+Scene {
+  PlaneX {
+   radius: 100
+   opacity: 0.5
+  }
+}

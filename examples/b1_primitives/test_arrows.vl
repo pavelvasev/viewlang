@@ -36,6 +36,7 @@ Scene {
       minus: 25
       count: pcounter.value
     }
+
     MakeRand {
       id:rand2
       radius: 1

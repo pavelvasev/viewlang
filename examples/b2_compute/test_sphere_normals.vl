@@ -1,0 +1,15 @@
+Scene {
+  Spheres {
+    color: [1,1,0]
+    positions: [0,0,0]
+    id: sp
+  }
+  NormalsFromTrimesh {
+    source: sp.atrimesh
+  }
+  LinesFromTrimesh {
+    source: sp.atrimesh
+  }
+
+
+}

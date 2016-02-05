@@ -3,10 +3,10 @@ SceneObject {
   title: "Cylinders"
   id: origin
 
-  property var positions: source && source.positions?source.positions:[]
-  property var colors: source && source.colors ?source.colors:[]
-  property var nx: source && source.nx ? source.nx : 5
-  property var radius: source && source.radius ? source && source.radius: 1
+  property var positions: source && source.positions ? source.positions : []
+  property var colors: source && source.colors ? source.colors : []
+  property var nx: source && source.nx && source.nx > 3 ? source.nx : 5
+  property var radius: source && source.radius ? source.radius : 1
 
   property var ratio: null
 
@@ -105,11 +105,14 @@ SceneObject {
 
   function make() {
     if (!positions) return;
+    
     var res = makeCylinders( radius, nx, positions, colors && colors.length > 0 ? colors : null, ratio );
-    //console.log( res[0].length );
+//    console.log( "cyl pos len=",res[0].length );
+//    console.log( "cyl idx len=",res[1].length );
     tris.colors = res[2];
     tris.positions = res[0];
-    //console.log( res[1] );
+//    console.log( res[1] );
+//    console.log( res[0] );
     tris.indices = res[1]; 
   }
 
@@ -118,6 +121,5 @@ SceneObject {
   onRadiusChanged: make();
   onRatioChanged: make();
   onColorsChanged: make()
-
 
 }

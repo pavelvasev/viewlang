@@ -1,0 +1,104 @@
+Scene {
+  Param {
+    value: 200
+    max: 1000
+    id: pcounter
+    text: "count"
+  }
+
+  Param {
+    min: 1
+    value: 1
+    id: sides
+    text: "sides"
+  }
+
+  Param {
+    min: 0.01
+    max: 5
+    id: prad
+    text: "radius"
+    step: 0.01
+    value: 2
+  }
+
+  Boxes {
+    id: boxes
+    radius: prad.value
+
+    nx: sides.value
+    colors: rand2.output
+    positions: rand1.output
+    sides: 1|2
+
+    MakeRand {
+      id:rand1
+      radius: 50
+      minus: 25
+      count: pcounter.value
+    }
+
+    MakeRand {
+      id:rand2
+      radius: 1
+      count: rand1.count
+    }
+
+    ComputeTrimeshCenters {
+      source: boxes.trimesh
+         /*
+      Spheres {
+        positions: parent.output
+        radius: boxes.radius / 10
+      }*/
+
+/*      Arrows {
+        positions: parent.output
+        radius: 0.1
+      }
+*/
+      id: centras
+    }
+
+    ComputeTrimeshNormals {
+      source: boxes.trimesh
+      id: norms
+      /*
+      Spheres {
+        positions: parent.output
+        radius: boxes.radius / 10
+        color: [1,0,0]
+      }*/
+    }
+
+    MakeCombineAdd {
+      input1: centras.output
+      input2: norms.output
+
+      //onOutputChanged: if (output) console.log("$$$$$$$$$$$$$ output=",output );
+
+      Arrows {
+        positions: parent.output
+        radius: boxes.radius / 10
+        //onPositionsChanged: console.log("$$$$$$$$$$$$$ pos=",positions );
+      }
+
+    }
+
+    /*
+    TrianglesFromTrimesh {
+      source: boxes.trimesh
+      MakeStrip {
+        input: parent.positions
+        Lines {
+          positions: parent.output
+        } 
+      }
+    }
+    */
+    LinesFromTrimesh {
+      source: boxes.trimesh
+	  }
+
+  }
+}

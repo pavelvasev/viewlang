@@ -6,7 +6,7 @@ SceneObject {
   property var positions: source && source.positions?source.positions:[]
   property var colors: source && source.colors ?source.colors:[]
   property var nx: source && source.nx ? source.nx : 8
-  property var radius: source && source.radius ? source && source.radius: 1
+  property var radius: source && source.radius ? source.radius: 1
 
   property var ratio: null
 

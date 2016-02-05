@@ -231,6 +231,10 @@ function removeA(arr) {
       return [ p1[0]-p2[0], p1[1]-p2[1],p1[2]-p2[2] ];
     }
 
+    function vDiff(p1,p2) {
+      return [ p1[0]-p2[0], p1[1]-p2[1],p1[2]-p2[2] ];
+    }
+
     function vAdd(p1,p2) {
       return [ p1[0]+p2[0], p1[1]+p2[1],p1[2]+p2[2] ];
     }
@@ -287,8 +291,8 @@ function removeA(arr) {
     var v1 = diff( p2, p1 ); 
     vNormSelf( v1 );
     var v2;
-    if (Math.abs(v1.x) < 0.0000001)
-      v2 = [ 0, -v[2], v1[1] ];
+    if (Math.abs(v1[0]) < 0.0000001)
+      v2 = [ 0, -v1[2], v1[1] ];
     else
       v2 = [ -v1[1], v1[0], 0 ];
     vNormSelf( v2 );
