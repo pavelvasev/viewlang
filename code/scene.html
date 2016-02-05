@@ -322,8 +322,17 @@
     loadedSourceFile = qmlsrc;
     
     var errorToReport = "";
-    //qmlEngine.loadFile( qmlsrc );
-    
+
+      if (qmlcode && qmlcode.length > 0) {
+        qmlEngine.$basedir = (qmldir || a);
+        console.log("qmlEngine.$basedir=",qmlEngine.$basedir);
+        
+        qmlEngine.loadQML(qmlcode,qmldir + "/inlinecode.qml");
+      }
+      else 
+        qmlEngine.loadFile( qmlsrc );
+
+    /*
     try {
       //console.profile();            
       if (qmlcode && qmlcode.length > 0) {
@@ -354,6 +363,7 @@
       //if (excount == 0) console.error(e);
       qmlEngine.loadFile( "Error.qml" );
     }
+    */
     
 
     qmlEngine.start();

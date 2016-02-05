@@ -27,6 +27,8 @@ SceneObject {
     materials: origin.materials
   }
 
+  // see https://bitbucket.org/pavelvasev/scheme2/src/tip/scheme2go/libs/suffixes/trimesher/meshcreator.cs?at=default&fileviewer=file-view-default
+  // aka 
   function makeCylinders( radius, nx, positions, colors, endRatio ) {
     var circle = [];
     var delta = 2.0 * Math.PI / nx;
