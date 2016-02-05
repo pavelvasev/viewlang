@@ -322,6 +322,8 @@
     loadedSourceFile = qmlsrc;
     
     var errorToReport = "";
+    //qmlEngine.loadFile( qmlsrc );
+    
     try {
       //console.profile();            
       if (qmlcode && qmlcode.length > 0) {
@@ -352,6 +354,7 @@
       //if (excount == 0) console.error(e);
       qmlEngine.loadFile( "Error.qml" );
     }
+    
 
     qmlEngine.start();
     

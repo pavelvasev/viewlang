@@ -1,11 +1,11 @@
+// brother of Cylinders
 SceneObject {
+  title: "Cones"
 
-  title: "Cylinders"
   id: origin
-
   property var positions: source && source.positions?source.positions:[]
   property var colors: source && source.colors ?source.colors:[]
-  property var nx: source && source.nx ? source.nx : 5
+  property var nx: source && source.nx ? source.nx : 8
   property var radius: source && source.radius ? source && source.radius: 1
 
   property var ratio: null
@@ -27,7 +27,7 @@ SceneObject {
     materials: origin.materials
   }
 
-  function makeCylinders( radius, nx, positions, colors, endRatio ) {
+  function makeCones( radius, nx, positions, colors, startRatio ) {
     var circle = [];
     var delta = 2.0 * Math.PI / nx;
 
@@ -54,8 +54,8 @@ SceneObject {
       var p2 = [ positions[s2], positions[s2+1], positions[s2+2] ];
 
       // Преобразуем p2 к доле endRatio
-      if (endRatio)
-        p2 = vLerp( p1, p2, endRatio );
+      if (startRatio)
+        p1 = vLerp( p1, p2, startRatio );
 
       var basis = vBasis( p1, p2 );
 
@@ -65,6 +65,11 @@ SceneObject {
         color = [ colors[ y1 ],colors[ y1+1 ], colors[ y1+2 ] ]
       }
 
+      
+      poss.push( p2[0] ); poss.push( p2[1] ); poss.push( p2[2] );
+      if (color) {
+         cols.push( color[0] ); cols.push( color[1] ); cols.push( color[2] );
+      }
       var startIndex = poss.length / 3;
 
       for (var i=0; i<=nx; i++) {
@@ -75,26 +80,19 @@ SceneObject {
         var w1 = circle[i][1];
         var dd = vAdd( vMulScal( basis[1], u1 ), vMulScal( basis[2], w1 ) );
         var nv1 = vAdd( p1, dd );
-        var nv2 = vAdd( p2, dd );
         poss.push( nv1[0] ); poss.push( nv1[1] ); poss.push( nv1[2] );
-        poss.push( nv2[0] ); poss.push( nv2[1] ); poss.push( nv2[2] );
 
         if (color) {
-          cols.push( color[0] ); cols.push( color[1] ); cols.push( color[2] );
           cols.push( color[0] ); cols.push( color[1] ); cols.push( color[2] );
         }
       }
       
       // indices
       for (var i=0; i<nx; i++) {
-         var j = 2*i;
+         var j = i;
+         inds.push( startIndex -1  );
          inds.push( startIndex + j );
          inds.push( startIndex + j+1 );
-         inds.push( startIndex + j+3 );
-
-         inds.push( startIndex + j );
-         inds.push( startIndex + j+3 );
-         inds.push( startIndex + j+2 );
       }
     }
 
@@ -103,7 +101,7 @@ SceneObject {
 
   function make() {
     if (!positions) return;
-    var res = makeCylinders( radius, nx, positions, colors && colors.length > 0 ? colors : null, ratio );
+    var res = makeCones( radius, nx, positions, colors && colors.length > 0 ? colors : null, ratio );
     //console.log( res[0].length );
     tris.colors = res[2];
     tris.positions = res[0];
@@ -116,6 +114,5 @@ SceneObject {
   onRadiusChanged: make();
   onRatioChanged: make();
   onColorsChanged: make()
-
 
 }
