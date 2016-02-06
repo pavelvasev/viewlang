@@ -10,6 +10,7 @@ Item {
 
   function make (input, offset, count) {
     var acc = [];
+    if (offset < 0) return [];
 
     var ilen = input.length;
     var upto = Math.min( ilen, offset+count )

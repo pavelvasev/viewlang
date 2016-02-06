@@ -10,6 +10,9 @@ SceneObjectThreeJs {
     property var linestrip: false
     property var dashed: false
 
+    // @WithSelectOne.qml 
+    property var positionItemSize: 6
+
     /////////////////// graphics part
     id: qmlObject
 

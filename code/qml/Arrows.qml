@@ -7,6 +7,7 @@ Cylinders {
     ratio: cycy.ratio
     radius: cycy.radius * 2
     color: cycy.color
+    opacity: cycy.opacity
   }
 
 }

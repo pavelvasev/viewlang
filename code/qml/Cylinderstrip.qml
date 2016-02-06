@@ -6,6 +6,7 @@ SceneObject {
   property var nx: source && source.nx ? source.nx : 5
   property var radius: source && source.radius ? source && source.radius: 1
 
+  // @WithSelectOne.qml 
   property var positionItemSize: 6
 
   MakeStrip {
@@ -18,7 +19,7 @@ SceneObject {
     id: colrs
   }
 
-  Arrows {
+  Cylinders {
     positions: poss.output
     color: ars.color
     colors: colrs.output
