@@ -7,7 +7,8 @@ Item {
 
   property alias input: item.positions
 
-  // normals
+  property var mult: 1
+
   property var center: []
   property var sizes: []
 
@@ -16,11 +17,12 @@ Item {
 
   function make() {
     var res = (indices && indices.length > 0) ? computeNormalsIndexed( positions, indices ) : computeNormalsNonIndexed( positions )
+    if (res.length == 0) return;
     var sz = vDiff( res[1], res[0] );
     var sz2 = vMulScal( sz, 0.5 );
     var ct = vAdd( res[0], sz2 );
     center = ct;
-    sizes = sz;
+    sizes = vMulScal( sz, mult );
   }
 
     function computeNormalsIndexed( positions, indices)
@@ -55,7 +57,7 @@ Item {
     function computeNormalsNonIndexed( positions )
     {
       //return;
-      var geom_good = (positions && positions.length > 0 && indices && indices.length >= 0);
+      var geom_good = (positions && positions.length > 0);
       if (!geom_good) return [];
 
       var norms = [];
