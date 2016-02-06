@@ -119,7 +119,8 @@ Rectangle {
                 Row {
 
                     Button {
-                        text: "Редактировать..."
+                        width: 120
+                        text: "Редактировать.."
                         onClicked: {
                             dialogFilesText.text = param.files && param.files.join ? param.files.join("\n") : param.file;
                             dlg.open();
@@ -176,6 +177,7 @@ Rectangle {
                 Row {
 
                     Button {
+                        width: 120
                         text: "Редактировать..."
                         property bool dataloading: false
                         onClicked: {
@@ -275,7 +277,8 @@ Rectangle {
     ParamUrlHashing {
         name: globalName
         property: "files"
-        enabled: !(param.file instanceof File)
+        enabled: !(param.file instanceof File) && (param.file && param.file.content ? (param.file.content.length && param.file.content.length < 2048) : true)
+        //enabled: !(param.file instanceof File) && !(param.file && param.file.content)
         // записывать надо param.files но только если это не локальные файлы
     }
 
