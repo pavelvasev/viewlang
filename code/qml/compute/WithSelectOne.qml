@@ -28,18 +28,19 @@ SceneObject {
     min: -1
     max: so.itemsCount-1
   }
-
+/*
   Text { 
     property var tag: "left"
     text: selectedItem.value
   }
+*/
 
   MakeExtract {
     input: so.positions
     count: so.itemSize
     offset: (selectedItem.value-0) * so.itemShiftSize
     id: extr
-    onOutputChanged: console.log(" >>>>>>> so.itemSize=",so.itemSize,"output=",output );
+    // onOutputChanged: console.log(" >>>>>>> so.itemSize=",so.itemSize," so.source.positionItemSize = ", so.source.positionItemSize, "so.source=",so.source );
   }
 
   /*
