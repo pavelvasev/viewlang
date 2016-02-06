@@ -49,6 +49,11 @@ function loadFileBase( file_or_path, istext, handler, errhandler ) {
     }
     else
     {
+        if (file_or_path && file_or_path.content) {
+          handler( file_or_path.content, "data" );
+          return;
+        }
+
         if (file_or_path && file_or_path.length > 0) {
             setFileProgress( file_or_path,"loading");
 
