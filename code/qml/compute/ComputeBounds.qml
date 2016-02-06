@@ -1,7 +1,11 @@
 Item {
+  id: item
+
   property var source: parent
   property var positions: source && source.positions ? source.positions : []
   property var indices: source && source.indices ? source.indices : []
+
+  property alias input: item.positions
 
   // normals
   property var center: []
@@ -50,8 +54,30 @@ Item {
 
     function computeNormalsNonIndexed( positions )
     {
-      console.error("not implemented");
-      return [];
+      //return;
+      var geom_good = (positions && positions.length > 0 && indices && indices.length >= 0);
+      if (!geom_good) return [];
+
+      var norms = [];
+      norms.length = indices.length;
+      var j;
+      var min = [ 100000, 100000, 100000 ];
+      var max = [ -100000, -100000, -100000 ];
+
+      for (var j=0; j<positions.length; j+=3) {
+        // треугольник значит
+        var p1 = [ positions[ j ],positions[ j+1 ],positions[ j+2 ] ];
+
+        min[0] = Math.min( min[0], p1[0] );
+        min[1] = Math.min( min[1], p1[1] );
+        min[2] = Math.min( min[2], p1[2] );
+
+        max[0] = Math.max( max[0], p1[0] );
+        max[1] = Math.max( max[1], p1[1] );
+        max[2] = Math.max( max[2], p1[2] );
+      }
+      
+      return [ min, max ];
     }
 
 }

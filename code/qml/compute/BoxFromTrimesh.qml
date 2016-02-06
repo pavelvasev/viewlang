@@ -7,7 +7,7 @@ Boxes {
 
   opacity: 0.5
 
-  ComputeTrimeshBounds {
+  ComputeBounds {
     source: boxes.source
     id: bounds
   }
