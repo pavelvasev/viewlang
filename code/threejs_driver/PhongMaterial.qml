@@ -83,7 +83,7 @@ THREE.SmoothShading = 2;
             specular: mat.specular, 
             emissive: mat.emissive, 
             shininess: mat.shine, 
-            side: THREE.DoubleSide ,
+            side: THREE.DoubleSide,
             metal: mat.metal,
             shading: mat.shading
         };

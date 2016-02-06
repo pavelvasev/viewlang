@@ -11,5 +11,8 @@ Scene {
     source: sp.atrimesh
   }
 
+  BoxFromTrimesh {
+    source: sp.atrimesh
+  }
 
 }
