@@ -2,27 +2,47 @@ Item {
   id: item
 
   property var source: parent
-  property var positions: source && source.positions ? source.positions : []
-  property var indices: source && source.indices ? source.indices : []
+  property var positions: source && source.positions && source != item ? source.positions : []
+  property var indices: source && source.indices && source != item ? source.indices : []
+  property var enabled: true
 
   property alias input: item.positions
 
   property var mult: 1
 
-  property var center: []
-  property var sizes: []
+  property var center: [0,0,0]
+  property var sizes: [0,0,0]
 
+  //onPositionsChanged: setTimeout( make, 10 );
+  //onIndicesChanged: setTimeout( make, 10 );
   onPositionsChanged: make();
   onIndicesChanged: make();
 
+  // TODO 1 Защита от рекурсий 2 Защита от повторных make 
+
+  property int recursiveProtection: 0
   function make() {
+    if (!enabled) return;
+
+    if (item.recursiveProtection >= 1) {
+      console.log("rec prot item.recursiveProtection=",item.recursiveProtection);
+      return;
+    }
+    item.recursiveProtection = item.recursiveProtection + 1;
+
     var res = (indices && indices.length > 0) ? computeNormalsIndexed( positions, indices ) : computeNormalsNonIndexed( positions )
-    if (res.length == 0) return;
+    if (res.length == 0) {
+      item.recursiveProtection = item.recursiveProtection -1;
+      return;
+    }
     var sz = vDiff( res[1], res[0] );
     var sz2 = vMulScal( sz, 0.5 );
     var ct = vAdd( res[0], sz2 );
+
     center = ct;
     sizes = vMulScal( sz, mult );
+
+    item.recursiveProtection = item.recursiveProtection -1;
   }
 
     function computeNormalsIndexed( positions, indices)

@@ -10,6 +10,7 @@ Boxes {
   ComputeBounds {
     source: boxes.source
     id: bounds
+    enabled: boxes.source != boxes && boxes.source != boxes.trimesh
   }
 
 }
