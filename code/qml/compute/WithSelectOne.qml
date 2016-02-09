@@ -2,6 +2,8 @@ SceneObject {
   id: so
   property var titles: []
   property var text: "Выбор"
+  title: text
+  visual: false
 
   property var positions: source && source.positions ? source.positions : []
   property var indices: source && source.indices ? source.indices : null
@@ -59,6 +61,14 @@ SceneObject {
     id: loader
     source: so.source ? (repl[ so.source.$class ] || so.source.$class): null
     onSourceChanged: console.log("loading source=",source);
+  }
+
+  Binding {
+    target: loader.item
+    property: "title"
+    //value: so.source.title + " - Выбранный объект"
+    value: "Выбранный объект"
+    when: so.source && so.source.title
   }
 
   Binding {

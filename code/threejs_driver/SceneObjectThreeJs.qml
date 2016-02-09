@@ -56,7 +56,7 @@ SceneObject {
     {
       if (!this.sceneObject) return;
       // name для threejs
-      this.sceneObject.name = this.nesting ? this.parent.title + "->" + this.title : this.title;
+      this.sceneObject.name = this.nesting ? this.parent.title + "~>" + this.title : this.title;
       centerChanged();
       visibleChanged();
       attachShaders();

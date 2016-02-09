@@ -1,3 +1,6 @@
+// Вход - Trimesh
+// Выход - Lines по его ребрам
+
 Lines {
   id: tris
 

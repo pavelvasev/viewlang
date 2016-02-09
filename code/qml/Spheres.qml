@@ -34,6 +34,7 @@ SceneObject {
   Trimesh {
     property var nesting: true
     id: trimesh
+    // title: parent.title + " -> trimesh"
 
     function make() 
     {
