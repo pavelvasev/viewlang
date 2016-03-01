@@ -31,11 +31,12 @@ Item {
             });
             
             oscPort.on("message", function (oscMessage) {
-                var paramname = oscMessage.address.split( "/param/" ) [1];
-                console.log("so got message", oscMessage,paramname);
+                // не мудрствуем.. var paramname = oscMessage.address.split( "/param/" ) [1];
+                var paramname = oscMessage.address;
+                // console.log("so got message", oscMessage, paramname);
 
                 var params = sceneObj.rootScene.gatheredParams;
-                var value =  oscMessage.args[0];
+                var value =  oscMessage.args.length == 1 ? oscMessage.args[0] : oscMessage.args;
 
                 /* вроде это уже не надо
                 var value_seconds = oscMessage.args[1] || 0;
@@ -45,13 +46,15 @@ Item {
                 if (value_seconds !== 0 || value_seconds < seconds) return;
                 console.log("passed, gonna set");
                 */
-                for (var i=0; i<params.length; i++)
-                  if (params[i].name == paramname) {
-                    console.log("setting ",value,"to",params[i].propertyWrite);
+                for (var i=0; i<params.length; i++) {
+                  // console.log( "params[i].nameWithSlash = ",params[i].nameWithSlash);
+                  if (params[i].nameWithSlash == paramname) {
+                    // console.log("setting ",value,"to",params[i].propertyWrite, "target=",params[i].target.id);
                     params[i].nowWriting = true;
                     params[i].target[ params[i].propertyWrite ] = value;
                     params[i].nowWriting = false;
                   }
+                }
             });
             
             try {

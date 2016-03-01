@@ -7,6 +7,8 @@ Item {
   property var visual: true
   property var source: parent
   property var center: [0,0,0]
+  property var rotate: [0,0,0]
+  property var scale: 1
   
   property var nesting: false
 

@@ -1,3 +1,8 @@
+// Регистрирует себя в rootScene.gatheredParams
+/* TODO сделать отдельный робот, цель которого - зарегать родителя в заданных списках
+   а то все смешалось, кони люди..
+*/
+
 Item {
   id: obj
   
@@ -9,6 +14,7 @@ Item {
   property bool nowWriting: false
 
   property var enabled: true
+  property var nameWithSlash: name && name.length > 0 ? (name[0] == "/" ? name : "/" + name) : "";
   
   Component.onCompleted: {
      if (enabled && target && name && target.text) {

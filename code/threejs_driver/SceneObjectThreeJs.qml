@@ -2,6 +2,11 @@ SceneObject {
     id: theobj
 
     onCenterChanged: this.sceneObject && this.sceneObject.position.fromArray(center);
+    onRotateChanged: {
+      // console.log( "setted to ",rotate )
+      this.sceneObject && this.sceneObject.rotation.fromArray(rotate);
+    }
+    onScaleChanged: this.sceneObject && this.sceneObject.scale.set(scale,scale,scale);
 
     onShaderChanged: attachShaders();
 

@@ -260,6 +260,12 @@ Item {
     visible: isRoot && driverControls.showMore
     checked: sceneObj.oscManager.enabled
     onCheckedChanged: sceneObj.oscManager.enabled = checked;
+
+        ParamUrlHashing {
+          name: "osc"
+          property: "checked"
+          enabled: parent.checked
+        }
   }    
 
   

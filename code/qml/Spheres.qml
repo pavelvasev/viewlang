@@ -160,6 +160,8 @@ SceneObject {
     opacity: spheres.opacity
     visible: spheres.visible
     center: spheres.center
+    rotate: spheres.rotate
+    scale: spheres.scale
 
     property var geom: make()
     

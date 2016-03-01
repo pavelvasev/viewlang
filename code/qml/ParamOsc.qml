@@ -9,6 +9,8 @@ Item {
   property var name
   property bool nowWriting: false
 
+  property var nameWithSlash: name && name.length > 0 ? (name[0] == "/" ? name : "/" + name) : "";
+
   function param_changed()
   {
      if (!name || name.length == 0) return;
@@ -25,8 +27,10 @@ Item {
      // console.log("sending",name,value);
      // http://stackoverflow.com/a/3830279/657240
      // var seconds = new Date().getTime() / 1000; 
+     var nameWithSlash = name[0] == "/" ? name : "/" + name;
+     
      port.send({
-                    address: "/param/"+name,
+                    address: nameWithSlash, // типа а зачем мы мудрствуем... как пришло так пусть и ходит address: "/param/"+name,
                     args: value
                     //args: [value,seconds]
      });

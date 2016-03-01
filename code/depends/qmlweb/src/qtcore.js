@@ -1220,7 +1220,16 @@ QMLEngine = function (element, options) {
     };
     
     /* 
-      engine.loadImports() - load qmldir files from `import` statements. Please look at import.js for main notes.
+      engine.loadImports( imports, currentDir ) : loads qmldir files.
+
+      Input: `importsArray` statements 
+      Input: currentDir (unnecesary)
+
+      Output: engine.qmldirs[ComponentName] => ComponentFileName (not path)
+
+      Questions: currentFileDir, what's it's role?
+      
+      Please look at import.js for main notes.
 
         * `importsArray` is in parser notation, e.g. [import1, import2, ...] where each importN is also array: ["qmlimport","name",version,as,isQualifiedName]
         * `currentFileDir` is a base dir for imports lookup (it will be used together with importPathList())

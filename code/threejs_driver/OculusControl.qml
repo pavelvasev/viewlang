@@ -29,6 +29,7 @@
     }
     CheckBox {
         id: cbOculus2
+        width: 1
     }
 
     // vrHMD объявлено в driver.js
