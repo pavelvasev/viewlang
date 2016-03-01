@@ -47,12 +47,13 @@ Item {
                 console.log("passed, gonna set");
                 */
                 for (var i=0; i<params.length; i++) {
-                  // console.log( "params[i].nameWithSlash = ",params[i].nameWithSlash);
+                  //console.log( "params[i].nameWithSlash = ",params[i].nameWithSlash);
                   if (params[i].nameWithSlash == paramname) {
-                    // console.log("setting ",value,"to",params[i].propertyWrite, "target=",params[i].target.id);
+                    //console.log("setting ",value,"to",params[i].propertyWrite, "target=",params[i].target.id);
                     params[i].nowWriting = true;
                     params[i].target[ params[i].propertyWrite ] = value;
                     params[i].nowWriting = false;
+                    // хм пусть все параметры break;
                   }
                 }
             });

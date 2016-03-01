@@ -17,7 +17,8 @@ Item {
   property var nameWithSlash: name && name.length > 0 ? (name[0] == "/" ? name : "/" + name) : "";
   
   Component.onCompleted: {
-     if (enabled && target && name && target.text) {
+     //if (enabled && target && name && target.text) { 
+     if (enabled && target && name && target.text) { 
        var rootScene = findRootScene(obj);
        rootScene.gatheredParams.push( obj );
        rootScene.gatheredParamsChanged();

@@ -96,6 +96,9 @@ SceneObject {
     opacity: origin.opacity
     visible: origin.visible
     //shading: origin.shading
+    center: origin.center
+    rotate: origin.rotate
+    scale: origin.scale
     
     indices: make()
 

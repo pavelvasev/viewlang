@@ -1,0 +1,7 @@
+Scene {
+  Lines {
+    positions: [0,2,0, 20,10,20]
+    OscRotate {} 
+  }
+
+}
