@@ -1,0 +1,35 @@
+<html>
+<body style="font-size: x-large;">
+Orient values:
+<div id="a1"></div>
+<div id="a2"></div>
+<div id="a3"></div>
+<div id="a4"></div>
+
+<script>
+function w(id,v) {
+  document.getElementById(id).innerText = id + "=" + v;
+}
+
+w("a1","qqq");w("a2","bbb");
+
+// Check to make sure the browser supprots DeviceOrientationEvents
+if (window.DeviceOrientationEvent) {
+  // Create an event listener
+  window.addEventListener('deviceorientation', function(event) {
+      // Get the left-to-right tilt (in degrees).
+    var tiltLR = event.gamma;
+
+    // Get the front-to-back tilt (in degrees).
+    var titleFB = event.beta;
+
+      // Get the direction of the device (in degrees).
+    var direction = event.alpha;
+    w("a1",event.gamma);
+    w("a2",event.beta);
+    w("a3",event.alpha);
+    w("a4",event.absolute);
+  });
+}
+</script>
+</body>

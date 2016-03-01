@@ -162,11 +162,12 @@ SceneObject {
     Column {
         
         id: rightBottomWidgetsA
-        z: 2
+        z: 2 // -100 idea по клику на mousearea менять ето и прозрачно
         anchors.bottom: parent.bottom-5
 
         anchors.right: parent.right
         anchors.margins: 10
+        
     }
     
     Rectangle {
@@ -179,7 +180,7 @@ SceneObject {
         anchors.topMargin:-2
         anchors.bottomMargin:-2
 
-        z: 1
+        z: 1 //-100
         opacity: 0.2 // специально такое низкое значение, чтобы в глаза не билось. Для тулбара сделано побольше, там можно
         color: "#eeeeee"
     }    
