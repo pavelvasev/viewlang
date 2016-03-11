@@ -9,7 +9,7 @@ Item {
   Component.onCompleted: runosc()
   onEnabledChanged: runosc();
   
-  property var oscUrl: Qt.resolvedUrl("test").indexOf(":/") >= 0 ? "ws://localhost:8081" : "ws://viewlang.ru:8081"
+  property var oscUrl: Qt.resolvedUrl("test").indexOf("file:/") >= 0 ? "ws://localhost:8081" : "ws://viewlang.ru:8081"
 
   function runosc() {
     if (!enabled) return;
