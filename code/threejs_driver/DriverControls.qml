@@ -42,7 +42,11 @@ Item {
         id: axesA
         visible: false
         onVisibleChanged: {
-          if (controls.parent.isRoot === false) axesBox.checked = false;
+          //if (controls.parent.isRoot === false) axesBox.checked = visible;
+          //console.log("qqqqqqqqqqqqqqqqqq",visible);
+          if (controls.parent.isRoot && axesBox.checked != visible) {
+            axesBox.checked = visible;
+          }
         }
     }
     

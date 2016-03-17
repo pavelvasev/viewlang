@@ -14,6 +14,8 @@ Rectangle {
    во втором таб-е можно кликнуть "Редактировать" и тогда..
 
 */
+    property var dataDialog: dlg2
+
     id: param
     property var tag: "left"
     //    border.color: "grey"
@@ -179,8 +181,19 @@ Rectangle {
                     Button {
                         width: 120
                         text: "Редактировать..."
+                        
+                        onClicked: dlg2.prepare_and_open();
+                    }
+
+
+                    SimpleDialog {
+                        id: dlg2
+                        title: param.text || "&nbsp;"
+                        width: co.width + 30
+                        height: co.height + 33
+
                         property bool dataloading: false
-                        onClicked: {
+                        function prepare_and_open() {
                             //loader1.file = param.file;
                             if (!dataloading) {
                                 dialogFilesText2.text = "Загружаю..."
@@ -197,15 +210,6 @@ Rectangle {
 
                             dlg2.open();
                         }
-                    }
-
-
-                    SimpleDialog {
-                        id: dlg2
-                        title: param.text || "&nbsp;"
-                        width: co.width + 30
-                        height: co.height + 33
-
 
                         Column {
                             id: co
