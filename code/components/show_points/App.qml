@@ -1,3 +1,5 @@
+import components.creative_points 1.0
+
 SceneObject {
   id: app
   property var ctag: "left"
@@ -30,7 +32,7 @@ SceneObject {
   }
 
   Loader {
-    source: mode == 0 ? "Points" : "Spheres"
+    source: ["Points","CreativePoints","Spheres"] [mode]
     id: loader
     onLoaded: {
       console.log("mode=",mode,"source=",source);
@@ -38,12 +40,13 @@ SceneObject {
       //item.make3d();
     }
     ///onItemChanged: console.log("*********** item changed",item);
+    onItemChanged: engine.rootObject.refineAll();
   }
   property var painter: loader.item
 
 
   Param {
-    values: ["точки","сферы"]
+    values: ["точки","красивые точки","сферы"]
     id: modeParam
     text: app.text + " / Тип отображения"
     tag: ctag

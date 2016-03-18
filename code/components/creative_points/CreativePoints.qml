@@ -10,10 +10,12 @@ Points {
   depthWrite: c5.value>0
   depthTest: c6.value>0
   color: [1,0,0]
+  //property alias tex: ctex
 
   Param {
     text: "<b>Points params</b>\ntexture"
     id: ctex
+    value: 1
     values: ["spark1.png","ball.png","circle.png","disc.png","particle.png","particleA.png",""]
     tag: ctag
   }
@@ -23,9 +25,9 @@ Points {
     id: c2
     text: "radius"
     value: pts.radius
-    max: 100
+    max: 10
     tag: ctag
-    step: 0.25
+    step: 0.05
     onValueChanged: pts.radius=value
   }
 
