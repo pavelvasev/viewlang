@@ -389,9 +389,15 @@ function tri2hex( triarr ) {
    return rgbToHex( Math.floor(triarr[0]*255),Math.floor(triarr[1]*255),Math.floor(triarr[2]*255) )
 }
 
+function color2css( triarr ) {
+   if (typeof(triarr) === "string") return triarr;
+   return tri2hex( triarr );
+}
+
 function tri2int( triarr ) {
    return Math.floor(triarr[0]*255) * (256*256) + Math.floor(triarr[1]*255)*256  + Math.floor(triarr[2]*255);
 }
+
 
   function isnan(v) {
     if (v === null) return true;

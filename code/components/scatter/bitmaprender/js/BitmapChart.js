@@ -20,7 +20,6 @@ function numToHexC(num) {
 
 function colorToHex(colorArr) {
  return numToHexC(colorArr[0])+numToHexC(colorArr[1])+numToHexC(colorArr[2]);
-
 }
 
 function BitmapChart( targetDivId, dataProvider, histogram, pixelColor, shift, pixelRenderFunction, selectionChangedHandler ) {

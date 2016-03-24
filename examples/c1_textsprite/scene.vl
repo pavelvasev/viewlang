@@ -1,0 +1,23 @@
+Scene {
+  //Cubes { positions: [0,0,0]; color: [1,1,0]; opacity: 0.5; radius: 1 }
+  Cylinders { positions: [0,0,0, 1,0,0]; radius: 0.05 }
+  /*
+  TextSprite { 
+    center: [1,0,0]; 
+    //text: "Alfa beta 123" 
+    pixelSize: 15
+  }
+  */
+
+  TextSprite { 
+    center: [1,0,0]; 
+    text: "X" 
+    pixelSize: 40
+    radius: 2
+    fillColor: "rgba( 255, 0, 0, 0.55 )"
+    borderColor: [1,1,1]
+    italic: true
+    bold: true
+    centered: true
+  }
+}
