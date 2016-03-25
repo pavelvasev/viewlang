@@ -64,6 +64,7 @@ Column {
     Component.onCompleted: constructed = true;
 
     onTextChanged: {
+      if (param.value == text) return;
       if (fastUpdate) 
         param.value = text;
       else

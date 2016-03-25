@@ -162,6 +162,7 @@ SceneObject {
     center: spheres.center
     rotate: spheres.rotate
     scale: spheres.scale
+    renderOrder: spheres.renderOrder
 
     property var geom: make()
     

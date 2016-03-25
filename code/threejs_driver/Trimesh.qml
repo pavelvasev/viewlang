@@ -276,6 +276,8 @@ SceneObjectThreeJs {
 
         this.sceneObject = new THREE.Mesh( geometry, material );
 
+        if (renderOrder) this.sceneObject.renderOrder = renderOrder;
+
         colorsChanged();
         wireonChanged();
 
