@@ -16,20 +16,13 @@ SceneObject {
         makeLater(this);
     }
 
-/*  
-    ShaderLogic {
-      id: shaderLogic
-    }
-*/  
     property bool hasAttachedShaders: false
     function  attachShaders()
     {
         if (this.sceneObject && this.sceneObject.material) {
-          // console.log( "sceneobjecttjs: attachShaders ", theobj.shader);
 
           var shaders = flattenArrayOfArrays( theobj.shader );
 
-//          shaderLogic.attachShaders( shaders );
           
           // ищем первый ненулевой шейдер, вызываем у него метод прицепления всех шейдеров. но вообще конечно страно..
           // а как иначе? где держать логику прицепления шейдеров?..
@@ -60,6 +53,9 @@ SceneObject {
     function make3dbase()
     {
       if (!this.sceneObject) return;
+
+      if (renderOrder) { this.sceneObject.renderOrder = renderOrder; console.log("qqqq=",renderOrder); }
+
       // name для threejs
       this.sceneObject.name = this.nesting ? this.parent.title + "~>" + this.title : this.title;
       centerChanged();

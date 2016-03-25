@@ -21,25 +21,6 @@ Item {
   property var shader: source ? source.shader : undefined
 
   // internal
-  /* вроде как и не надо, этим теперь материал рулит
-  property var shaders: []
-  onShaderChanged: {
-    if (!shader) {
-      it.shaders = [];
-      return;
-    }
-    if (shader.length) 
-      it.shaders = shader;
-    else
-      it.shaders = [shader];
-  }
-  */
-
-/*  
-  property var shader: source ? source.shader : null
-  property var shaders: source ? source.shaders : null
-  onShaderChanged: it.shaders = [shader];
-*/  
 
   signal render();
 
@@ -48,26 +29,11 @@ Item {
   }
 
   Component.onCompleted: {
-    // сигнал render... пока ток для three js?
-/*
-    if (scene && it.render.isConnected())
-    scene.addEventListener( 'render', function() { 
-      it.render(); 
-    });
-*/    
-
-//    if (this.doubleClick.isConnected()) {
-//    }
-
-//    if (jsonSources) reloadJsonSources(jsonSources);
   }
   
   function make3dbase()
   {
     if (!this.sceneObject) return;
-    // name для threejs
-    // ушло в threejs-объекты
-    // this.sceneObject.name = this.nesting ? this.parent.title + "->" + this.title : this.title;
   }
 
 

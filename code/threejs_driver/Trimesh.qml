@@ -7,10 +7,6 @@ SceneObjectThreeJs {
     property var normals
 
     property bool wireon: false
-
-//    property var flat: false
-    
-//    property var shading: 2
     
     property var noIndices: false
 
@@ -28,28 +24,11 @@ SceneObjectThreeJs {
     /////////////////// graphics part
     id: qmlObject
     
-    /* threejssceneobject
-    function intersect( pos ) {
-      if (!this.sceneObject) return null;
-      
-  	  raycaster.setFromCamera( pos, camera );
-			var intersects = raycaster.intersectObject( this.sceneObject,false );
-			// console.log("intersects=",intersects);
-			if (intersects.length == 0) return null;
-
-			var intersect = intersects[0];
-			return intersect;
-	  }
-	  */
-
 	onWireonChanged: {
 	    if (!this.sceneObject) return;
 	    if (wireon) {
   	      if (!qmlObject.wireframe) {
 		  	qmlObject.wireframe = new THREE.WireframeHelper( this.sceneObject, 0xbf00 );
-					//qmlObject.wireframe.material.depthTest = false;
-					//qmlObject.wireframe.material.opacity = 0.55;
-					//qmlObject.wireframe.material.transparent = true;		  	
 			  scene.add( qmlObject.wireframe );	
 		  }
 		}
@@ -68,9 +47,6 @@ SceneObjectThreeJs {
 //        console.log("trimesh onPositionsChanged");
         if (!this.sceneObject) return makeLater(this);
         
-//        if (positions)
-//          this.sceneObject.geometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
-
         var attr = this.sceneObject.geometry.getAttribute("position");
         if (!attr) return makeLater(this);
         
@@ -98,20 +74,6 @@ SceneObjectThreeJs {
 
     onIndicesChanged: {
         makeLater( this );
-        
-
-        //if (!this.sceneObject) return makeLater( this );
-
-        /*
-        
-
-        if (indices)
-                this.sceneObject.geometry.addAttribute( 'index', new THREE.BufferAttribute( new Uint32Array(indices), 3 ) );
-
-        var attr = this.sceneObject.geometry.getAttribute("index");
-        //attr.set( new Uint32Array(indices) );
-        attr.needsUpdate = true;
-        */
     }
     
     onColorsChanged: {
@@ -141,56 +103,6 @@ SceneObjectThreeJs {
           this.sceneObject.geometry.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
         }
     }
-
-/* теперь в SceneObjectThreejs
-    onVisibleChanged: {
-        //makeLater(this);
-        if (this.sceneObject)
-          this.sceneObject.visible = visible;
-    }    
-*/    
-    
-   
-    
-    /*
-    onWireChanged: {
-      if (!this.sceneObject) return;
-      this.sceneObject.material.wireframe = wire;
-      this.sceneObject.material.needsUpdate = true;
-    }
-    */
-    
-    /*
-    onShadingChanged: {
-      makeLater( this );
-      return;
-      console.log("q");
-      if (!this.sceneObject) return;
-      console.log( shading );
-      this.sceneObject.material.shading = (shading == 2 ? THREE.SmoothShading: (shading == 1 ? THREE.FlatShading : THREE.NoShading) );
-      console.log(this.sceneObject.material.shading);
-      this.sceneObject.material.needsUpdate = true;
-    }
-    */
-    /*
-    onOpacityChanged: {
-        if (!this.sceneObject) return;
-        this.sceneObject.material.opacity = opacity;
-        this.sceneObject.material.needsUpdate = true;
-    }*/
-
-    /*
-    
-    onVisibleChanged: {
-        if (!qmlObject.sceneJsRootNode) { makeLater( qmlObject ); return; };
-        qmlObject.sceneJsMaterialNode.setAlpha( qmlObject.visible ? qmlObject.opacity : 0 );
-    }
-
-    onPriorityChanged: {
-        if (!qmlObject.sceneJsRootNode) { makeLater( qmlObject ); return; };
-        qmlObject.sceneJsPriorityNode.setPriority( qmlObject.priority );
-    }
-*/
 
 
     function make3d()
@@ -228,11 +140,6 @@ SceneObjectThreeJs {
 
         if (positions)
             geometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
-
-           /* 
-        if (!normals || normals.length == 0)
-          computeNormals();
-          */
 
                 
         //////////////////////////////////////////////////////
@@ -276,8 +183,6 @@ SceneObjectThreeJs {
 
         this.sceneObject = new THREE.Mesh( geometry, material );
 
-        if (renderOrder) this.sceneObject.renderOrder = renderOrder;
-
         colorsChanged();
         wireonChanged();
 
@@ -287,25 +192,6 @@ SceneObjectThreeJs {
         //console.log( "oname=",__executionContext.nameForObject(this) );
         //console.log( "oname=",this.title );
         make3dbase();
-
-        
-       // console.log("this.sceneObject.on=",this.sceneObject.on);
-       /* this.sceneObject.on('click', function(info) {
-          console.log("hey click!",info );
-        } );
-        */
-       
-        
-        /*
-        try {
-        scene.add( new THREE.VertexNormalsHelper( this.sceneObject ) );
-        } catch(e) {
-          console.log("helper error",e);
-        }
-        */
-
-        //console.log("make3d complete, this.sceneObject=",this.sceneObject);
-        //console.log("make3d complete, visible=",visible);
     }
 
     function computeNormals()
