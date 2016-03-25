@@ -78,13 +78,13 @@ SceneObject {
     function intersect( pos, threshold ) {
       if (!this.sceneObject) return null;
 
-      raycaster.params.PointCloud.threshold = threshold ? threshold : (theobj.radius ? 0.03 + theobj.radius/2 : 0.1); // этим параметром надо как-то управлять уметь..
+      raycaster.params.Points.threshold = threshold ? threshold : (theobj.radius ? 0.03 + theobj.radius/2 : 0.1); // этим параметром надо как-то управлять уметь..
       //console.log(" we use raycaster.params.PointCloud.threshold=",raycaster.params.PointCloud.threshold);
       // вот, попробовали поуправлять через радиус...
       
   	  raycaster.setFromCamera( pos, camera );
 			var intersects = raycaster.intersectObject( this.sceneObject,false );
-			// console.log("intersects=",intersects);
+			// console.log("intersects=",intersects, "pos=",pos);
 			if (intersects.length == 0) return null;
 
 			var intersect = intersects[0];
