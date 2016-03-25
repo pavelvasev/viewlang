@@ -17,7 +17,7 @@ Lines {
       visible: lin.visible
       positions: [ r,0,0, 0,r,0,  0,0,r ]
       colors: [1,0,0, 0,1,0, 0,0,1]
-      radius: 1
+      radius: r / 50.0
     }
 
   property var titles: ["X","Y","Z"]
