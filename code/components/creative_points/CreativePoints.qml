@@ -12,8 +12,26 @@ Points {
   color: [1,0,0]
   //property alias tex: ctex
 
+  Button {
+      property var tag: ctag
+      text: "Настройка точек.."
+      width: 170
+      onClicked: coco.visible = !coco.visible
+  }
+
+  Component.onCompleted: coco.visible = false;
+
+  Column {
+    property var tag: ctag
+    id: coco
+
+  Text {
+    text: " "
+    height: 10
+  }
+
   Param {
-    text: "<b>Points params</b>\ntexture"
+    text: "texture"
     id: ctex
     value: 1
     values: ["spark1.png","ball.png","circle.png","disc.png","particle.png","particleA.png",""]
@@ -69,6 +87,8 @@ Points {
 
   ColorParam {
    tag: ctag
+  }
+
   }
 
 }

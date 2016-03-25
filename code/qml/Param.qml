@@ -96,36 +96,18 @@ Column {
             return param.text;
         }
 
-        //    color: "green"
-        //    styleColor: "gray"
-        //    styleColor: param.styleColor
-        //    style: param.styleColor ? 2 : null
         Rectangle {
             color: param.color
             z:-1
             width: parent.width
             y: parent.height-1
             height: param.color ? 2 : 0
-            //    anchors.fill:parent
-            //    width: parent.width
-            //    height : param.color ? 5 : 0
-            //anchors.marginTop: 10
-
         } //rect
     } //text
 
     Row {
         spacing: 5
         id: therow
-
-        /*
-  Text {
-    id: lefttext
-    y: 3
-    visible: textLeft && param.text && param.text.length > 0
-    text: visible ? param.text : ""
-  }
-  */
 
         Slider {
             visible: sliderEnabled
