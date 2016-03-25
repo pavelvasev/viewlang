@@ -224,7 +224,7 @@ SceneObjectThreeJs {
         var geometry = new THREE.BufferGeometry();
 
         if (indices)
-            geometry.addAttribute( 'index', new THREE.BufferAttribute( new Uint32Array(indices), 3 ) );
+            geometry.setIndex( new THREE.BufferAttribute( new Uint32Array(indices), 1 ) );
 
         if (positions)
             geometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );

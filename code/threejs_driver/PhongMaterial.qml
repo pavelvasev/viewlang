@@ -11,7 +11,7 @@ SceneMaterial {
     }
     return source.color;
   }
-  property var ambient: 0xffffff // 0xaaaaaa
+  property var ambient: 0xffffff // 0xaaaaaa - в threejs r75 не влияет
   property var specular: 0x888888  //0x444444 // 0xffffff 
   property var emissive: 0x000000
 
@@ -44,7 +44,7 @@ THREE.SmoothShading = 2;
     if (!this.sceneMaterial) return;
     this.sceneMaterial.shininess = shine;
     this.sceneMaterial.needsUpdate = true;  
-  }  
+  }
 
   onWireChanged: {
       if (!this.sceneMaterial) return;
@@ -79,12 +79,12 @@ THREE.SmoothShading = 2;
         
         var materialOptions = {
             color: theColor, 
-            ambient: mat.ambient, 
+            //ambient: mat.ambient,  r75
             specular: mat.specular, 
             emissive: mat.emissive, 
             shininess: mat.shine, 
             side: THREE.DoubleSide,
-            metal: mat.metal,
+            // metal: mat.metal, r75
             shading: mat.shading
         };
         //console.log("used mat shading=",mat.shading,flat);
