@@ -69,7 +69,14 @@ THREE.CSS3DRenderer = function () {
 
 	domElement.appendChild( cameraElement );
 
-	this.setClearColor = function () {
+	this.setClearColor = function () {};
+
+	this.getSize = function() {
+
+		return {
+			width: _width,
+			height: _height
+		};
 
 	};
 
@@ -91,7 +98,7 @@ THREE.CSS3DRenderer = function () {
 
 	var epsilon = function ( value ) {
 
-		return Math.abs( value ) < 0.000001 ? 0 : value;
+		return Math.abs( value ) < Number.EPSILON ? 0 : value;
 
 	};
 
@@ -220,7 +227,7 @@ THREE.CSS3DRenderer = function () {
 
 		scene.updateMatrixWorld();
 
-		if ( camera.parent === undefined ) camera.updateMatrixWorld();
+		if ( camera.parent === null ) camera.updateMatrixWorld();
 
 		camera.matrixWorldInverse.getInverse( camera.matrixWorld );
 

@@ -5,15 +5,15 @@
 THREE.DotScreenPass = function ( center, angle, scale ) {
 
 	if ( THREE.DotScreenShader === undefined )
-		THREE.error( "THREE.DotScreenPass relies on THREE.DotScreenShader" );
+		console.error( "THREE.DotScreenPass relies on THREE.DotScreenShader" );
 
 	var shader = THREE.DotScreenShader;
 
 	this.uniforms = THREE.UniformsUtils.clone( shader.uniforms );
 
 	if ( center !== undefined ) this.uniforms[ "center" ].value.copy( center );
-	if ( angle !== undefined ) this.uniforms[ "angle"].value = angle;
-	if ( scale !== undefined ) this.uniforms[ "scale"].value = scale;
+	if ( angle !== undefined ) this.uniforms[ "angle" ].value = angle;
+	if ( scale !== undefined ) this.uniforms[ "scale" ].value = scale;
 
 	this.material = new THREE.ShaderMaterial( {
 
@@ -28,7 +28,7 @@ THREE.DotScreenPass = function ( center, angle, scale ) {
 	this.needsSwap = true;
 
 
-	this.camera = new THREE.OrthographicCamera( -1, 1, 1, -1, 0, 1 );
+	this.camera = new THREE.OrthographicCamera( - 1, 1, 1, - 1, 0, 1 );
 	this.scene  = new THREE.Scene();
 
 	this.quad = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2, 2 ), null );

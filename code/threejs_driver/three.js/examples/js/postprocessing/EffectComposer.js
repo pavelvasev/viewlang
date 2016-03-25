@@ -8,13 +8,14 @@ THREE.EffectComposer = function ( renderer, renderTarget ) {
 
 	if ( renderTarget === undefined ) {
 
-		var pixelRatio = renderer.getPixelRatio();
-
-		var width  = Math.floor( renderer.context.canvas.width  / pixelRatio ) || 1;
-		var height = Math.floor( renderer.context.canvas.height / pixelRatio ) || 1;
-		var parameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat, stencilBuffer: false };
-
-		renderTarget = new THREE.WebGLRenderTarget( width, height, parameters );
+		var parameters = {
+			minFilter: THREE.LinearFilter,
+			magFilter: THREE.LinearFilter,
+			format: THREE.RGBAFormat,
+			stencilBuffer: false
+		};
+		var size = renderer.getSize();
+		renderTarget = new THREE.WebGLRenderTarget( size.width, size.height, parameters );
 
 	}
 
@@ -27,7 +28,7 @@ THREE.EffectComposer = function ( renderer, renderTarget ) {
 	this.passes = [];
 
 	if ( THREE.CopyShader === undefined )
-		THREE.error( "THREE.EffectComposer relies on THREE.CopyShader" );
+		console.error( "THREE.EffectComposer relies on THREE.CopyShader" );
 
 	this.copyPass = new THREE.ShaderPass( THREE.CopyShader );
 
@@ -68,7 +69,7 @@ THREE.EffectComposer.prototype = {
 
 			pass = this.passes[ i ];
 
-			if ( !pass.enabled ) continue;
+			if ( ! pass.enabled ) continue;
 
 			pass.render( this.renderer, this.writeBuffer, this.readBuffer, delta, maskActive );
 
@@ -108,15 +109,15 @@ THREE.EffectComposer.prototype = {
 
 		if ( renderTarget === undefined ) {
 
+			var size = this.renderer.getSize();
+
 			renderTarget = this.renderTarget1.clone();
-
-			var pixelRatio = this.renderer.getPixelRatio();
-
-			renderTarget.width  = Math.floor( this.renderer.context.canvas.width  / pixelRatio );
-			renderTarget.height = Math.floor( this.renderer.context.canvas.height / pixelRatio );
+			renderTarget.setSize( size.width, size.height );
 
 		}
 
+		this.renderTarget1.dispose();
+		this.renderTarget2.dispose();
 		this.renderTarget1 = renderTarget;
 		this.renderTarget2 = renderTarget.clone();
 
@@ -127,12 +128,8 @@ THREE.EffectComposer.prototype = {
 
 	setSize: function ( width, height ) {
 
-		var renderTarget = this.renderTarget1.clone();
-
-		renderTarget.width = width;
-		renderTarget.height = height;
-
-		this.reset( renderTarget );
+		this.renderTarget1.setSize( width, height );
+		this.renderTarget2.setSize( width, height );
 
 	}
 
