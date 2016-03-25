@@ -116,6 +116,7 @@ Item {
       if (!q) return;
       var targetParam = q.target;
       if (!targetParam) return;
+      if (!paramStart.text || !paramFinish.text || !paramStep.text) return open();
 
       processMin = parseFloat( paramStart.text );
       processMax = parseFloat( paramFinish.text );

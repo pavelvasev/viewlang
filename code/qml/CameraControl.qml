@@ -58,10 +58,11 @@ Item {
     if (!imRoot) return;
 
   var controlType = "OrbitControls";
-  la_require("../threejs_driver/three.js/examples/js/controls/"+controlType+".js", function() {
+  //la_require("../threejs_driver/three.js/examples/js/controls/"+controlType+".js", function() {
+  la_require("../threejs_driver/"+controlType+".js", function() {
     if (!imRoot) return;  
     var cls = eval("THREE."+controlType);
-  
+
     sceneControl = new cls( camera, renderer.domElement );
     threejs.sceneControl = sceneControl;
 

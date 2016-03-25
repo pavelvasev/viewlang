@@ -1,3 +1,4 @@
+////////////////////////////////////
 
 THREE.BufferGeometry.prototype.computeLineDistances = function () {
   	var positions = this.attributes.position.array;
