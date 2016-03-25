@@ -125,6 +125,7 @@ SceneObjectThreeJs {
           var loader = new THREE.TextureLoader();
 		      // loader.setCrossOrigin( undefined );
           qmlObject.loadedTexture = loader.load( textureUrl );
+          qmlObject.loadedTextureUrl = textureUrl;
         }
         else
           qmlObject.loadedTexture = textureUrl;
