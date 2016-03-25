@@ -121,8 +121,11 @@ SceneObjectThreeJs {
       if (!mat) return;
       
       if (qmlObject.loadedTextureUrl !== textureUrl) {
-        if (textureUrl && textureUrl.length > 0)
-          qmlObject.loadedTexture = THREE.ImageUtils.loadTexture(textureUrl);
+        if (textureUrl && textureUrl.length > 0) {
+          var loader = new THREE.TextureLoader();
+		      // loader.setCrossOrigin( undefined );
+          qmlObject.loadedTexture = loader.load( textureUrl );
+        }
         else
           qmlObject.loadedTexture = textureUrl;
       }
