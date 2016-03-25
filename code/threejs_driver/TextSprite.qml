@@ -81,6 +81,10 @@ SceneObjectThreeJs {
 			var r = radius;
       this.sceneObject.scale.set( r,r,r );
 
+      this.sceneObject.material.opacity = opacity;
+      this.sceneObject.material.transparent = opacity < 1;
+      this.sceneObject.material.needsUpdate = true;
+
       this.texture1.needsUpdate = true;
     }
 
