@@ -33,6 +33,7 @@ SceneObject {
 
   Loader {
     source: ["Points","CreativePoints","Spheres"] [mode]
+    //source: ["Points","Spheres"] [mode]
     id: loader
     onLoaded: {
       console.log("mode=",mode,"source=",source);
@@ -50,6 +51,7 @@ SceneObject {
     id: modeParam
     text: app.text + " / Тип отображения"
     tag: ctag
+    value: 0
     //sliderEnabled: false
     valEnabled: false
   }

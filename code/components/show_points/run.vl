@@ -14,7 +14,7 @@ Scene {
   ShowPointsApp {
     id: app
     positions: flat.output
-    mode: 1
+    mode: 0
     color: [0.2,0.2,0.2]
   }
 
