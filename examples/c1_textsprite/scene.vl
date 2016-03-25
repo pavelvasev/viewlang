@@ -9,15 +9,37 @@ Scene {
   }
   */
 
+  TextParam {
+    text: "text"
+    id: pText
+    value: "X"
+  }
+
+  Param {
+    text: "pixelSize"
+    id: pSize
+    min: 1
+    max: 100
+    value: 40
+  }
+
+  Param {
+    text: "centered"
+    id: pCentered
+    min: 0
+    max: 1
+    value: 1
+  }
+
   TextSprite { 
     center: [1,0,0]; 
-    text: "X" 
-    pixelSize: 40
+    text: pText.value
+    pixelSize: pSize.value
     radius: 2
     fillColor: "rgba( 255, 0, 0, 0.55 )"
     borderColor: [1,1,1]
     italic: true
     bold: true
-    centered: true
+    centered: pCentered.value>0
   }
 }

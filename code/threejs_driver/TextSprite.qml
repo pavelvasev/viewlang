@@ -24,13 +24,23 @@ SceneObjectThreeJs {
 
     onColorChanged: makeLater(this);
     onFillColorChanged: makeLater(this);
-    onBorderChanged: makeLater(this);
+    onBorderColorChanged: makeLater(this);
     onFontStringChanged: makeLater(this);
     onRadiusChanged: makeLater( this );
+    onVisibleChanged: makeLater( this );
+    onTexSizeChanged: makeLater( this );
+    onTexOffsetChanged: makeLater( this );
+    onTextChanged: makeLater( this );
 
     //////////////////
     
     function make3d() {
+      // удаляем невидимые тексты, чтобы не захламлять текстуры. Т.к. TextSprite используется в осях, а оси у нас в Scene, а Scene-ов может быть вложенных много.
+      if (!visible) {
+        clear();
+        return;
+      }
+
       prepare();
 
       var tx = obj.text;
