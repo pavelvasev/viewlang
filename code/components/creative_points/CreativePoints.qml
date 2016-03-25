@@ -82,10 +82,12 @@ Points {
   }
 
   OpacityParam {
+   target: pts
    tag:ctag
   }
 
   ColorParam {
+   target: pts
    tag: ctag
   }
 
