@@ -167,7 +167,7 @@ Item {
     
     property var redGreenFocalValue: 25
     onRedGreenFocalValueChanged: {
-      if (redGreenBox.redGreenEffect) 
+      if (redGreenBox.redGreenEffect && redGreenBox.redGreenEffect.setFocalLength) 
         redGreenBox.redGreenEffect.setFocalLength( redGreenFocalValue );
     }
     CheckBox {
@@ -188,12 +188,11 @@ Item {
         }
 
         Component.onCompleted: {
-            //        console.log("loading anagl");
             la_require("three.js/examples/js/effects/AnaglyphEffect.js", function() {
-                //	        console.log("anagl loaded");
                 redGreenBox.redGreenEffect = new THREE.AnaglyphEffect( renderer );
                 redGreenBox.redGreenEffect.setSize( window.innerWidth, window.innerHeight );
-                redGreenBox.redGreenEffect.setFocalLength( redGreenFocalValue ); 	
+                if (redGreenBox.redGreenEffect.setFocalLength) // типо в новом theejs нету этого метода
+                  redGreenBox.redGreenEffect.setFocalLength( redGreenFocalValue ); 	
                 checkedChanged();
             } );
         }
@@ -225,7 +224,7 @@ Item {
                 }
                 if (this.stereoEffect) {
                     selectedRenderer = this.stereoEffect;
-                    goFullScreen();
+                    // goFullScreen();
                 }
             }
 
