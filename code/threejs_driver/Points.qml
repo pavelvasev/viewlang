@@ -214,10 +214,10 @@ SceneObjectThreeJs {
             materialOptions.opacity = opacity;
         }
         
-        var material = new THREE.PointCloudMaterial( materialOptions );
+        var material = new THREE.PointsMaterial( materialOptions );
           
         /////////////////////////////////
-        this.sceneObject = new THREE.PointCloud( geometry, material );
+        this.sceneObject = new THREE.Points( geometry, material );
         this.sceneObject.visible = visible;
         this.sceneObject.sortParticles = true;
 
