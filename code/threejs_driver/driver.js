@@ -250,27 +250,7 @@ function render() {
 
     //sceneControl.update();
   
-				if (vrHMDSensor) {
-
-			    var state = vrHMDSensor.getState();
-			    camera.quaternion.set(state.orientation.x, state.orientation.y, state.orientation.z, state.orientation.w);
-			    
-			    /* в общем с позицией пока непонятно.. как то странно x и y ее ходят, надо разбираться
-			    if ( state.position !== null ) {
-			        if (cc++ % 100 == 0)
-			          console.log("pos=",state.position.x); 
-  			          //console.log("pos=",state);
-  			        var coef=50000;
- 			        // camera.position.set( coef*state.position.x,coef*state.position.y,-coef*state.position.z +750 );
- 			        camera.position.set( coef*state.position.x,coef*state.position.y, +750 );
-		        }
-		        */
-		    };  
-  
-
-  selectedRenderer.render( scene, camera );
-
-
+    selectedRenderer.render( scene, camera );
 }
 
 			function animate() {
@@ -282,7 +262,7 @@ function render() {
 animate();
 
 function threeJsWindowResize() {
-console.log(">>>>>>>>>>>>>>>>>>>>>> threeJsWindowResize" );
+//console.log(">>>>>>>>>>>>>>>>>>>>>> threeJsWindowResize" );
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
 				
