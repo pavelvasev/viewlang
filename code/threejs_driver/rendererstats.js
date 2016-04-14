@@ -34,7 +34,7 @@ RendererStats = function () {
 
 		update : function(webGLRenderer) {
 			// refresh only 30time per second
-            console.log(webGLRenderer);
+      // console.log(webGLRenderer);
 			if(Date.now() - lastTime < 1000/30)	return;
 			lastTime = Date.now()
 

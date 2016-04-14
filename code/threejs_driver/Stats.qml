@@ -49,7 +49,7 @@ CheckBox {
             rendererStats.domElement.style.position   = 'absolute'
             rendererStats.domElement.style.bottom  = '52px'
             rendererStats.domElement.style.right    = '2px'
-            stats.domElement.style.zIndex = 5000;
+            rendererStats.domElement.style.zIndex = 5000;
             document.body.appendChild( rendererStats.domElement )
         });
     }
