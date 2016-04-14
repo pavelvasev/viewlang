@@ -19,7 +19,7 @@ CheckBox {
                 cs.stats.update();
 
             if (cs.rendererStats) {
-                cs.rendererStats.update(selectedRenderer);
+                cs.rendererStats.update(renderer);
             }
         }
     }
@@ -37,6 +37,7 @@ CheckBox {
             stats.domElement.style.position = 'absolute';
             stats.domElement.style.bottom = '2px'; // конечно надо от сцены играть
             stats.domElement.style.right = '2px';
+            stats.domElement.style.zIndex = 5000;
 
             document.body.appendChild( stats.domElement );
         } );
@@ -48,6 +49,7 @@ CheckBox {
             rendererStats.domElement.style.position   = 'absolute'
             rendererStats.domElement.style.bottom  = '52px'
             rendererStats.domElement.style.right    = '2px'
+            stats.domElement.style.zIndex = 5000;
             document.body.appendChild( rendererStats.domElement )
         });
     }
