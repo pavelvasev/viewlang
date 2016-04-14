@@ -93,7 +93,7 @@ la_require("three.js/examples/js/controls/"+controlType+".js", function() {
 
 /////////////////////////////////////////
 
-var vrHMD, vrHMDSensor, vrHMDSensorFound;
+var vrDisplay, vrControl;
 
 /////////////////////////////////////////
 
@@ -248,16 +248,19 @@ function render() {
     
     doScheduledPrerenderTasks();
 
+    if (vrControl) vrControl.update();
+
     //sceneControl.update();
   
     selectedRenderer.render( scene, camera );
 }
 
-			function animate() {
-				requestAnimationFrame( animate );
-				render();
+function animate() {
+  // todo call requestAnimationFrame of vrDisplay
+  requestAnimationFrame( animate );
+  render();
 				//stats.update();
-			}
+}
 
 animate();
 

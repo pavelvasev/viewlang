@@ -34,3 +34,29 @@ THREE.BufferGeometry.prototype.computeLineDistances = function () {
 		var attr = this.getAttribute("lineDistance");
     attr.needsUpdate = true;
 }
+
+WEBVR.getButtonPose = function ( display ) {
+    
+		var button = document.createElement( 'button' );
+		button.style.position = 'absolute';
+		button.style.left = 'calc(100% - 90px)';
+		button.style.bottom = '20px';
+		button.style.border = '0';
+		button.style.padding = '8px';
+		button.style.cursor = 'pointer';
+		button.style.backgroundColor = '#000';
+		button.style.color = '#fff';
+		button.style.fontFamily = 'sans-serif';
+		button.style.fontSize = '13px';
+		button.style.fontStyle = 'normal';
+		button.style.zIndex = '999';
+		button.textContent = 'reset pose';
+		button.onclick = function() {
+
+			display.resetPose();
+
+		};
+
+		return button;
+
+	};
