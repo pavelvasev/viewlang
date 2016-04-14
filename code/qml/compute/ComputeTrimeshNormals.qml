@@ -39,21 +39,23 @@ Item {
 
     function computeNormalsNonIndexed( positions )
     {
-
+      
       var geom_good = positions && positions.length > 0;
       if (!geom_good) return [];
-
+      
       var norms = [];
-      norms.length = positions.length / 3;
-      var j,i;
+      norms.length = positions.length/3;
+      var j=0;
+      var i=0;
 
-      for (var j=0; j<positions.length; j+=3, i+=3) {
+      for (; j<positions.length; j+=3, i+=3) {
         // треугольник значит
         var p1 = [ positions[ j ],positions[ j+1 ],positions[ j+2 ] ];
         j+=3;
         var p2 = [ positions[ j ],positions[ j+1 ],positions[ j+2 ] ];
         j+=3;
         var p3 = [ positions[ j ],positions[ j+1 ],positions[ j+2 ] ];
+        //console.log(p1,p2,p3);
 
         var d1 = diff(p2,p1);
         var d2 = diff(p3,p1);

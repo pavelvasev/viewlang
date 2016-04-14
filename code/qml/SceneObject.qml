@@ -22,6 +22,9 @@ Item {
 
   // internal
 
+  property var robotDetails: it.positions ? "positions.length="+positions.length : ""
+  //
+
   signal render();
 
   function open( fileNameOrUrl ) {

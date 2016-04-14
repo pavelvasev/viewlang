@@ -10,4 +10,5 @@ Trimesh {
   // вызывается make3d от trimesh-а. а он умеет работать без indices
 
   noIndices: true
+  property var positionItemSize: 9
 }

@@ -3,6 +3,7 @@ import QtQuick 1.1
 SceneObject {
   id: spheres
   property var positions: source.positions
+  //onCenterChanged: console.log("***")
 
   property var colors
   property var radius: 1

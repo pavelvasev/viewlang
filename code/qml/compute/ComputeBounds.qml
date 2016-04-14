@@ -19,6 +19,7 @@ Item {
   onIndicesChanged: make();
 
   // TODO 1 Защита от рекурсий 2 Защита от повторных make 
+  // а чего тут за рекурсия, надо это исследовать..
 
   property int recursiveProtection: 0
   function make() {

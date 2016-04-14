@@ -1,7 +1,10 @@
 SceneObject {
     id: theobj
 
-    onCenterChanged: this.sceneObject && this.sceneObject.position.fromArray(center);
+    onCenterChanged: {
+      //console.log( "setted to ",center )
+      this.sceneObject && this.sceneObject.position.fromArray(center);
+    }
     onRotateChanged: {
       // console.log( "setted to ",rotate )
       this.sceneObject && this.sceneObject.rotation.fromArray(rotate);

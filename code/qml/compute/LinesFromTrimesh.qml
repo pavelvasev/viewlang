@@ -64,4 +64,6 @@ Lines {
   onTrimeshPositionsChanged: make()
   onTrimeshIndicesChanged: make()
   // TODO вообще это странно - пересчет при изменении параметров. Думать про ленивость?
+
+  property var robotIcon: "="
 }

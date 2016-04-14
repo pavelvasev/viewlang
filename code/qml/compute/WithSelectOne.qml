@@ -1,3 +1,6 @@
+// По объекту source и вариантам titles дает параметр выбора 1 элемента, 
+// после чего создает объект как source для отображения выбранного элемента
+
 SceneObject {
   id: so
   property var titles: []
@@ -22,6 +25,7 @@ SceneObject {
 
   property var itemsCount: Math.floor( positions.length / itemShiftSize )
 
+  property var param: selectedItem
   Param {
     text: so.text
     values: so.titles.length > 0 ? ["-1"].concat( so.titles ): []
@@ -42,19 +46,10 @@ SceneObject {
     count: so.itemSize
     offset: (selectedItem.value-0) * so.itemShiftSize
     id: extr
-    // onOutputChanged: console.log(" >>>>>>> so.itemSize=",so.itemSize," so.source.positionItemSize = ", so.source.positionItemSize, "so.source=",so.source );
   }
 
-  /*
-  MakeExtract {
-    input: so.radiuses
-    count: 1
-    offset: selectedItem.value
-    id: extrRadius
-  }*/
-
   property var repl: {
-    return { "Points" : "Spheres", "Linestrip" : "Cylinderstrip", "Lines" : "Cylinders" };	
+    return { "Points" : "Spheres", "Linestrip" : "Cylinderstrip", "Lines" : "Cylinders" };
   }
 
   Loader {
@@ -67,9 +62,16 @@ SceneObject {
     target: loader.item
     property: "title"
     //value: so.source.title + " - Выбранный объект"
-    value: "Выбранный объект"
+    value: "Выбранный объект "+so.source.$class
     when: so.source && so.source.title
   }
+
+  /*
+  Binding {
+    target: loader.item
+    property: "robotIcon"
+    value: "fa-hand-rock-o"
+  }*/
 
   Binding {
     target: loader.item

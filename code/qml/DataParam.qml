@@ -1,5 +1,6 @@
 import QtQuick.Controls 1.2
 
+// Вход:
 // Выход:
 // file, files
 // - типа FileObject
@@ -135,6 +136,7 @@ Rectangle {
                         title: param.text || "&nbsp;"
                         width: co.width + 30
                         height: co.height + 33
+                        z: 5002
                         
                         Column {
                             id: co
@@ -191,6 +193,7 @@ Rectangle {
                         title: param.text || "&nbsp;"
                         width: co.width + 30
                         height: co.height + 33
+                        z: 5002
 
                         property bool dataloading: false
                         function prepare_and_open() {

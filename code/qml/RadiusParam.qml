@@ -16,6 +16,6 @@ Param {
     //source.radius = mult * param.value/100.0;
     source.radius = param.value
     source.visible = source.radius > 0;
-    console.log(source.radius);    
+    //console.log(source.radius);    
   }
 }

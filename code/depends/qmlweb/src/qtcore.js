@@ -2010,6 +2010,14 @@ function updateVGeometry(newVal, oldVal, propName) {
 QW_INHERIT(QMLItem, QMLBaseObject);
 function QMLItem(meta) {
     QMLBaseObject.call(this, meta);
+
+    // #wonder
+    this.Component.completed.connect(this, function() {
+      var event = new CustomEvent('componentOnCompleted', { 'detail': this });
+      //console.log("global completed.. this=",this );
+      window.dispatchEvent(event);
+    } );
+
     var child,
         o, i;
 
