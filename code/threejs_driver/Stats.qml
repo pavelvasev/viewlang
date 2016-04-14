@@ -19,7 +19,7 @@ CheckBox {
                 cs.stats.update();
 
             if (cs.rendererStats) {
-                cs.rendererStats.update(renderer);
+                cs.rendererStats.update(selectedRenderer);
             }
         }
     }
@@ -42,8 +42,8 @@ CheckBox {
             document.body.appendChild( stats.domElement );
         } );
 
-        la_require("threex.rendererstats.js", function() {
-            var rendererStats = new THREEx.RendererStats()
+        la_require("rendererstats.js", function() {
+            var rendererStats = new RendererStats()
             cs.rendererStats = rendererStats;
 
             rendererStats.domElement.style.position   = 'absolute'
