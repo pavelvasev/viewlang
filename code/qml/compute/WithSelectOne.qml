@@ -25,6 +25,8 @@ SceneObject {
 
   property var itemsCount: Math.floor( positions.length / itemShiftSize )
 
+  property var forceType
+
   property var param: selectedItem
   Param {
     text: so.text
@@ -50,12 +52,16 @@ SceneObject {
 
   property var repl: {
     return { "Points" : "Spheres", "Linestrip" : "Cylinderstrip", "Lines" : "Cylinders" };
+    //в связи с superviewlang это неправильно стало.
+    // норм, там же PointsRobot а не Points
+    //return {};
   }
 
   Loader {
     id: loader
-    source: so.source ? (repl[ so.source.$class ] || so.source.$class): null
-    onSourceChanged: console.log("loading source=",source);
+    source: so.source ? (so.forceType || repl[ so.source.$class ] || so.source.$class): null
+    //onSourceChanged: console.log("loading source=",source);
+    onLoaded: item.$class = so.forceType || repl[ so.source.$class ] || so.source.$class;
   }
 
   Binding {
