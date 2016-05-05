@@ -10,7 +10,8 @@ Item {
 
 
     Button {
-        text: "Скриншот"
+        text: "Снимок экрана"
+        width: 120
         property var tag: controlsTag
 
         onClicked: export1()
@@ -60,7 +61,7 @@ Item {
 
     Button {
         visible: showMore
-        text: "Скриншот 3D"
+        text: "Снимок 3D"
         property var tag: controlsTag
         width: 120
 

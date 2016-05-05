@@ -190,6 +190,9 @@ SceneObject {
     Row {
         id: bottomWidgetsA
         x: 10
+        Component.onCompleted: bottomWidgetsA.dom.className = "bottomWidgetsA";
+        //console.log("qqqqq",bottomWidgetsA.dom);
+        //dom.class: "bottom_widgets"
 
         anchors.bottom: parent.bottom
         z:5
