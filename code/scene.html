@@ -261,10 +261,6 @@
     var qmldir  = getParameterByName("dir") || undefined;
 
     // determine viewlang own directory
-    // orig: var a = (window.location.origin + window.location.pathname).split("/");    
-    // we add `window.location.protocol+"/"` because in Firefox window.location.origin is blank when using file://
-    ///var a = ((window.location.origin || window.location.protocol+"/") + window.location.pathname).split("/");
-    //var a = (window.location.protocol + (window.location.hostname ? "//" + window.location.hostname + (window.location.port ? ":" + window.location.port : ""): "/") + window.location.pathname);
 
     var a = window.location.protocol;
     if (window.location.hostname) {
