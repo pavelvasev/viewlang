@@ -19,7 +19,7 @@ CheckBox {
                 cs.stats.update();
 
             if (cs.rendererStats) {
-                cs.rendererStats.update(selectedRenderer);
+                cs.rendererStats.update( renderer ); // работаем с renderer а не с selectedRenderer, т.к. сейчас они не содержат статистик, а все-равно все приходит в renderer
             }
         }
     }
