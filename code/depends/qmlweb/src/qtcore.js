@@ -16,7 +16,7 @@
         disclaimer in the documentation and/or other materials
         provided with the distribution.
 
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER “AS IS” AND ANY
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AS IS AND ANY
   EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
   PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE
@@ -433,7 +433,7 @@ function construct(meta) {
         item.$context = meta.context;
 
         if (engine.renderMode == QMLRenderMode.DOM && item.dom)
-            item.dom.className += " " + meta.object.$class + (meta.object.id ? " " + meta.object.id : "");
+            item.dom.className += " " + meta.object.$class + " " + (meta.object.id ? " " + meta.object.id : "");
         var dProp; // Handle default properties
       } else {
           console.log("No constructor found for " + meta.object.$class);
@@ -1769,8 +1769,13 @@ QObject = function(parent) {
         
         while (this.$tidyupList.length > 0) {
             var item = this.$tidyupList[0];
-            if (item.$delete) // It's a QObject
+            if (item.$delete) { // It's a QObject
                 item.$delete();
+                // manually clean self tidy list
+                // without this step, we might get infinite loop in case of external manipulations with tidy list
+                var index = this.$tidyupList.indexOf(item);
+                if (index >= 0)  this.$tidyupList.splice( index, 1); 
+            }
             else // It must be a signal
                 item.disconnect(this);
         }

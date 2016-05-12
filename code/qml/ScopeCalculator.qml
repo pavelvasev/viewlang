@@ -1,6 +1,6 @@
 // Вычисляет глобальное имя переменных для использования в урлях и в osc и т.д.
 
-// Выход 1: scopeName - строка, текущий полный scope, сделанный уникальным (учли возможное дублирование).
+// Выход 1: scopeName - строка, текущий полный scope, сделанный уникальным (с учетом возможного дублирования).
 
 // Вход 2: name
 // Выход 2: globalName - имя с добавлением scopeName и с учетом повторного возможного дублирования (например когда scopeName пуст).
@@ -20,9 +20,10 @@ Item {
 
     var chain = [];
     while (f) {
-      // если указана paramScopeName - прицепляем ее слева. 
+      // если указана scopeName - прицепляем ее слева. 
       if (typeof(f.scopeName) !== "undefined" && f.scopeName.length && f.scopeName.length > 0) {
         chain.unshift( f );
+        if (f.scopeNameIsFinal) break;
       }
  
       if (typeof(f.oldSpaceParent) !== "undefined")
@@ -36,7 +37,7 @@ Item {
     for (var i=0; i<chain.length; i++) {
       r = r + chain[i].scopeName + "/";
       r = mapAndCount( r,chain[i] );
-    }    
+    }
     
     return r;
   }

@@ -27,6 +27,7 @@ Item {
      
      if (!paramName || paramName.length == 0) return;
      if (engine.operationState === QMLOperationState.Init) return;
+     //console.log("params update hash paramName=",paramName );
      //debugger;
      // нее if (timeout_id) return;
      if (timeout_id) window.clearTimeout( timeout_id );
@@ -77,7 +78,7 @@ Item {
   
   function params_parse_hash()
   {
-//    console.log( "params_parse_hash name=",paramName);
+    //console.log( "params_parse_hash name=",paramName);
     if (!paramName || paramName.length == 0) return;
     if (location.hash.length < 10) return {};
     var oo = read_hash_obj();
@@ -97,8 +98,8 @@ Item {
   }
   property bool inited: false  
   
-  onNameChanged: {
-//    console.log("^^^^^^^^^^ nrew name=",paramName);
+  onParamNameChanged: {
+    // console.log("^^^^^^^^^^ nrew name=",paramName);
     // это на тот случай, когда имя параметра внезапно меняется, после изменения какого-то scopeName,
     // например при динамической загрузке приложения как в distort/appender
     if (inited)

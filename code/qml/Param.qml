@@ -204,15 +204,6 @@ Column {
         //debugger;
     }
 
-    Component.onCompleted: {
-        //console.log("param created,",param.dom);
-        /*
-    debugger;
-    if (param.parent && param.parent.layoutChildren)
-      param.parent.layoutChildren();
-    */
-    }
-
     ParamUrlHashing {
         name: globalName
     }

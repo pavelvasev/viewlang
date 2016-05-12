@@ -12,6 +12,14 @@ Item {
     property string source
     property bool   active: true
 
+    // with timeoutMode = true, Loader performs loading after small timeout
+    // with timeoutMode = false, Loader loads (e.g. creates component) immediately
+    property bool timeoutMode: true
+
+    signal loaded();
+
+    ////////////////////////////// 
+    
     implicitWidth: loader.item ? loader.item.width : 0
     implicitHeight: {
         var v = loader.item ? loader.item.height : 0
@@ -19,8 +27,6 @@ Item {
         //console.log("loadr implicit h=",v,source, "and own height=",loader.height);
         return v;
     }
-
-    signal loaded();
 
     function respondToSourceChange() {
         //console.log("loader creates component for source=",source);
@@ -36,13 +42,12 @@ Item {
             sourceComponent = Qt.createComponent( source.indexOf(".") > 0 ? source : source + ".qml",context );  // e.g. if source contains 'dot', load as is; if not - add .qml to it.
 
         if (!sourceComponent) {
+            //debugger;
             console.error("Loader.qml: failed to load component from source=",source );
         }
     }
 
-    // with timeoutMode = true, Loader performs loading after small timeout
-    // with timeoutMode = false, Loader loads (e.g. creates component) immediately
-    property bool timeoutMode: true
+
 
     onSourceChanged: {
         if (loader.timeoutId && timeoutMode) {
@@ -180,15 +185,5 @@ Item {
 
         loaded();
     }
-
-    /*
-    function callOnCompleted(child) {
-        child.Component.completed();
-        var arr = child.children.slice(0); // we need to clone array. because it may change during Component.OnCompleted evaluation, if some control will decide to change it's parent
-        for (var i = 0; i < arr.length; i++)
-            callOnCompleted(arr[i]);
-    }
-    */
-
 
 }
