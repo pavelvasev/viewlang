@@ -13,11 +13,13 @@ http://viewlang.ru/code/scene.html
 1. Run as administrator
 ```
 code/setup_vl_assoc.cmd
+// This will associate *.vl files with Chrome browser. Your `chrome.exe` should be in `PATH`.
 ```
-This will associate *.vl files with Chrome browser. Your `chrome.exe` should be in `PATH`.
 
 2. Configure your Chrome shortcut by adding command line flag `--allow-file-access-from-files`.
 Then restart chrome (if it was running).
+
+After setup, you may run viewlang *.vl files by hitting Enter.
 
 ## Local setup (linux)
 Sorry no instructions at the moment. Some ideas:
