@@ -20,7 +20,8 @@ This will associate *.vl files with Chrome browser. Your `chrome.exe` should be 
 Then restart chrome (if it was running).
 
 ## Local setup (linux)
-Sorry no instructions now. Some ideas:
+Sorry no instructions at the moment. Some ideas:
+
 1. Try to reproduce windows setup.
 2. Run local static webserver and open ./code/scene.html there.
 
