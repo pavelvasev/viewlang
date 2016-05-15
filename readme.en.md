@@ -1,6 +1,6 @@
 # Viewlang
 
-Viewlang is a 3d visualization web framework based on Qmlweb. It uses WebGL for rendering.
+Viewlang is a 3d visualization web framework based on Qmlweb. It targets to WebGL for rendering.
 
 ## Online-editor
 http://viewlang.ru/code/c.html
