@@ -34,7 +34,7 @@ Rectangle {
     property var file
     property var files
 
-    onFilesChanged: file = files[0];
+    onFilesChanged: if (file != files[0]) file = files[0];
     
     property var showChosenFile: true
 

@@ -221,6 +221,8 @@ la_require("threex.rendererstats.js", function() {
       {
           var record = objectsToRerender.splice(0,1) [0];
           var objs = record[0];
+          //if (!objs.parent) return; // если объект уже удалили - в лес его дела
+          
           var list_of_things_to_do = record[1];
           
           for (var make_key in list_of_things_to_do) 

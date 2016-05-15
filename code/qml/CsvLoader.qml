@@ -25,16 +25,23 @@ Item {
    csv.xhr = loadFile( file, function(data) {
     var lines = data.split("\n");
     var acc = [];
+
     for (var i=0; i<lines.length; i++) {
       var line = trim1( lines[i] );
       if (skip.length > 0 && line.indexOf(skip) >= 0) continue;
       
       if (line.length == 0) continue;
+
+      var s = line.split(/\s+/);
+
       var nums = line.split(/\s+/).map( function(f) { var q = filter(f); return isnan(q) ? f : q } );
+
       if (nums.length > 0) {
         // Фишка. Если еще не прочитали толком данных, а строка начинается с не-числа - пропускаем ее.
         // так мы отсекаем всякие заголовки в начале файла
-        if (acc.length == 0 && isnan(nums[0])) continue; 
+        // Нее это фигня. Надо отсекать заголовки - задавайте skip. А то читалка protocol3 сломалась, там все строки с буквы P начинаются.
+        // хотя.. можно будет и логику сделать, если скип уже состоялся то эта евристика отпадает. Но мудрено. Уберем пока
+        //if (acc.length == 0 && isnan(nums[0])) continue; 
         
         acc.push( nums );
         

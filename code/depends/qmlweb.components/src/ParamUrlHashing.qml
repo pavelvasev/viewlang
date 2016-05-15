@@ -41,7 +41,7 @@ Item {
      if (!oo.params) oo.params = {};
 
      if (obj.enabled) {
- 	   var value = target[property];     
+ 	     var value = target[property]; 	     
        oo.params[paramName] = value;
      }
      else
@@ -53,6 +53,10 @@ Item {
      if (strpos == "{\"params\":{}}") {
        strpos = "";
      }
+
+     //strpos = encodeURIComponent( strpos );
+     strpos = strpos.replace(/ /g, "%20");
+
      if (location.hash != strpos);
        location.hash = strpos;
      timeout_id = null;
@@ -63,7 +67,10 @@ Item {
   function read_hash_obj() {
       var oo = {};
        try {
-         oo = JSON.parse( location.hash.substr(1) );
+         var s = location.hash.substr(1);
+         // s = decodeURIComponent( s );
+         s = s.replace(/%20/g, " ");
+         oo = JSON.parse( s );
        } catch(err) {
          // sometimes url may be converted. decode it.
          try {

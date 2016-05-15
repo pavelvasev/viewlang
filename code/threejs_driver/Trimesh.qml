@@ -224,6 +224,7 @@ SceneObjectThreeJs {
     }
 
     function clear() {
+      //console.log( "clear called for trimesh...",this); 
       clearobj( this.sceneObject ); this.sceneObject = undefined;
       clearobj( this.wireframe ); this.wireframe = undefined;
     }

@@ -57,10 +57,15 @@ SceneObject {
     {
       if (!this.sceneObject) return;
 
-      if (renderOrder) { this.sceneObject.renderOrder = renderOrder; console.log("qqqq=",renderOrder); }
+      if (!this.parent) {
+        this.clear();
+        return;
+      }
+
+      if (renderOrder) { this.sceneObject.renderOrder = renderOrder; }
 
       // name для threejs
-      this.sceneObject.name = this.nesting ? this.parent.title + "~>" + this.title : this.title;
+      this.sceneObject.name = this.nesting && this.parent ? this.parent.title + "~>" + this.title : this.title;
       centerChanged();
       visibleChanged();
       attachShaders();
@@ -100,11 +105,12 @@ SceneObject {
     /* конечно хорошо что они тут спрятаны - типа один раз всем. но это же и плохо, ибо становится неявно.
        в общем пока что каждый должен сам свое clear предоставлять
     function clear() {
+      
       clearobj( this.sceneObject ); 
       this.sceneObject = undefined;
     }
     
-    function clearobj(obj) {
+    function clearobj(obj) {        
         if (obj) {
             // http://stackoverflow.com/questions/12945092/memory-leak-with-three-js-and-many-shapes
             // http://mrdoob.github.io/three.js/examples/webgl_test_memory.html
