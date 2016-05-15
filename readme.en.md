@@ -19,6 +19,11 @@ This will associate *.vl files with Chrome browser. Your `chrome.exe` should be 
 2. Configure your Chrome shortcut by adding command line flag `--allow-file-access-from-files`.
 Then restart chrome (if it was running).
 
+## Local setup (linux)
+Sorry no instructions now. Some ideas:
+1. Try to reproduce windows setup.
+2. Run local static webserver and open ./code/scene.html there.
+
 ## Examples
 Located in ./examples
 
@@ -36,6 +41,6 @@ and run that file by hitting enter key.
 
 ## How to debug
 1. Errors are written to developers console of the browser, Ctrl+Shift+J.
-2. If you change scene file - reload page in browser.
+2. If you changed scene file - then reload page in browser.
 
 (с) 2015-2016 Pavel Vasev
