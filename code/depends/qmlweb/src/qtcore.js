@@ -175,7 +175,8 @@ constructors = {
     TextArea: QMLTextEdit, // non-standard, to be removed!
     TextEdit: QMLTextEdit,
     CheckBox: QMLCheckbox,
-    Video:    QMLVideo
+    Video:    QMLVideo,
+    ItemNonVisual: QMLItemNonVisual
 };
 
 // mix of engine.loadQML and Loader.qml
@@ -1810,6 +1811,75 @@ function QMLBaseObject(meta) {
     this.$context = meta.context;
 }
 
+// Item qml object
+QW_INHERIT(QMLItemNonVisual, QMLBaseObject);
+function QMLItemNonVisual(meta) {
+    QMLBaseObject.call(this, meta);
+
+    // #wonder
+    this.Component.completed.connect(this, function() {
+      var event = new CustomEvent('componentOnCompleted', { 'detail': this });
+      //console.log("global completed.. this=",this );
+      window.dispatchEvent(event);
+    } );
+
+    var child,
+        o, i;
+
+    createSimpleProperty("list", this, "data");
+    this.$defaultProperty = "data";
+    createSimpleProperty("list", this, "children");
+    createSimpleProperty("list", this, "resources");
+    createSimpleProperty("Item", this, "parent");
+    this.children = [];
+    this.resources = [];
+    this.parentChanged.connect(this, function(newParent, oldParent) {
+        if (oldParent) {
+            oldParent.children.splice(oldParent.children.indexOf(this), 1);
+            oldParent.childrenChanged();
+        }
+        if (newParent && newParent.children.indexOf(this) == -1) {
+            newParent.children.push(this);
+            newParent.childrenChanged();
+        }
+    });
+    this.parentChanged.connect(this, updateHGeometry);
+    this.parentChanged.connect(this, updateVGeometry);
+    this.dataChanged.connect(this, function(newData) {
+        for (var i in newData) {
+            var child = newData[i];
+            if (child.hasOwnProperty("parent")) // Seems to be an Item. TODO: Use real inheritance and ask using instanceof.
+                child.parent = this; // This will also add it to children.
+            else
+                this.resources.push(child);
+        }
+    });
+    
+    createSimpleProperty("real", this, "x");
+    createSimpleProperty("real", this, "y");
+//    createSimpleProperty("real", this, "width");
+//    createSimpleProperty("real", this, "height");
+    createSimpleProperty("real", this, "z");
+    createSimpleProperty("bool", this, "visible");
+    createSimpleProperty("real", this, "opacity");
+
+    // нужны т.к. другие Item-ы прицепляются и жаждут этих пропертей
+    createSimpleProperty("real", this, "width");
+    createSimpleProperty("real", this, "height");
+    createSimpleProperty("real", this, "implicitWidth");
+    createSimpleProperty("real", this, "implicitHeight");
+    createSimpleProperty("real", this, "left");
+    createSimpleProperty("real", this, "right");
+    createSimpleProperty("real", this, "top");
+    createSimpleProperty("real", this, "bottom");
+
+    this.x = 0;
+    this.y = 0;
+    this.z = 0;
+    this.visible = true;
+    this.opacity = 1;
+}
+
 function updateHGeometry(newVal, oldVal, propName) {
     var anchors = this.anchors || this;
 
@@ -2063,14 +2133,14 @@ function QMLItem(meta) {
         if (oldParent) {
             oldParent.children.splice(oldParent.children.indexOf(this), 1);
             oldParent.childrenChanged();
-            if (engine.renderMode == QMLRenderMode.DOM)
+            if (engine.renderMode == QMLRenderMode.DOM && oldParent.dom)
                 oldParent.dom.removeChild(this.dom);
         }
         if (newParent && newParent.children.indexOf(this) == -1) {
             newParent.children.push(this);
             newParent.childrenChanged();
         }
-        if (newParent && engine.renderMode == QMLRenderMode.DOM)
+        if (newParent && engine.renderMode == QMLRenderMode.DOM && newParent.dom)
             newParent.dom.appendChild(this.dom);
     });
     this.parentChanged.connect(this, updateHGeometry);
