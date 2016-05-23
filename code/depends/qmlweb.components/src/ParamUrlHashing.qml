@@ -24,7 +24,7 @@ Item {
 
   function params_update_hash()
   {
-     
+     //console.log("...params_update_hash");
      if (!paramName || paramName.length == 0) return;
      if (engine.operationState === QMLOperationState.Init) return;
      //console.log("params update hash paramName=",paramName );
@@ -89,10 +89,12 @@ Item {
     if (!paramName || paramName.length == 0) return;
     if (location.hash.length < 10) return {};
     var oo = read_hash_obj();
+    //console.log("params_parse_hash oo=",oo);
     // var oo = JSON.parse( location.hash.substr(1) );
     if (oo.params == null) return {};
     if (oo.params.hasOwnProperty(paramName)) {
-//      console.log(">>>setting param from url-hash",paramName,oo.params[paramName]);
+      //console.log(">>>setting param from url-hash",paramName,oo.params[paramName]);
+
       target[propertyWrite] = oo.params[paramName]; 
     }
   }

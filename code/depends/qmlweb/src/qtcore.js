@@ -1299,7 +1299,7 @@ QMLEngine = function (element, options) {
         }
 
         if (!content) { 
-          console.log("cannot load imports for ",name );
+          // console.log("cannot load imports for ",name );
           // save blank info, meaning that we failed to load import
           // this prevents repeated lookups
           engine.qmldirsContents[ name ] = {};

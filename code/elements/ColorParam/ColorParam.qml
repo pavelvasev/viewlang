@@ -26,7 +26,7 @@ TextParam {
       t.picker.onImmediateChange = function() { if (fastUpdate) t.inputDom.oninput(); };
       t.picker.onChange = function() { t.inputDom.oninput(); };
       t.picker.fromString(t.value);
-    } );	
+    } );
   }
 
   colorizeText: false
@@ -37,11 +37,14 @@ TextParam {
   fastUpdate: true
 
   function targetHasColor() {
-    return t.target && target["colorChanged"];
+    return t.target && target["colorChanged"] ? true : false;
   }
 
+  property bool colorWasChanged: false
+
   onColorChanged: {
-    //console.log(color);
+    colorWasChanged = true;
+    //console.log("ColorParam: color changed",color, "targetHasColor()=",targetHasColor(),"t.doNotSendBack=",t.doNotSendBack, "t.target=",t.target );
     if (!t.doNotSendBack) {
       console.log("setting value to color=",color);
       value = color.join(" ");
@@ -64,4 +67,8 @@ TextParam {
   property alias target: t.source
   property var source: parent
 
+  onSourceChanged: {
+    //console.log("onSourceChanged... targetHasColor=",targetHasColor() );
+    if (colorWasChanged && targetHasColor()) target.color = color;
+  }
 }
