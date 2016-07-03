@@ -58,6 +58,7 @@ SceneSpace {
     property: "center"
     name: isRoot? "cameraCenter" : ""
   }
+
   ParamUrlHashing {
     property: "cameraPosReal"
     propertyWrite: "cameraPos"
@@ -83,21 +84,6 @@ SceneSpace {
      }
   }
   
-  /*
-  property var lastConsoleMessage: ""
-  Text {
-    anchors.marginTop: 3
-    text: "log:" + lastConsoleMessage.substring(0,50)
-//    visible: showDriverControls
-    property var tag: "bottom"
-  }
-  */
-
-  /*
-   function loadFile( file_or_path, handler ) {
-      return loadFileBase( Qt.resolvedUrl(file_or_path), handler );
-   }
-   */
 
    property var loadingFilesHash: { return {}; }
    property var loadingFilesArr: {
@@ -144,8 +130,8 @@ SceneSpace {
  
    ////////////////////// lights
    
-   property alias light0: alight
    property alias sceneColor: alight.color
+   property alias light0: alight   
    property alias light1: plight1
    property alias light2: plight2
    
@@ -170,6 +156,13 @@ SceneSpace {
    }
 
    property bool showLights: false
+
+   /////////////////////////////////
+   BackgroundColor { // класс драйвера
+     id: bc
+   }
+   property alias backgroundColor: bc.color
+   property alias backgroundOpacity: bc.opacity
 
    /////////////////////////////////
    property var gatheredParams: []

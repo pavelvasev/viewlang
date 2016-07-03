@@ -28,8 +28,7 @@ SceneObject {
     console.log("trisInSphere=",trisInSphere," spheres found index =",r.index);
     
     return r;
-  }  
-
+  }
 
   property alias atrimesh: trimesh
   Trimesh {

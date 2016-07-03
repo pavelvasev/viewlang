@@ -152,8 +152,10 @@ Column {
             onCurrentIndexChanged: {
                 if (qmlEngine.operationState === QMLOperationState.Init || qmlEngine.operationState === QMLOperationState.Idle) return;
 
-                if (enabled)
-                    param.value = param.min + currentIndex * param.step;
+                if (enabled) {
+                  var nv = param.min + currentIndex * param.step;
+                  if (nv != param.value) param.value = nv;
+                }
             }
 
             checkCurrentIndex: false

@@ -1,5 +1,6 @@
 Lines {
     id: lin
+    property var risClosed: true // for svl
 
     property var r: 50
     dashed: true
@@ -11,7 +12,7 @@ Lines {
     ///color:[1,1,1] 
     colors: [1,0,0, 1,0,0,
              0,1,0, 0,1,0,
-             0,0,1, 0,0,1 ]             
+             0,0,1, 0,0,1 ]
 
     Points {
       visible: lin.visible

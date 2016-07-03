@@ -6,7 +6,7 @@ Light {
 
     if (!light) {
       light = new THREE.AmbientLight( 0x444444 ); // soft white light
-      scene.add( light );
+      scene.add( light );      
     }
     colorChanged();
 

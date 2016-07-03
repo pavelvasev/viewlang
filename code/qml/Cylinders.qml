@@ -108,7 +108,7 @@ SceneObject {
 
   function make() {
     if (!positions) return;
-    
+
     var res = makeCylinders( radius, nx, positions, colors && colors.length > 0 ? colors : null, ratio );
 //    console.log( "cyl pos len=",res[0].length );
 //    console.log( "cyl idx len=",res[1].length );

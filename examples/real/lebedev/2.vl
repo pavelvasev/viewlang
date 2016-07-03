@@ -1,0 +1,27 @@
+Scene {
+
+  CsvLoader {
+    file: Qt.resolvedUrl("D3.txt")
+    Flatten {
+      id: arr
+    }
+  }
+
+  Spheres {
+    radius: 0.03
+    positions: arr.output
+    id: sp
+  }
+
+  Triangulate {
+    input: sp.positions
+    id: tri
+  }
+
+  Trimesh {
+    positions: sp.positions
+    indices: tri.output
+    color: [0,0.5,0]
+  }
+
+}

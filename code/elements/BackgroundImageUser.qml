@@ -74,7 +74,7 @@ BackgroundImage {
     }
 
     Component.onCompleted: {
-      console.log("fil.file=",fil.file);
+      //console.log("fil.file=",fil.file);
     }
 
 }

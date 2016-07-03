@@ -486,9 +486,14 @@ function Signal(params, options) {
 
     var signal = function() {
         try {
-          pushEvalStack();
-          for (var i in connectedSlots)
+          pushEvalStack();          
+          for (var i=0; i<connectedSlots.length; i++) {
+              var s = connectedSlots[i];
               connectedSlots[i].slot.apply(connectedSlots[i].thisObj, arguments);
+              if (s !== connectedSlots[i]) i=i-1;
+              // if slot disconnects self during apply, we must dec i, else call to next slot will be missed
+              // actually there are more problems, and we solve just this 1
+          }
         } finally {
           popEvalStack();
         }
@@ -3279,8 +3284,16 @@ function QMLRepeater(meta) {
         return this.$items[index];
     }
 
+    function generateOnCompleted(child) {
+        engine.completedSignals.push(child.Component.completed);
+
+        for (var i = 0; i < child.$tidyupList.length; i++)
+            if (child.$tidyupList[i] instanceof QMLBaseObject)
+                generateOnCompleted(child.$tidyupList[i]);
+    }
     function callOnCompleted(child) {
         child.Component.completed();
+
         for (var i = 0; i < child.$tidyupList.length; i++)
             if (child.$tidyupList[i] instanceof QMLBaseObject)
                 callOnCompleted(child.$tidyupList[i]);
@@ -3309,6 +3322,8 @@ function QMLRepeater(meta) {
                 // by the regular creation-procedures at the right time.
                 engine.$initializePropertyBindings();
                 callOnCompleted(newItem);
+                //generateOnCompleted(newItem);
+                //engine.callCompletedSignals();
             }
         }
         for (var i = endIndex; i < self.$items.length; i++)

@@ -1,5 +1,6 @@
-Arrows {
+Lines {
   id: arr
+  property var type: "Lines"
 
   positions: comb.output
   colors: []

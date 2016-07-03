@@ -69,6 +69,8 @@ SceneObject {
       centerChanged();
       visibleChanged();
       attachShaders();
+      scaleChanged();
+      rotateChanged();
     }    
 
     onVisibleChanged: {

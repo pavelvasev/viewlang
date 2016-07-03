@@ -3,9 +3,12 @@ Item {
   property bool enabled: true
 
   property var light
+
+  property bool visual: true // надо для svl
  
   onEnabledChanged: update();
   onColorChanged: if (light) light.color = getcolor();
+  onVisibleChanged: if (light) light.visible = visible;
 
   function getcolor() { return somethingToColor(color); }
   
@@ -22,6 +25,7 @@ Item {
     if (!enabled) {
       if (light) {
         scene.remove( light );
+        //console.log("removed light from scene..... light=",light );
         light = undefined;
       }
       return false;

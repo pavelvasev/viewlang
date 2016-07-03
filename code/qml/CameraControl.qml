@@ -33,7 +33,7 @@ Item {
       //debugger;
       sceneControl.update();
     }
-    
+    readCamPosFromThreeJs();
   }
   
   function readCamPosFromThreeJs() {

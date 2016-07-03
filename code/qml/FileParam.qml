@@ -175,6 +175,8 @@ Rectangle {
                 if (param.file.name)
                     return "Выбран лок. файл: " + param.file.name;
                     
+                if (!param.file.split) return "-";
+
                 var co = param.file.split("/");
                 return "Выбран файл: <a target='_blank' href='" + param.file + "'>"+co[co.length-1]+"</a>\n\n"
             }

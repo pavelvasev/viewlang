@@ -13,22 +13,16 @@ Item {
 
   property var paramName: name
 
- /* 
-  onValueChanged: {
-    //console.log(paramName,value);
-    //params_update_hash();
-  }
- */
-
   property var timeout_id 
+
+  property bool manual: false
 
   function params_update_hash()
   {
-     //console.log("...params_update_hash");
-     if (!paramName || paramName.length == 0) return;
+
+     if (!paramName || paramName.length == 0 || !property) return;
      if (engine.operationState === QMLOperationState.Init) return;
-     //console.log("params update hash paramName=",paramName );
-     //debugger;
+
      // нее if (timeout_id) return;
      if (timeout_id) window.clearTimeout( timeout_id );
 
@@ -41,14 +35,13 @@ Item {
      if (!oo.params) oo.params = {};
 
      if (obj.enabled) {
- 	     var value = target[property]; 	     
+ 	     var value = target[property];
        oo.params[paramName] = value;
      }
      else
       delete oo.params[paramName]
 
      var strpos = JSON.stringify( oo ); 
-     //console.log(">>>> setting url hash from param",paramName,value);
 
      if (strpos == "{\"params\":{}}") {
        strpos = "";
@@ -85,24 +78,21 @@ Item {
   
   function params_parse_hash()
   {
-    //console.log( "params_parse_hash name=",paramName);
-    if (!paramName || paramName.length == 0) return;
+    if (!paramName || paramName.length == 0 || !propertyWrite) return;
     if (location.hash.length < 10) return {};
+
     var oo = read_hash_obj();
-    //console.log("params_parse_hash oo=",oo);
-    // var oo = JSON.parse( location.hash.substr(1) );
+
     if (oo.params == null) return {};
     if (oo.params.hasOwnProperty(paramName)) {
-      //console.log(">>>setting param from url-hash",paramName,oo.params[paramName]);
-
-      target[propertyWrite] = oo.params[paramName]; 
+        //console.log("rww propertyWrite=",propertyWrite,"oo.params[paramName]=",oo.params[paramName]);
+        target[propertyWrite] = oo.params[paramName]; 
     }
   }
-  
 
   Component.onCompleted: {
     params_parse_hash()
-    target[property+"Changed"].connect( obj,params_update_hash );
+    if (!manual && property) target[property+"Changed"].connect( obj,params_update_hash );
     inited = true;
   }
   property bool inited: false  

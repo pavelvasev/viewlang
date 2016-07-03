@@ -45,7 +45,8 @@ Rectangle {
     anchors.right: parent.right
     anchors.margins:5
     y: 2
-    text: ru ? "Закрыть" : "Close"
+    //text: ru ? "Закрыть" : "Close"
+    text: "     [X]"
     css.cursor: "pointer"
     z: 5
     //css.pointerEvents: "auto"
