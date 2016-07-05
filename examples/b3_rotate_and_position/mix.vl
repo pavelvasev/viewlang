@@ -7,6 +7,22 @@ Scene {
     max: 100
   }
 
+  Param {
+    id: rdy
+    text: "dy"
+    min: -10
+    max: 10
+    value: 0
+  }
+
+  Param {
+    id: rdz
+    text: "dz"
+    min: -10
+    max: 10
+    value: 0
+  }
+
   Repeater {
     model: rcount.value
 
@@ -16,7 +32,7 @@ Scene {
     colors: [0,1,1, 1,1,1, 0,0,1, 1,0,0]
 
     rotate: [(rx.value - c1) / c2, (ry.value - c1) / c2, (rz.value - c1) / c2]
-    center: [ index*4, 0, 0]
+    center: [ index*4, rdy.value, rdz.value]
   }
   }
 
