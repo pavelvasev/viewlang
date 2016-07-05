@@ -1610,10 +1610,26 @@ QMLEngine = function (element, options) {
         };
     }
 
-    // TODO: Move to module initialization
+    // TODO: Move to module initialization    
     for (i in constructors) {
-        if (constructors[i].getAttachedObject)
+        if (constructors[i].getAttachedObject) {            
+            /* Some object threated as Attached. For example, Component.
+               In this cycle, we go via constructors and find such objects.
+               Then, we set property to object `QMLBaseObject.prototype` with name of that object, and with specific getter func.
+               Later, if somebody will read that property, the getter will be invoked.
+
+               Actually, here all getters are set to `getAttachedObject`only, which is dedicated for Component attached object.
+               If look at `getAttachedObject`, it checks whether $Component internal variable exist, and creates it if it absent.
+               Then, `getAttachedObject` adds self "completed" signal to global `engine.completedSignals`.
+
+               setupGetter args: target object, property name, getter function
+
+               p.s. Thats why manual call to callOnCompleted in Repeater is wrong. The Repeater has to access Component property of all objects,
+               and then engine.completedSignals will be filled, and then Repeater has to call `engine.callCompletedSignals`
+            */
+
             setupGetter(QMLBaseObject.prototype, i, constructors[i].getAttachedObject);
+        }
     }
 
     if (this.renderMode == QMLRenderMode.Canvas) {
@@ -1699,12 +1715,12 @@ function QMLContext() {
     this.upflowContext = {};
 }
 
-QMLComponent.getAttachedObject = function() { // static
+QMLComponent.getAttachedObject = function() { // static    
     if (!this.$Component) {
         this.$Component = new QObject(this);
         this.$Component.completed = Signal([]);
-        this.$Component.destruction = Signal([]);        
-        engine.completedSignals.push(this.$Component.completed);
+        this.$Component.destruction = Signal([]);
+        engine.completedSignals.push(this.$Component.completed);        
     }
     return this.$Component;
 }
@@ -3285,19 +3301,15 @@ function QMLRepeater(meta) {
     }
 
     function generateOnCompleted(child) {
-        engine.completedSignals.push(child.Component.completed);
+        var a = child.Component;
+        // we shouldnt push them manually, it will be done automatically when child.Component accessed.
+        // engine.completedSignals.push(child.Component.completed);
 
         for (var i = 0; i < child.$tidyupList.length; i++)
             if (child.$tidyupList[i] instanceof QMLBaseObject)
                 generateOnCompleted(child.$tidyupList[i]);
     }
-    function callOnCompleted(child) {
-        child.Component.completed();
 
-        for (var i = 0; i < child.$tidyupList.length; i++)
-            if (child.$tidyupList[i] instanceof QMLBaseObject)
-                callOnCompleted(child.$tidyupList[i]);
-    }
     function insertChildren(startIndex, endIndex) {
         for (var index = startIndex; index < endIndex; index++) {
             var newItem = self.delegate.createObject(self);
@@ -3321,9 +3333,9 @@ function QMLRepeater(meta) {
                 // We don't call those on first creation, as they will be called
                 // by the regular creation-procedures at the right time.
                 engine.$initializePropertyBindings();
-                callOnCompleted(newItem);
-                //generateOnCompleted(newItem);
-                //engine.callCompletedSignals();
+                
+                generateOnCompleted(newItem);
+                engine.callCompletedSignals();
             }
         }
         for (var i = endIndex; i < self.$items.length; i++)

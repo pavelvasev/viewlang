@@ -5,7 +5,7 @@ Axes {
 
    //property alias radius: ax.r
    property var aparam: param
-                 
+
    Param {
       visible: ax.visible
       id: param

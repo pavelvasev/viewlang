@@ -31,7 +31,7 @@ Item {
         id: axesBox
         text: "Оси"
         guid: "show_axes"
-        checked: axes.visible
+        checked: axes.visible && visible
         onCheckedChanged: axes.visible = checked;
         property var tag: controlsTag
         visible: controls.parent.isRoot
@@ -42,9 +42,8 @@ Item {
     AxesC {
         id: axesA
         visible: false
+        //property bool enabled: controls.parent.isRoot
         onVisibleChanged: {
-          //if (controls.parent.isRoot === false) axesBox.checked = visible;
-          //console.log("qqqqqqqqqqqqqqqqqq",visible);
           if (controls.parent.isRoot && axesBox.checked != visible) {
             axesBox.checked = visible;
           }

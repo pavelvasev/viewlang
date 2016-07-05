@@ -1,0 +1,17 @@
+Scene {
+  Param {
+    id: rxx
+    text: "xx"
+    min: -100
+    max: 100
+    value: 0
+  }
+
+  Spheres {
+    id: sp
+    positions: [0,0,0, 1,1,1, 2,2,2, 1,2,3 ]
+    colors: [0,1,1, 1,1,1, 0,0,1, 1,0,0]
+
+    center: [rxx.value, 0,0 ]
+  }
+}

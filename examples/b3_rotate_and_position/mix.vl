@@ -1,0 +1,47 @@
+Scene {
+
+  Param {
+    id: rcount
+    text: "count"
+    min: 1
+    max: 100
+  }
+
+  Repeater {
+    model: rcount.value
+
+  Spheres {
+    id: sp
+    positions: [0,0,0, 1,1,1, 2,2,2, 1,2,3 ]
+    colors: [0,1,1, 1,1,1, 0,0,1, 1,0,0]
+
+    rotate: [(rx.value - c1) / c2, (ry.value - c1) / c2, (rz.value - c1) / c2]
+    center: [ index*4, 0, 0]
+  }
+  }
+
+  property var c1: 0
+  property var c2: 25
+
+  Param {
+    id: rx
+    text: "rx"
+    min: -100
+    max: 100
+  }
+
+  Param {
+    id: ry
+    text: "ry"
+    min: -100
+    max: 100
+  }
+
+  Param {
+    id: rz
+    text: "rz"
+    min: -100
+    max: 100
+  }
+
+}
