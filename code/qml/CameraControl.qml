@@ -64,6 +64,7 @@ Item {
     var cls = eval("THREE."+controlType);
 
     sceneControl = new cls( camera, renderer.domElement );
+    // sceneControl.enableRotate=false;
     threejs.sceneControl = sceneControl;
 
     updateCenter();

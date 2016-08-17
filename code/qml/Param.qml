@@ -49,13 +49,17 @@ Column {
     onStepChanged: updateControlsFromValue()
 
     function updateControlsFromValue() {
-        //console.log("param value changed to ",value, param.text);
+        //@ console.log("param value changed to ",value ); //, param.text);
         //if (param.text && param.text.indexOf(" t") > 0)
         //    debugger;
+        //@ console.log(" => i set slider to",value);
         slider.value = value;
         if (comboEnabled || typeof(comboEnabled) === "undefined" ) { // тк.. может быть еще не расчитано
-            combo.currentIndex = Math.floor( (value - min) / step );
-            //console.log("i set combo to",combo.currentIndex,param.min,value);
+            var nci = Math.floor( (value - min) / step );
+            //@ console.log(" => i set combo to",nci,param.min,value);
+            combo.traceChangeEnabled = false; // шобы оно обратно не рассчитывало
+            combo.currentIndex = nci;
+            combo.traceChangeEnabled = true;
         }
         else
             txt.text = value;
@@ -119,7 +123,10 @@ Column {
             updateValueWhileDragging : param.enableSliding
             //value: param.value
             onValueChanged: {
+                //@ console.log("Slider val changed! param.value = ",param.value,"slider.value=",slider.value);
+                //if (slider.value == 0.85 && param.value == 0.8500000000000001) debugger;
                 if (param.value != slider.value) {
+                    //console.log(" =>... setting param.value to slider.value",slider.value);
                     param.value = slider.value;
                 }
             }
@@ -152,11 +159,14 @@ Column {
             onCurrentIndexChanged: {
                 if (qmlEngine.operationState === QMLOperationState.Init || qmlEngine.operationState === QMLOperationState.Idle) return;
 
-                if (enabled) {
+                if (enabled && traceChangeEnabled) {
                   var nv = param.min + currentIndex * param.step;
+                  nv = Number( nv.toFixed( 7 ) ); /// такое вот округление. А то оно выдает загадочные числа 0.150000000001
+                  //@ console.log(" combo currentIndex changed! currentIndex=",currentIndex," => new value = ",nv, "setting it to param.value." );
                   if (nv != param.value) param.value = nv;
                 }
             }
+            property bool traceChangeEnabled: true
 
             checkCurrentIndex: false
 

@@ -1,5 +1,6 @@
 Lines {
     id: lin
+
     property var risClosed: true // for svl
 
     property var r: 50

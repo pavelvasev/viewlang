@@ -66,6 +66,7 @@ SceneObject {
 
       // name для threejs
       this.sceneObject.name = this.nesting && this.parent ? this.parent.title + "~>" + this.title : this.title;
+      this.sceneObject.qmlParent = this;
       centerChanged();
       visibleChanged();
       attachShaders();

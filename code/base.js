@@ -108,8 +108,25 @@ function la_require(file,callback){
     head.appendChild(script);
 }    
 
+function la_unrequire( file ) {
+  if (la_required[file]) {
+    la_required[file] = null;
+    removejscssfile( file, /\.css$/.test(file) ? "css" : "js" );
+  }
+}
+
 function la_require_write(file){
     document.write('<script src="'+la_path(file)+'"></scr'+'ipt>')
+}
+
+function removejscssfile(filename, filetype){
+    var targetelement=(filetype=="js")? "script" : (filetype=="css")? "link" : "none" //determine element type to create nodelist from
+    var targetattr=(filetype=="js")? "src" : (filetype=="css")? "href" : "none" //determine corresponding attribute to test for
+    var allsuspects=document.getElementsByTagName(targetelement)
+    for (var i=allsuspects.length; i>=0; i--){ //search backwards within nodelist for matching elements to remove
+    if (allsuspects[i] && allsuspects[i].getAttribute(targetattr)!=null && allsuspects[i].getAttribute(targetattr).indexOf(filename)!=-1)
+        allsuspects[i].parentNode.removeChild(allsuspects[i]) //remove element by calling parentNode.removeChild()
+    }
 }
     
     function subtreeToScene( qmlObject ) {
@@ -373,6 +390,7 @@ la_require_write("files.js");
 //////////////////////////////////////////////////////////////////////
     
 /// работа с цветом    
+// c число от 0 до 255
 function componentToHex(c) {
     if (typeof(c) === "undefined") {
       debugger;
@@ -381,23 +399,36 @@ function componentToHex(c) {
     return hex.length == 1 ? "0" + hex : hex;
 }
 
+// r g b от 0 до 255
 function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }  
 
+// triarr массив из трех чисел 0..1
 function tri2hex( triarr ) {
    return rgbToHex( Math.floor(triarr[0]*255),Math.floor(triarr[1]*255),Math.floor(triarr[2]*255) )
 }
 
+// triarr массив из трех чисел 0..1
 function color2css( triarr ) {
    if (typeof(triarr) === "string") return triarr;
    return tri2hex( triarr );
 }
 
+// triarr массив из трех чисел 0..1 - выход число int
 function tri2int( triarr ) {
    return Math.floor(triarr[0]*255) * (256*256) + Math.floor(triarr[1]*255)*256  + Math.floor(triarr[2]*255);
 }
 
+// hex запись в массив 3 чисел 0..1
+function hex2tri(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? [
+        parseInt(result[1], 16) / 255.0,
+        parseInt(result[2], 16) / 255.0,
+        parseInt(result[3], 16) / 255.0
+    ] : [1,1,1];
+}
 
   function isnan(v) {
     if (v === null) return true;

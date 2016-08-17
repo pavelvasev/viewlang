@@ -42,7 +42,9 @@ Item {
     AxesC {
         id: axesA
         visible: false
-        //property bool enabled: controls.parent.isRoot
+        property bool enabled: controls.parent.isRoot
+        //property var robotLayer: "system"
+
         onVisibleChanged: {
           if (controls.parent.isRoot && axesBox.checked != visible) {
             axesBox.checked = visible;

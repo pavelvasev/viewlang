@@ -35,13 +35,16 @@ Rectangle {
     y:2
     text: dlg.title
     id: titletext
-    font.bold: true
-  }  
+    font.bold: true    
+  }
+  property alias titleText: titletext
   
   property var lang: (navigator.language || navigator.userLanguage)
   property var ru: lang && lang.indexOf && lang.indexOf("ru") >= 0
   
+  property alias closeItem: tclose
   Text {
+    id: tclose
     anchors.right: parent.right
     anchors.margins:5
     y: 2
@@ -65,6 +68,5 @@ Rectangle {
     id: content
     anchors.fill: parent
     color: "transparent"
-
   }
 }

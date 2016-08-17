@@ -87,7 +87,15 @@
           padding: 0px;
           background-color: #070; 
           color: #fff;
-          z-index: 10005;
+          z-index: 10005;          
+        }
+
+        div#fileProgress {
+          animation: blinker 4s linear infinite;
+        }
+
+        @keyframes blinker {  
+          50% { opacity: 0.1; }
         }
 
         div.dg.ac { z-index: 1001 !important; }

@@ -7,8 +7,9 @@ var scene = new THREE.Scene();
 
 threejs.scene = scene;
 
-//var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
+//0 var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
 var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000*10 );
+//var camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 1, 1000*10 );
 threejs.camera = camera;
 
 camera.position.z = 25;
@@ -345,4 +346,4 @@ function sceneDblClick( event ) {
 }
 
 renderer.domElement.addEventListener( 'mousemove', onMouseMove, false );    
-// renderer.domElement.addEventListener( 'dblclick', sceneDblClick, false );    
+// renderer.domElement.addEventListener( 'dblclick', sceneDblClick, false );

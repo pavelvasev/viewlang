@@ -33,6 +33,7 @@ SceneSpace {
   property var showDriverControls: false
   property alias driverControls: driverControlsA
   property alias axes: driverControls.axes
+  //property alias axesVisible: axes.visible
 
   DriverControls {
     id: driverControlsA
@@ -187,4 +188,6 @@ SceneSpace {
 
   signal animationTick(); 
 
+  property bool animationActive : false;
+  property bool animationRecord : false;
 }

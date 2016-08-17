@@ -8,11 +8,6 @@ Lines {
 
   ComputeTrimeshCenters {
       source: arr.source
-         /*
-      Spheres {
-        positions: parent.output
-        radius: boxes.radius / 10
-      }*/
       id: centras
   }
 

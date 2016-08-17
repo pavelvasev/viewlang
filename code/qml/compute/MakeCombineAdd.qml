@@ -10,7 +10,7 @@ Item {
 
   function make (input1, input2) {
     var acc = [];
-    if (input1.length != input2.length) return;
+    if (input1.length != input2.length) return [];
 
     var ilen = input1.length;
 

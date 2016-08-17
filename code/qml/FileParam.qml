@@ -31,6 +31,8 @@ Rectangle {
 
     property var guid: translit(text)
 
+    property alias tabview: tv
+
     onFileChanged: {
         if (file !== files[0]) {
             files = [file];
@@ -91,6 +93,7 @@ Rectangle {
             width: 180
             //height: param.multiple ? 60 : 43
             height: 43
+            id: tv
 
             Tab {
                 title: "Local"
@@ -150,7 +153,7 @@ Rectangle {
                                 width: 150
                                 onClicked: { 
                                   dlg.close(); 
-                                  param.files = dialogFilesText.text.split("\n");
+                                  param.files = dialogFilesText.text.split("\n").filter( function(name) { return name.length >0; });
                                 }
                             }
                         }

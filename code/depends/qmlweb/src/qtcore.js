@@ -3160,6 +3160,8 @@ function QMLText(meta) {
 
     function updateImplicitHeight() {
         var height;
+        //console.log("uih,",this.text);
+        //if (this.text == "print-to-console-log") debugger;
 
         if (this.text === Undefined || this.text === "") {
             height = 0;
@@ -3172,6 +3174,7 @@ function QMLText(meta) {
             document.body.appendChild(el);
             height = el.offsetHeight;
             document.body.removeChild(el);
+            
             if (!height) {
                 // Firefox doesn't support getting the height this way,
                 // approximate from point size (full of win) :P
@@ -4583,7 +4586,7 @@ function QMLButton(meta) {
     this.dom.innerHTML = "<span></span>";
 
     createSimpleProperty("string", this, "text");
-    createSimpleProperty("bool", this, "enabled");    
+    createSimpleProperty("bool", this, "enabled");
 
     this.clicked = Signal();
 

@@ -12,11 +12,16 @@ Item {
     property int subcounter: 0
     property int loopcounter: 0
 
+    onProcessActiveChanged: {
+      if (qmlEngine.rootObject.$properties["animationActive"]) qmlEngine.rootObject.animationActive = processActive;
+      if (qmlEngine.rootObject.$properties["animationRecord"]) qmlEngine.rootObject.animationRecord = doRecord;
+    }
+
     function makeShot() {
         if (doRecord && loopcounter == 0) {
           // threejs
           console.log("making shot and sending to recorder window");
-          var img = renderer.domElement.toDataURL("image/png");            
+          var img = renderer.domElement.toDataURL("image/png");
           recorderWindow.postMessage( {cmd:"appendDataUrl",args:[img]},"*");
         }    
     }
@@ -28,7 +33,7 @@ Item {
         subcounter = subcounter+1;
         if (subcounter % 5 !== 0) return;
 
-        makeShot(); // of previous value        
+        makeShot(); // of previous value
         
         processParam.value = processParam.value + processStep;
 
@@ -136,7 +141,7 @@ Item {
 								    console.log("opened recorderWindow=",recorderWindow);
                     
                 }
-              }      
+              }
 */              
 
       if (doRecord) recorderWindow.postMessage({cmd:"reset"},"*");

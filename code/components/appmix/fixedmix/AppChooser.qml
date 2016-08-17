@@ -138,7 +138,7 @@ Scene {
     //debugger;
     if (obj && obj.destroy) obj.destroy();
     if (shaderCode && shaderCode.length > 0) {
-      obj = Qt.createQmlObject( shaderCode, objectParent, shaderUrl,__executionContext )
+      obj = Qt.createQmlObject( shaderCode, objectParent, shaderUrl, __executionContext )
       
 //      scen.walkChildren( obj, function (c) {
 //        if (c.tag) c.tag = "right";

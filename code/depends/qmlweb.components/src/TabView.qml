@@ -52,9 +52,9 @@ Item {
         id: ritem
         // Component.onCompleted: console.log("Added an element (index: " + item.index + ")");
         onClicked: tabview.currentIndex = ritem.index
+        checked: tabview.currentIndex == ritem.index
       }
     }
-
   }
 
   Item {
@@ -85,14 +85,15 @@ Item {
   
   onCurrentIndexChanged: {
 
-    for (var i=0; i<content.children.length; i++) {
-      content.children[i].visible = false;
+    for (var i=0; i<tabsArr.length; i++) {
+      tabsArr[i].visible = false;
       // buttons.children[i].text = content.children[i].title || content.children[i].text || ("Tab "+i);
     }
 
-    if (content.children.length > 0) {
-      content.children[currentIndex].visible = true;
-      buttons.children[currentIndex].checked = true; //// text = "<strong>" + buttons.children[currentIndex].text + "</strong";
+    if (tabsArr.length > 0) {
+      if (currentIndex < tabsArr.length) tabsArr[currentIndex].visible = true;
+      if (currentIndex < buttons.children.length )
+        buttons.children[currentIndex].checked = true; //// text = "<strong>" + buttons.children[currentIndex].text + "</strong";
     }
 
   }
@@ -103,5 +104,7 @@ Item {
     else 
       tabview.currentIndexChanged();
   }
+
+  onTabsArrChanged: currentIndexChanged();
   
 }

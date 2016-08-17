@@ -1,4 +1,5 @@
 // Kees some object property value in browser url hash
+// todo https://developer.mozilla.org/en-US/docs/Web/API/History_API
 Item {
   id: obj
   
@@ -24,9 +25,9 @@ Item {
      if (engine.operationState === QMLOperationState.Init) return;
 
      // нее if (timeout_id) return;
-     if (timeout_id) window.clearTimeout( timeout_id );
+     if (timeout_id) { window.clearTimeout( timeout_id ); timeout_id = null; }
 
-     timeout_id = window.setTimeout( function() {
+     var perform = function() {
 
      var oo = {};
      if (location.hash.length >= 10) 
@@ -54,8 +55,10 @@ Item {
        location.hash = strpos;
      timeout_id = null;
 
-     }, timeout );
-  }  
+     };
+
+     if (timeout > 0) timeout_id = window.setTimeout( perform, timeout ); else perform();
+  }
 
   function read_hash_obj() {
       var oo = {};
@@ -91,8 +94,17 @@ Item {
   }
 
   Component.onCompleted: {
-    params_parse_hash()
-    if (!manual && property) target[property+"Changed"].connect( obj,params_update_hash );
+    params_parse_hash();
+
+    if (!manual && property) {
+      target[property+"Changed"].connect( obj,params_update_hash );
+
+      /*
+      window.addEventListener('popstate', function(e){
+        params_parse_hash();
+      }, false);
+      */
+    }
     inited = true;
   }
   property bool inited: false  
