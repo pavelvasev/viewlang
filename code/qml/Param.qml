@@ -26,7 +26,7 @@ Column {
     property var textEnabled: bigCase
 
     property var sliderEnabled: true
-    property var valEnabled: true
+    property var valEnabled: !comboEnabled
     //property var textLeft: false
 
     onValuesChanged: {
@@ -55,7 +55,7 @@ Column {
         //@ console.log(" => i set slider to",value);
         slider.value = value;
         if (comboEnabled || typeof(comboEnabled) === "undefined" ) { // тк.. может быть еще не расчитано
-            var nci = Math.floor( (value - min) / step );
+            var nci = Math.round( (value - min) / step ); // тут был floor и это давало несовпадение
             //@ console.log(" => i set combo to",nci,param.min,value);
             combo.traceChangeEnabled = false; // шобы оно обратно не рассчитывало
             combo.currentIndex = nci;
@@ -76,7 +76,7 @@ Column {
     //    height: 20
 
     function par2s(val) {
-        if (value.toFixed) return Number(value.toFixed(3));
+        if (value && value.toFixed) return Number(value.toFixed(3));
         return value;
     }
 
@@ -87,7 +87,7 @@ Column {
         //parent: therow
         text: {
             if (valEnabled) {
-                if (!values)
+                if (!values) 
                     return param.text  + " = " + par2s(value);
 
                 var val = values[ value - param.min ]

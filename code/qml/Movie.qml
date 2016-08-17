@@ -37,7 +37,7 @@ Item {
         
         processParam.value = processParam.value + processStep;
 
-        if ( (processStep > 0 && processParam.value >= processMax) || ((processStep < 0 && processParam.value <= processMin))) {
+        if ( (processStep > 0 && processParam.value >= processMax) || ((processStep < 0 && processParam.value <= processMax))) {
 
           // BUG. here we stop recording. But actial rendering will be done on the next step. So last shot is lost.
         
