@@ -12,6 +12,7 @@ Item {
   property bool checked: false
 
   signal clicked();
+  signal preClicked();
 
   property var exclusiveGroup
   property var exclusiveGroupName: exclusiveGroup ? exclusiveGroup.name : null
@@ -64,6 +65,7 @@ Item {
     inp.dom.name = exclusiveGroupName;
     
     inp.dom.addEventListener('click', function() {
+      radioButton.preClicked();
       radioButton.checked = inp.dom.checked;
       radioButton.clicked();
     });
