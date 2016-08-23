@@ -3515,6 +3515,10 @@ function QMLImage(meta) {
     var img = new Image(),
         self = this;
 
+    // https://developer.mozilla.org/ru/docs/Web/HTML/CORS_enabled_image
+    // http://stackoverflow.com/a/19869402
+    img.crossOrigin = '';  ///=anonymous
+
     if (engine.renderMode == QMLRenderMode.DOM) {
         img.style.width = "100%";
         img.style.height = "100%";

@@ -3,7 +3,7 @@ Item {
 
   property var color: 0xffffff //00aa00
   property var priority: 0
-  property var title: "Scene object"
+  property var title: ""
   property var visual: true
   property var source: parent
   property var center: [0,0,0]

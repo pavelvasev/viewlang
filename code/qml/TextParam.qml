@@ -65,8 +65,11 @@ Column {
 
     onTextChanged: {
       if (param.value == text) return;
-      if (fastUpdate) 
+      if (fastUpdate) {
+        dontSetText = true;
         param.value = text;
+        dontSetText = false;
+      }
       else
         if (constructed) btEnter.visible = true;
     }
@@ -81,7 +84,9 @@ Column {
     }
   }
   
+  property bool dontSetText : false
   onValueChanged: {
+    if (dontSetText) return;
     txt.text = value;
   }
   

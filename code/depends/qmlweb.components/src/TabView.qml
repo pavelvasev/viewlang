@@ -21,6 +21,7 @@ Item {
   }
 
   function filterVisuals(arr) {
+//    console.log("....filterVisuals... arr=",arr);
     var res = [];
     for (var i=0; i<arr.length; i++) {
       if (arr[i] instanceof QMLRepeater) continue;
@@ -30,6 +31,8 @@ Item {
   }
 
   property var tabsArr: filterVisuals( content.children )
+
+//  onTabsArrChanged: console.log("tabsArr=",tabsArr );
   
   Item {
 

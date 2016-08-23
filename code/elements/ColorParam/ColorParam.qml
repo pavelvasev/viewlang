@@ -11,11 +11,14 @@ TextParam {
       t.inputDom = t.textInput.dom.firstChild;
       t.picker = new jscolor.color(t.inputDom, {})
       // todo переписать на работу с массивом a,b,c t.fromString = 
+      var origP = t.picker.fromString;
       t.picker.fromString = function(hex, flags) {
+        if (!hex || !hex.split || !hex.match) return false;
+        if (origP.apply(t.picker, [hex,flags])) return true;
         var v = hex.split(" ");
         //console.log(v);
         if (v.length < 3) return false;
-        this.fromRGB( parseFloat(v[0]),parseFloat(v[1]),parseFloat(v[2]),flags );
+        this.fromRGB( parseFloat(v[0] || 1),parseFloat(v[1] || 1),parseFloat(v[2] || 1),flags );
         return true;
       }
       t.picker.toString = function(hex, flags) {
@@ -48,6 +51,8 @@ TextParam {
     if (!t.doNotSendBack) {
       console.log("setting value to color=",color);
       value = color.join(" ");
+      //t.picker.fromString(t.value);
+      
     }
     if ( targetHasColor() )
     {
@@ -59,8 +64,10 @@ TextParam {
 
   onValueChanged: {
     //console.log(value);
+    if (!value || !value.split) return;
     t.doNotSendBack = true;
     color = value.split(" ").map( function(e) { return parseFloat(e) } );
+    if (t.picker) t.picker.importColor();
     t.doNotSendBack = false;
   }
  
