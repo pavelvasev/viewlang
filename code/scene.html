@@ -191,7 +191,9 @@
     <script src="console_msg.js" async></script> 
 -->
 
-<div id="viewlanglink" style="position:absolute; top: 5px; left: 10px; z-index: 2000"> <a target='_blank' href="http://viewlang.ru">viewlang.ru</a></div>
+<div id="viewlanglink" style="position:absolute; top: 5px; left: 10px; z-index: 2000"> <a target='_blank' href="http://viewlang.ru">viewlang.ru</a>
+<span class="lahelp_appends"> </span>
+</div>
 <div id="togglelink" style="position:absolute; top: 5px; right: 10px; z-index: 1005"> <a target='_blank' href="javascript:toggleControls()" title="Ctrl+Q">toggle controls</a></div>
 
 <div id="infoDark">
@@ -384,11 +386,20 @@
       jQuery("#infoDark").html( qmlEngine.rootObject.text );
       document.title = tt;
     }
-    
+    qmlEngine.rootObject.textChanged.connect( this, function() {
+      jQuery("#infoDark").html( qmlEngine.rootObject.text );
+      document.title = tt;
+    });
+
     tt = qmlEngine.rootObject.helpText;
     if (tt) {
-      jQuery("#viewlanglink").append( " | " + tt );
+      jQuery(".lahelp_appends").html( tt );
     }
+
+    qmlEngine.rootObject.helpTextChanged.connect( this, function() {
+      jQuery(".lahelp_appends").html( qmlEngine.rootObject.helpText );
+      document.title = tt;
+    });    
 
     /////////////////////////////////////////////////////////////
   
