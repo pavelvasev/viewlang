@@ -388,17 +388,16 @@
     }
     qmlEngine.rootObject.textChanged.connect( this, function() {
       jQuery("#infoDark").html( qmlEngine.rootObject.text );
-      document.title = tt;
+      document.title = qmlEngine.rootObject.text;
     });
 
     tt = qmlEngine.rootObject.helpText;
     if (tt) {
       jQuery(".lahelp_appends").html( tt );
     }
-
+    
     qmlEngine.rootObject.helpTextChanged.connect( this, function() {
       jQuery(".lahelp_appends").html( qmlEngine.rootObject.helpText );
-      document.title = tt;
     });    
 
     /////////////////////////////////////////////////////////////

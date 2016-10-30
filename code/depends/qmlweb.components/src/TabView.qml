@@ -87,7 +87,8 @@ Item {
   */
   
   onCurrentIndexChanged: {
-
+    if (!tabsArr) return;
+    
     for (var i=0; i<tabsArr.length; i++) {
       tabsArr[i].visible = false;
       // buttons.children[i].text = content.children[i].title || content.children[i].text || ("Tab "+i);
