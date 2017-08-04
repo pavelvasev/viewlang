@@ -20,7 +20,10 @@ Item {
      //if (enabled && target && name && target.text) { 
      if (enabled && target && name && target.text) { 
        var rootScene = findRootScene(obj);
-       rootScene.gatheredParams.push( obj );
+       if (target.animationPriority)
+         rootScene.gatheredParams.unshift( obj );
+       else
+         rootScene.gatheredParams.push( obj );
        rootScene.gatheredParamsChanged();
 
        obj.Component.destruction.connect( removeObjFromCount );

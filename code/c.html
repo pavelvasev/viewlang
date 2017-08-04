@@ -1,15 +1,13 @@
 <html>
 <head>
 <meta charset="utf-8">
+ 
 <script src="depends/jquery-2.1.4.js"></script>    
+
 <script src="base.js"></script>    
 
 </head>
 <body>
-<style>
-textarea { width: 800px; height: 200px; }
-iframe { width: 800px; height: 400px; }
-</style>
 <script>
 
 function run() {
@@ -24,10 +22,6 @@ function reload() {
 
 </script>
 
-<div id="leftpane">
-<div id="heading">
-Вьюланга
-</div>
 <div id="controls">
 Примеры:
 <select id="samples">
@@ -48,7 +42,11 @@ function reload() {
 &nbsp;
 <button onclick="run()">Запуск (ctrl+enter)</button>
 </div>
-<textarea id="txt" >
+
+
+<div id="all">
+
+<textarea id="txt" class="split">
 Scene {
 
 Param {
@@ -82,9 +80,9 @@ Triangles {
 
 }
 </textarea>
-</div>
+<iframe id="fra" src="scene.html?s=message" allowfullscreen class="split"> </iframe>
 
-<iframe id="fra" src="scene.html?s=message" allowfullscreen> </iframe>
+</div>
 
 <script>
   document.getElementById("fra").addEventListener('load', function(event) {
@@ -137,33 +135,42 @@ jQuery("#samples").change( function(e) {
 
 <style>
 
-#leftpane {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 30%;
-    height: 95vh;
-}
 #txt {
-    width: 100%;
-    height: 100%;
-}
-#heading {
-    float: left;
-    margin: 5px;
-}
-#controls {
-    float:right;
-    margin: 4px;
-}
-#fra {
-    position: fixed;
-    top: 0px;
-    left: 30%; 
-    width: 70%;
-    height: 100vh;
+  width: 100%;
+  height: 100%;
 }
 
+#fra {
+  width: 100%;
+  height: 100%;
+}
+
+.splitter-vertical > .splitter_bar {
+  width: 15px !important;
+  background-color: inherit;
+}
+
+.splitter_container > .splitter_panel {
+  overflow: visible !important;
+}
+
+.splitter_container > .splitter_panel > :not(.splitter_container) {
+  overflow: inherit !important;
+}
+
+#all {
+  /*height: 92vh;*/
+  height: auto;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  top: 35px;
+  position: absolute;
+}
+
+#controls {
+  padding-bottom: 5px;
+}
 
 </style>
 
@@ -172,6 +179,25 @@ jQuery("#samples").change( function(e) {
   * think on editor for any opened scene
   * open scene to new window
 -->
+
+<script src="depends/enhslitter/split.js"></script>
+<link href="depends/enhslitter/style.css" rel="stylesheet"/>
+
+<!--
+<link rel="stylesheet" href="depends/codemirror/lib/codemirror.css">
+<script src="depends/codemirror/lib/codemirror.js"></script>
+-->
+
+<script>
+jQuery('#all').enhsplitter( {position: '30%'} );
+/*
+var myTextarea = document.getElementById("txt");
+var editor = CodeMirror.fromTextArea(myTextarea, {
+    lineNumbers: true,
+    lineWrapping: true
+  })
+*/
+</script>
 
 </body>
 </html>

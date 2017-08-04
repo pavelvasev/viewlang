@@ -284,7 +284,7 @@ Rectangle {
     ParamUrlHashing {
         name: globalName
         property: "files"
-        enabled: !(param.file instanceof File) && (param.file && param.file.content ? (param.file.content.length && param.file.content.length < 2048) : true)
+        enabled: !(param.file instanceof File) && (param.file && param.file.content ? (param.file.content.length && param.file.content.length < 12048) : true)
         //enabled: !(param.file instanceof File) && !(param.file && param.file.content)
         // записывать надо param.files но только если это не локальные файлы
     }

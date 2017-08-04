@@ -18,10 +18,13 @@ Item {
         loading = false;
         loaded( f,res );
       }, function (err) {
+
         var res = "";
+        // console.log(err);
         output = res;
         loading = false;
         loaded( f,res );
+
       } ); 
     } 
 

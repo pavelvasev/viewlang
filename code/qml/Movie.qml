@@ -73,16 +73,17 @@ Item {
         onClicked: !dlg.visible ? open() : dlg.close();
     }
 
-    function open()
-    {
+    function prepare() {
       processActive = false;
     
       var acc=[];
       var params = sceneObj.rootScene.gatheredParams;
       // console.log("see params=",params );
+      // params = params.sort(function (a, b) { var x=(a.animationPriority || 10000); var y=(b.animationPriority || 10000); if (x<y) return -1; if (x>y) return 1; return 0; } );
       for (var i=0; i<params.length; i++) {
           if (!params[i].enabled) continue;
       
+          //console.log(params[i].animationPriority, params[i]);
           acc.push( params[i].text || params[i].target.text );
       }
       comboparams.model = acc;
@@ -90,7 +91,11 @@ Item {
       updateminmax();
 
       if (cbRecord.checked && (!recorderWindow || recorderWindow.closed)) cbRecord.checked = false;
-      
+    }
+
+    function open()
+    {
+      prepare();      
       dlg.open();
     }
     
@@ -112,7 +117,7 @@ Item {
       if (targetParam !== processParam) {
         paramStart.text = targetParam.min;
         paramFinish.text = targetParam.max;      
-        paramStep.text = targetParam.step;
+        paramStep.text =  targetParam.animationStep ? targetParam.animationStep : targetParam.step;
       }
     }
 
@@ -154,6 +159,10 @@ Item {
 
     function toggle() {
       if (processActive) processActive = false; else gogo();
+    }
+
+    function stop() {
+      processActive = false;
     }
     
     SimpleDialog {

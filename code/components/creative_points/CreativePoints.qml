@@ -38,6 +38,7 @@ Points {
     tag: ctag
   }
   
+  property alias radius_p: c2.value
   property alias radiusMax: c2.max
   Param {
     id: c2
