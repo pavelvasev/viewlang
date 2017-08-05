@@ -66,14 +66,19 @@ function loadFileBase( file_or_path, istext, handler, errhandler ) {
                 // response is unsigned 8 bit integer
                 //var responseArray = new Uint8Array(this.response);
                 setFileProgress( file_or_path,"parsing");
+                handler( this.response, file_or_path );
+                
+                /* тяжело отлаживаться получается
                 try {
                   handler( this.response, file_or_path );
                 } catch (err) {
                   console.error(err);
                   setFileProgress( file_or_path,"PARSE ERROR");
                   if (errhandler) errhandler(err,file_or_path);
+                  //throw err;
                   return;
-                }
+                }*/
+
                 setFileProgress( file_or_path );
             };
 
