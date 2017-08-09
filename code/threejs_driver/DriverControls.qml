@@ -20,8 +20,10 @@ Item {
         {
             var img = renderer.domElement.toDataURL("image/png");
 
+            var wnd = window.open( "about:blank", '_blank');
+            wnd.document.body.innerHTML = "please wait..";
             jQuery.post( "http://www.svn.lact.ru:4567/update/visual?get_file_url=1", { "imgbase64" : img }, function( res ) {
-                window.open( "http://www.svn.lact.ru:4567" +res, '_blank');
+               wnd.location.href = "http://www.svn.lact.ru:4567" +res;
             });
         }
         
