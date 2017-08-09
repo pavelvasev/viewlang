@@ -26,14 +26,17 @@ Item {
 
   onMaximumValueChanged: {
     if (htmlNode) {
-      htmlNode.max = maximumValue;
+      htmlNode.max = maximumValue;      
 
       // We need special hack because Webkit has bug - it doesnt redraw slider after max change.
       // so we hide and show slider again.
-      var old = htmlNode.style.display;
-      htmlNode.style.display = 'none';
-      htmlNode.offsetHeight;
-      htmlNode.style.display = old;
+      //var old = htmlNode.style.display;
+      //htmlNode.style.display = 'none';
+      //htmlNode.offsetHeight;
+      //htmlNode.style.display = old;
+
+      // plus we need to re-set value..
+      htmlNode.value = slider.value;
     }
   }
 
@@ -70,6 +73,8 @@ Item {
 //        r.oninput = changeHandler;
   } // onCompleted
 
-  onValueChanged: htmlNode.value = slider.value;
+  onValueChanged: {
+    htmlNode.value = slider.value;
+  }
  
 }
