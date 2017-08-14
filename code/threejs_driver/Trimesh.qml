@@ -72,6 +72,22 @@ SceneObjectThreeJs {
         }
     }
 
+    property var uvs: []
+    function setuv() {
+      // todo 1) убрать двойное копирование 2) удаление
+      if (!this.sceneObject) return makeLater(this);
+      if (uvs.length == 0) return;
+
+      var attr = this.sceneObject.geometry.getAttribute("uv");
+      if (!attr)
+        this.sceneObject.geometry.addAttribute( 'uv', new THREE.BufferAttribute( new Float32Array(uvs), 2 ) );
+      else {
+        attr.set( new Float32Array(uvs) );             
+        attr.needsUpdate = true; 
+      }
+    }
+    onUvsChanged: setuv()
+
     onIndicesChanged: {
         makeLater( this );
     }
@@ -185,14 +201,18 @@ SceneObjectThreeJs {
 
         colorsChanged();
         wireonChanged();
+        setuv();
 
         scene.add( this.sceneObject );
-
 
         //console.log( "oname=",__executionContext.nameForObject(this) );
         //console.log( "oname=",this.title );
         make3dbase();
+
+        //make3dfinished();
     }
+
+    //signal make3dfinished();
 
     function computeNormals()
     {

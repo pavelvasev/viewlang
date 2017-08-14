@@ -72,7 +72,11 @@ SceneObject {
       attachShaders();
       scaleChanged();
       rotateChanged();
+
+      makecnt = makecnt+1;
     }    
+
+    property int makecnt: 0
 
     onVisibleChanged: {
         //makeLater(this);

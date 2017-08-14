@@ -17,6 +17,7 @@ Item {
     property bool timeoutMode: true
 
     signal loaded();
+    signal error();
 
     ////////////////////////////// 
     
@@ -44,6 +45,7 @@ Item {
         if (!sourceComponent) {
             //debugger;
             console.error("Loader.qml: failed to load component from source=",source );
+            error();
         }
     }
 
