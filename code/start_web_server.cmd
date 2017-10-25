@@ -6,5 +6,8 @@ rem 2. Установить вебсервер: npm install http-server -g
 
 echo запускаем...
 pushd %~dp0
-start http-server -p 85
+start http-server -p 8080
 popd
+
+rem Использование
+rem 1. Открыть в браузере http://localhost:8080/scene.html

@@ -246,23 +246,23 @@ function render() {
     threejs_sceneDelta = clock.getDelta();
     threejs_sceneTime = clock.elapsedTime;
     
-    var event = new Event('render');
+    //var event = new Event('render');
+    var event = { type: 'render' }
     scene.dispatchEvent(event); // Sm RenderTick.qml
     
     doScheduledPrerenderTasks();
-
+  
     if (vrControl) vrControl.update();
-
+    
     //sceneControl.update();
   
     selectedRenderer.render( scene, camera );
+    ///renderer.render( scene, camera );
+    // console.log("render called");
 }
 
 function animate() {
-  // todo call requestAnimationFrame of vrDisplay
-  requestAnimationFrame( animate );
-  render();
-				//stats.update();
+  renderer.animate( render ); 
 }
 
 animate();

@@ -1,5 +1,5 @@
 ﻿Row {
-
+/*
     CheckBox {
         id: cbOculus
         width: 140
@@ -18,10 +18,35 @@
             }
         }
     }
+*/    
     
     Component.onCompleted: {
         if (!sceneObj.isRoot) return;
+
+		renderer.vr.enabled = true;
+                
+		WEBVR.getVRDisplay( function ( display ) {
+			renderer.vr.setDevice( display );
+
+            // theejs developers are such developers..
+            // lets config camera
+            /* // not so easy ... todo
+            var obj = new THREE.Object3D();
+            obj.scale = 0.1;
+            obj.position = new THREE.Vector3( 0, 100, 0 );
+            //obj.updateMatrix();
+            obj.updateMatrixWorld();
+            threejs.camera.parent = obj;
+            */
+            
+            renderer.vr.standing = true;
+            
+            var btn = WEBVR.getButton( display, renderer.domElement );
+            document.body.appendChild( btn );
+        } );
+
         
+        /*
         if (!WEBVR.isLatestAvailable()) {
             console.log("WEBVR.isLatestAvailable() => false"); //, message:");//,WEBVR.getMessage());
             return;
@@ -58,6 +83,7 @@
             cbOculus.enabled = true;
           });
         });
+        */
     }
 
 } // row
