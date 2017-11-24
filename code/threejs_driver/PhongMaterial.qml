@@ -85,7 +85,7 @@ THREE.SmoothShading = 2;
             shininess: mat.shine, 
             side: THREE.DoubleSide,
             // metal: mat.metal, r75
-            shading: mat.shading
+            flatShading: mat.shading == 2 ? false : true
         };
         //console.log("used mat shading=",mat.shading,flat);
 

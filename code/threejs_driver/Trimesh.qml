@@ -184,7 +184,7 @@ SceneObjectThreeJs {
             // да блин, это вершинные, а нам надо - фейсовые
             
             //if (!flat) { // нормали нам не нужны, если мы во flat-режиме
-            if (material.shading == 2) {
+            if (!material.flashShading) {
             // вершинные нормали
             // console.log("computing threejs normals");
             // debugger;
