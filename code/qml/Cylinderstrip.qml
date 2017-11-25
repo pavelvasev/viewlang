@@ -5,6 +5,7 @@ SceneObject {
   property var colors: source && source.colors ?source.colors:[]
   property var nx: source && source.nx ? source.nx : 5
   property var radius: source && source.radius ? source && source.radius: 1
+  property var wire
 
   // @WithSelectOne.qml 
   property var positionItemSize: 6
@@ -26,6 +27,7 @@ SceneObject {
     opacity: ars.opacity
     connect: true
     radius: ars.radius
+    wire: ars.wire
   }
 
 }

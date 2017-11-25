@@ -9,8 +9,10 @@ SceneObject {
   property var radius: source && source.radius ? source.radius : 1
 
   property var ratio: null
+  property var wire
 
   property bool connect: false
+
 
   // @WithSelectOne.qml 
   property var positionItemSize: 6
