@@ -24,6 +24,8 @@ SceneObject {
     color: ars.color
     colors: colrs.output
     opacity: ars.opacity
+    connect: true
+    radius: ars.radius
   }
 
 }

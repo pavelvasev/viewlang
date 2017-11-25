@@ -10,6 +10,8 @@ SceneObject {
 
   property var ratio: null
 
+  property bool connect: false
+
   // @WithSelectOne.qml 
   property var positionItemSize: 6
 
@@ -52,6 +54,9 @@ SceneObject {
     var conesCount = positions.length / 6;
     // debugger;
 
+    var vinring = nx+1;
+    var conn = connect;
+
     for (var q=0; q<conesCount; q++) {
       var s1 = 2*3*q;
       var s2 = s1+3;
@@ -91,6 +96,7 @@ SceneObject {
       }
       
       // indices
+      var vNext = poss.length / 3;
       for (var i=0; i<nx; i++) {
          var j = 2*i;
          inds.push( startIndex + j );
@@ -100,6 +106,16 @@ SceneObject {
          inds.push( startIndex + j );
          inds.push( startIndex + j+3 );
          inds.push( startIndex + j+2 );
+
+         if (conn && q<conesCount-1) {
+           inds.push( startIndex + j+1 );
+           inds.push( vNext + j );
+           inds.push( vNext + j+2 );
+
+           inds.push( startIndex + j+1 );
+           inds.push( vNext + j+2 );
+           inds.push( startIndex + j+3 );
+         }
       }
     }
 
