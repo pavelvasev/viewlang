@@ -7,7 +7,7 @@ function formatSrc(src) {
      src = src.replace("https://github.com/","https://raw.githubusercontent.com/");
   }
   //src = src.replace("https://raw.githubusercontent.com","http://win.lineact.com/github");
-  src = src.replace("https://raw.githubusercontent.com","http://viewlang.ru/github");
+  src = src.replace("https://raw.githubusercontent.com",window.location.protocol+"//viewlang.ru/github");
   
   if (src.indexOf("https://gist.github.com/") == 0) {
      // добрый дядя gist помещает имя файла в хэш-часть урля...
