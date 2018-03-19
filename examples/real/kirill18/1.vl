@@ -21,7 +21,7 @@ Scene {
 
   Text {
     property var tag: "left"
-    text: "Прочитано строк файла: "+csv.output.length
+    text: "Прочитано строк данных: "+csv.output.length
   }
 
 
@@ -31,7 +31,7 @@ Scene {
     property var output: t1()
 
     function t1() {
-       var inp = input;
+       var inp = input.slice(0); // для скорости
        var res = [];
        var mx = xParam.value; var my = yParam.value; var mz=zParam.value;
        var periods = inp[0];
@@ -47,7 +47,7 @@ Scene {
            res = res.concat( resline );
          }
        }
-       console.log(res);
+       console.log("Построен массив длины",res.length);
        return res;
     }
 
