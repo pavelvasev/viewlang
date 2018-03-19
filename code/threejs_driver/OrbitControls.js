@@ -678,7 +678,12 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		event.preventDefault();
 
-		if ( event.button === scope.mouseButtons.ORBIT ) {
+		var b = event.button;
+		//console.log(event);
+		if (event.ctrlKey && b === scope.mouseButtons.ORBIT) b = scope.mouseButtons.PAN;
+		if (event.shiftKey && b === scope.mouseButtons.ORBIT) b = scope.mouseButtons.ZOOM;
+
+		if (b === scope.mouseButtons.ORBIT ) {
 
 			if ( scope.enableRotate === false ) return;
 
@@ -686,7 +691,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 			state = STATE.ROTATE;
 
-		} else if ( event.button === scope.mouseButtons.ZOOM ) {
+		} else if (b === scope.mouseButtons.ZOOM ) {
 
 			if ( scope.enableZoom === false ) return;
 
@@ -694,7 +699,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 			state = STATE.DOLLY;
 
-		} else if ( event.button === scope.mouseButtons.PAN ) {
+		} else if (b === scope.mouseButtons.PAN ) {
 
 			if ( scope.enablePan === false ) return;
 
