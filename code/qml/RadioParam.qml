@@ -1,7 +1,7 @@
 Column {
   id: param 
 
-  property var text: title
+  property var text: ""
   property var value: ""
   property var max: values.length
 
