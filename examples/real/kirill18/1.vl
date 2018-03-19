@@ -1,0 +1,82 @@
+// Программа рисует граф, заданный файлом со структурой
+// 1 строка -- размеры коробочки, по которым будет повторяться граф
+// 2 и след строки -- x y z x y z -- вершины и ребра графа
+// см файл affine_graph1
+
+// Автор данных и задачи: Кирилл Викторович Костоусов
+
+import components.creative_points 1.0
+
+Scene {
+
+  DataParam {
+    text: "Файл графа"
+    id: fileParam
+    file: Qt.resolvedUrl("affine_graph1")
+    CsvLoader {
+      id: csv
+      file: fileParam.file
+    }
+  }
+
+  Text {
+    property var tag: "left"
+    text: "Прочитано строк файла: "+csv.output.length
+  }
+
+
+  Item { // преобразователь
+    id: preobr
+    property var input: csv.output
+    property var output: t1()
+
+    function t1() {
+       var inp = input;
+       var res = [];
+       var mx = xParam.value; var my = yParam.value; var mz=zParam.value;
+       var periods = inp[0];
+       for (var i=1; i<inp.length; i++) {
+         for (var ix=-mx; ix<=mx; ix++)
+         for (var iy=-my; iy<=my; iy++)
+         for (var iz=-mz; iz<=mz; iz++) {
+           var line = inp[i];
+           var dx = ix*periods[0];
+           var dy = iy*periods[1];
+           var dz = iz*periods[2];
+           var resline = [ line[0]+dx, line[1]+dy, line[2]+dz, line[3]+dx, line[4]+dy, line[5]+dz ];
+           res = res.concat( resline );
+         }
+       }
+       console.log(res);
+       return res;
+    }
+
+    Param {
+      text: "Цикл x"; id: xParam
+      min: 0; max: 20; enableSliding: false
+      tag: "right"
+    }
+    Param {
+      text: "Цикл y"; id: yParam
+      min: 0; max: 20; enableSliding: false
+      tag: "right"
+    }
+    Param {
+      text: "Цикл z"; id: zParam
+      min: 0; max: 20; enableSliding: false
+      tag: "right"
+    }
+
+  }
+
+  CreativePoints {
+    radius: 0.45
+    positions: preobr.output
+    color: [0.07,0.87,0.09]
+    z: 10
+  }
+
+  CreativeLines {
+    positions: preobr.output
+  }
+}
