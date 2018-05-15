@@ -50,6 +50,7 @@ SceneObject {
         var colors = [];
         
         var spheres_colors = spheres.colors;
+        if (spheres_colors && spheres_colors.length == 0) spheres_colors = undefined;
         var spheres_positions = spheres.positions;
         var spheres_radiuses = spheres.radiuses;
         var rr = spheres.radius;

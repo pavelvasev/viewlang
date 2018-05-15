@@ -19,6 +19,7 @@ Item {
     signal loaded();
     signal error();
 
+    signal init( object obj );
     ////////////////////////////// 
     
     implicitWidth: loader.item ? loader.item.width : 0
@@ -112,6 +113,7 @@ Item {
             console.error("failed to create object for component source=",source );
             return;
         }
+        init(it);
 
         // Alter objects context to the outer context
         // no need - it uses component context which is ok
