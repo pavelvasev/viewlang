@@ -143,25 +143,13 @@ jQuery("#samples").change( function(e) {
 #fra {
   width: 100%;
   height: 100%;
-}
-
-.splitter-vertical > .splitter_bar {
-  width: 15px !important;
-  background-color: inherit;
-}
-
-.splitter_container > .splitter_panel {
-  overflow: visible !important;
-}
-
-.splitter_container > .splitter_panel > :not(.splitter_container) {
-  overflow: inherit !important;
+  border: 0px;
 }
 
 #all {
   /*height: 92vh;*/
   height: auto;
-  bottom: 0px;
+  bottom: 5px;
   left: 0px;
   right: 0px;
   top: 35px;
@@ -180,8 +168,8 @@ jQuery("#samples").change( function(e) {
   * open scene to new window
 -->
 
-<script src="depends/enhslitter/split.js"></script>
-<link href="depends/enhslitter/style.css" rel="stylesheet"/>
+    <script src="https://unpkg.com/jquery.splitter/js/jquery.splitter.js"></script>
+    <link href="https://unpkg.com/jquery.splitter/css/jquery.splitter.css" rel="stylesheet"/>
 
 <!--
 <link rel="stylesheet" href="depends/codemirror/lib/codemirror.css">
@@ -189,7 +177,13 @@ jQuery("#samples").change( function(e) {
 -->
 
 <script>
-jQuery('#all').enhsplitter( {position: '30%'} );
+
+// https://github.com/jcubic/jquery.splitter
+jQuery('#all').split({
+     orientation: 'vertical',
+     position: '40%'
+     });
+
 /*
 var myTextarea = document.getElementById("txt");
 var editor = CodeMirror.fromTextArea(myTextarea, {
