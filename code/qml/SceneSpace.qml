@@ -80,6 +80,7 @@ SceneObject {
     }
 
     property alias leftWidgets: leftWidgetsA
+    property alias leftWidgetsRect: leftWidgetsRect2
     Column {
         id: leftWidgetsA
         z: 2
@@ -103,6 +104,7 @@ SceneObject {
     }
 
     Rectangle {
+        id: leftWidgetsRect2
         visible: leftWidgets.height > 0 && leftWidgets.visible
 
         anchors.fill:leftWidgets
