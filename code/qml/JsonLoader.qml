@@ -15,13 +15,9 @@ Item {
       }
 
       ldr.xhr = loadFile( file, function(res) {
-        try {
+
           output = JSON.parse( res );
-        } catch(err) {
-          console.error("JsonLoader: json parse error. file=",file );
-          console.error(err);
-          failed();
-        }
+
         ldr.xhr = null;
         //console.log("json output=",output);
       }, function(err) {

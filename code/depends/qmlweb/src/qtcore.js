@@ -228,13 +228,13 @@ Qt.createComponent = function(name, executionContext)
 {
     if (name in engine.components) {
         // user specified context? => should create copy of component with new context
-        /*
+        // without following `if`, components inside loaders will use same context, which is wrong when loader is inside a repeater.
         if (executionContext) {
             var newComponentInstance = Object.create( engine.components[name] );
             newComponentInstance.$context = executionContext;
             return newComponentInstance;        
         }
-        */
+        
         // no context, may return cached object.
         return engine.components[name];
     }
@@ -762,7 +762,8 @@ QMLProperty.prototype.set = function(newVal, reason, objectScope, componentScope
     } else {
         if (reason != QMLProperty.ReasonAnimation)
             this.binding = null;
-        if (newVal instanceof Array)
+        //if (newVal instanceof Array) newVal = newVal.slice(); // Copies the array
+        if (newVal instanceof Array && this.type != "var") 
             newVal = newVal.slice(); // Copies the array
     }
 

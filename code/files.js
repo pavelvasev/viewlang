@@ -23,14 +23,16 @@ function loadFileBase( file_or_path, istext, handler, errhandler ) {
                 //console.log(reader.result);
                 setFileProgress( file_or_path.name,"parsing");
                 window.setTimeout( function() {
-                    try {
+//                    try {
                       handler( reader.result, file_or_path.name );
+/*                      
                     } catch (err) {
                       console.error(err);
                       setFileProgress( file_or_path,"PARSE ERROR");
                       if (errhandler) errhandler(err,file_or_path);
                       return;
                     }
+*/                    
                     setFileProgress( file_or_path.name );
                 },5 );
 
