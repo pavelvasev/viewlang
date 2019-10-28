@@ -64,10 +64,7 @@ Rectangle {
     property var values
 
     onValuesChanged: {
-        min = 0;
-        max = values.length -1;
-        step = 1
-        combo.model = values
+        files = values;
     }
 
     signal changed(int newvalue, object event);
