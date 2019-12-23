@@ -23,15 +23,18 @@ Item {
           console.log("making shot and sending to recorder window");
           var img = renderer.domElement.toDataURL("image/png");
           recorderWindow.postMessage( {cmd:"appendDataUrl",args:[img]},"*");
-        }    
+        }
     }
 
     RenderTick {
-      enabled: processActive
+      enabled: processActive && qmlEngine.rootObject.propertyComputationPending == 0
       onAction: {
 
         subcounter = subcounter+1;
         if (subcounter % 5 !== 0) return;
+        
+        // dice: pending..
+        // if (qmlEngine.rootObject.$properties["propertyComputationPending"] && qmlEngine.rootObject.propertyComputationPending > 0) return;
 
         makeShot(); // of previous value
         

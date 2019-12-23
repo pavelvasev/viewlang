@@ -190,4 +190,6 @@ SceneSpace {
 
   property bool animationActive : false;
   property bool animationRecord : false;
+  
+  property int propertyComputationPending: 0
 }
