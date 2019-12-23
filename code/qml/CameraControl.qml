@@ -7,6 +7,12 @@ Item {
   
   property var sceneControl: undefined
   
+  function reset()
+  {
+    centerPoint = [0,0,0]
+    cameraPosition = [0,0,50]
+  }
+  
   function updateCenter() {
     if (sceneControl) {
       //sceneCenterPoint = new THREE.Vector3( centerPoint[0],centerPoint[1],centerPoint[2] );

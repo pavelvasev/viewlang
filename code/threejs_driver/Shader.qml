@@ -100,25 +100,34 @@ BEFORE
 
 uniform float size;
 uniform float scale;
-varying vec3 vColor;
+
+#include <common>
+#include <color_pars_vertex>
+#include <fog_pars_vertex>
+#include <shadowmap_pars_vertex>
+#include <logdepthbuf_pars_vertex>
+#include <clipping_planes_pars_vertex>
 
 void main() {
-  gl_Position = vec4( position, 1.0 );
-#ifdef USE_COLOR
-	vColor.xyz = color.xyz;
-#endif	
 
-	BODY
-	
-	vec4 mvPosition = modelViewMatrix * gl_Position; // vec4( position, 1.0 );
-	gl_Position = projectionMatrix * mvPosition;
+    #include <color_vertex>
+    #include <begin_vertex>
+    #include <project_vertex>
+    
+    BODY
+    
+    #ifdef USE_SIZEATTENUATION
+	gl_PointSize = size * ( scale / - mvPosition.z );
+    #else
+	gl_PointSize = size;
+    #endif
 
-	#ifdef USE_SIZEATTENUATION
-		gl_PointSize = size * ( scale / length( mvPosition.xyz ) );
-	#else
-		gl_PointSize = size;
-	#endif	
-}	
+//    #include <logdepthbuf_vertex>
+//    #include <clipping_planes_vertex>
+    #include <worldpos_vertex>
+    #include <shadowmap_vertex>
+//    #include <fog_vertex>
+}
 "	
 
 
@@ -145,12 +154,14 @@ void main() {
   		MeshPhongMaterial: 'phong',
   		LineBasicMaterial: 'basic',
   		LineDashedMaterial: 'dashed',
-  		PointCloudMaterial: 'particle_basic'
+  		PointsMaterial: 'points'
   	};    
   	
   	var basetype = shaderIDs[ sceneMaterial.origType || sceneMaterial.type ];
+    if (!basetype) console.error("Shader.qml error: basetype not calculated, please check is my table correct?");
 //  	console.log("basetype=",basetype);
     var baseshader = THREE.ShaderLib[ basetype ];
+    if (!baseshader) console.error("Shader.qml error: baseshader not found, please check the table!");
     
     var acc = {};
     acc.uniforms = THREE.UniformsUtils.merge( [baseshader.uniforms] ); // THREE.UniformsUtils.merge([baseshader.uniforms,thisShaderUniforms]);
@@ -187,7 +198,7 @@ void main() {
     
     if (acc.vertex) { // дополним стд кодами
       var template;
-      if (basetype == "particle_basic")
+      if (basetype == "points")
         template = pointsVertexTemplate;
       else
         template = phongVertexTemplate;
@@ -200,9 +211,11 @@ void main() {
     if (acc.fragment) { // дополним стд кодами
       if (fragmentOver)  
       { // режим, когда мы прицепляемся снизу к стандартному шейдеру
+//        console.log("baseshader.fragmentShader=",baseshader.fragmentShader);
         var baseparts = splitCode( baseshader.fragmentShader );
+//        console.log("baseparts found=",baseparts);
         var template = fragmentTemplate;
-        fragmentShader = template.replace("BEFORE", baseparts[0] + acc.fragment_before ).replace("BODY", baseparts[1] + acc.fragment );
+        fragmentShader = template.replace("BEFORE", baseparts[0] + "\n" + acc.fragment_before ).replace("BODY", baseparts[1] + "\n" + acc.fragment );
       }
       else
       { // чистый режим
@@ -223,6 +236,8 @@ void main() {
     sceneMaterial.vertexShader = vertexShader || baseshader.vertexShader;
     sceneMaterial.fragmentShader = fragmentShader || baseshader.fragmentShader;
 //    console.log("baseshader.fragmentShader=",baseshader.fragmentShader);
+//    console.log("generated vertexShader=",sceneMaterial.vertexShader);
+//    console.log("generated fragmentShader=",sceneMaterial.fragmentShader);
     
     // https://github.com/mrdoob/three.js/wiki/Updates
     // надо выставить это в тру, иначе материал может не обновиться
@@ -236,7 +251,7 @@ void main() {
 
      var ooo = extractUniforms( sh, acc.sceneMaterial, basecode, hosterObj );
      var thisShaderUniforms = ooo.uniforms;
-     var code = ooo.code;                 	
+     var code = ooo.code;
        
      embedCodeToAccumulator( acc, tip, code );
 
@@ -343,7 +358,7 @@ void main() {
               dataObj = dataObj.$context;
 
             if (typeof(dataObj[dataName]) === "undefined") {
-              console.error("property ",dataName," referenced in shader code not found in shader object!");
+              console.error("Shader.qml error: property ",dataName," referenced in shader code not found in shader object!");
               continue;
             }
             // and connect to params

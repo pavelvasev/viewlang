@@ -51,6 +51,7 @@ SceneSpace {
   property alias cameraPos: cameraControl.cameraPosition
   property alias cameraPosReal: cameraControl.realCameraPosition
   
+  property alias cameraControlC:cameraControl
   CameraControl {
     id: cameraControl
   }

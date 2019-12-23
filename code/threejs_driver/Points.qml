@@ -44,14 +44,17 @@ SceneObjectThreeJs {
         var colors_good = (colors && positions && colors.length > 0) ? positions.length/3 == colors.length/3 : true;
         var have_colors = (colors && colors.length > 0);
         var use_colors = (have_colors && colors_good);
+        //console.log("have_colors=",have_colors,"colors_good",colors_good,"positions/3=",positions.length/3,"colors/3=",colors.length/3);
 
         if (!use_colors) {
            this.sceneObject.material.vertexColors = THREE.NoColors;
            this.sceneObject.material.needsUpdate = true;
            this.sceneObject.material.color = somethingToColor( color );
+           //console.log("turned off colors for points")
            return;
         } 
         if (this.sceneObject.material.vertexColors != THREE.VertexColors) {
+           //console.log("turned ON colors for points");        
            this.sceneObject.material.vertexColors = THREE.VertexColors;
            this.sceneObject.material.color = new THREE.Color( 0xffffff );
            this.sceneObject.material.needsUpdate = true;

@@ -28,6 +28,17 @@ Item {
         }
         
     }
+    
+    Button {
+        text: "Камера 0"
+        width: 100
+        property var tag: controlsTag
+
+        onClicked: {
+          sceneObj.cameraControlC.reset();
+        }
+    }
+    
 
     CheckBoxParam {
         id: axesBox
