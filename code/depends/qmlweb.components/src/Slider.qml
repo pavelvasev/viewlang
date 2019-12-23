@@ -26,7 +26,9 @@ Item {
 
   onMaximumValueChanged: {
     if (htmlNode) {
-      htmlNode.max = maximumValue;      
+      htmlNode.max = maximumValue;
+      
+      if (slider.value > maximumValue) slider.value = maximumValue;
 
       // We need special hack because Webkit has bug - it doesnt redraw slider after max change.
       // so we hide and show slider again.
@@ -43,6 +45,7 @@ Item {
   onMinimumValueChanged: {
     if (htmlNode)
       htmlNode.min = minimumValue;
+    if (slider.value < minimumValue) slider.value = minimumValue;
   }  
 
   Component.onCompleted: {
