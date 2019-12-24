@@ -11,7 +11,9 @@ Lines {
   
   property var ctag: "rightbottom"
   
+  property alias text: ibtn.text
   Button {
+      id: ibtn
       property var tag: ctag
       text: "Настройка отрезков.."
       width: 170

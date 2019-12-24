@@ -7,7 +7,8 @@ SceneMaterial {
     if (!source) { 
 //      debugger;
 //      console.log("source=",source);
-        return [1,1,0];
+       
+        return [1,1,1];
     }
     return source.color;
   }
@@ -18,6 +19,7 @@ SceneMaterial {
   property var shine: 250
   property var metal: true
   property var wire: source.wire
+  property var wirewidth: 1
 
   property var opacity: source.opacity
   property var transparent: source.transparent
@@ -25,7 +27,15 @@ SceneMaterial {
   property var shading: {
     //console.log("imma phong flat=",flat, "parent=",parent );
     //debugger;
+    // for some back-compat
     return flat ? 1 : 2;
+  }
+  
+  property var flat: false
+  onFlatChanged: {
+    if (!this.sceneMaterial) return;
+    this.sceneMaterial.flatShading  = flat;
+    this.sceneMaterial.needsUpdate = true;  
   }
 
 /* three js
@@ -49,8 +59,10 @@ THREE.SmoothShading = 2;
   onWireChanged: {
       if (!this.sceneMaterial) return;
       this.sceneMaterial.wireframe = wire;
+      this.sceneMaterial.wireframeLinewidth = wirewidth;
       this.sceneMaterial.needsUpdate = true;  
   }
+  onWirewidthChanged: wireChanged();
 
   onOpacityChanged: {
       if (!this.sceneMaterial) return;
@@ -62,8 +74,8 @@ THREE.SmoothShading = 2;
   function somethingToColor( theColorData )
   {
     if (!theColorData) {
-//      debugger;
-      return new THREE.Color(1,1,0);
+       // in case if color not specified, we should return white, because `colors` may be still specified (and they will be mixed with this color, which in case of not white will bring wrong final coloring).
+      return new THREE.Color(1,1,1);
     }
     return theColorData.length && theColorData.length >= 3 ? new THREE.Color( theColorData[0], theColorData[1], theColorData[2] ) : new THREE.Color(theColorData);
   }
@@ -85,7 +97,7 @@ THREE.SmoothShading = 2;
             shininess: mat.shine, 
             side: THREE.DoubleSide,
             // metal: mat.metal, r75
-            flatShading: mat.shading == 2 ? false : true
+            flatShading: flat
         };
         //console.log("used mat shading=",mat.shading,flat);
 

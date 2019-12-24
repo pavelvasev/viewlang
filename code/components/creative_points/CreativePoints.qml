@@ -12,7 +12,10 @@ Points {
   color: [1,0,0]
   //property alias tex: ctex
 
+  property alias text: ibtn.text
+
   Button {
+      id: ibtn
       property var tag: ctag
       text: "Настройка точек.."
       width: 170
