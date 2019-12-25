@@ -56,9 +56,11 @@ SceneObjectThreeJs {
         // таким образом делает это в рендеринге, когда устаканилось, и если было несколько изменений, то зафиксируется только 1
         // то есть нам чтобы делать все хорошо, надо еще updateLatr ввести
 
-        if (positions.length <= attr.count && positions.length >= attr.count/4 ) { 
+        var space_in_attr = attr.count*3; // attr.count это кол-во вершнин, а не флоатов
+        if (positions.length <= space_in_attr && positions.length >= space_in_attr/4 ) { 
            // если есть место -- то скопируем
            // но если теперь надо в X раз меньше, переделаем все
+           //console.log("i going to copy" );
            makeLater( this, "positions", function() {
              attr.set( new Float32Array(positions) );
              attr.needsUpdate = true; 
@@ -68,7 +70,7 @@ SceneObjectThreeJs {
         }
         else {
           makeLater( this );
-          //console.log("i rebuild");
+          //console.log("i rebuild",positions.length,attr.count);
         }
     }
 
@@ -186,7 +188,7 @@ SceneObjectThreeJs {
             //if (!flat) { // нормали нам не нужны, если мы во flat-режиме
             if (!material.flatShading) {
             // вершинные нормали
-             console.log("computing normals using threejs");
+             //console.log("computing normals using threejs");
             // debugger;
             geometry.computeVertexNormals();
             }

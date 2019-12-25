@@ -256,6 +256,7 @@ function render() {
     
     //sceneControl.update();
   
+    //debugger;
     selectedRenderer.render( scene, camera );
     ///renderer.render( scene, camera );
     // console.log("render called");

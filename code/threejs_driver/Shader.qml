@@ -51,6 +51,7 @@ Column {
 
 // http://threejs.org/docs/#Reference/Renderers.WebGL/WebGLProgram  
 // https://github.com/mrdoob/three.js/blob/cbb711950dab74bd8be6c8cf295296aa31f07e6c/src/renderers/shaders/ShaderLib.js  
+// more correct seems this: https://github.com/mrdoob/three.js/tree/r88/src/renderers/shaders
 
   property var fragmentTemplate: "
 
@@ -118,6 +119,7 @@ void main() {
     
     #ifdef USE_SIZEATTENUATION
 	gl_PointSize = size * ( scale / - mvPosition.z );
+	// возможно точки исчещают что эта штука в 0 обращается
     #else
 	gl_PointSize = size;
     #endif
@@ -131,8 +133,17 @@ void main() {
 "	
 
 
+  // производит подключение указанного списка шейдеров к целевому объекту, у которого уже назначен sceneMaterial
+  // целевой объект не понятно зачем, но видимо зачем-то нужен
+  
   function attachShaders( shaders, sceneMaterial, hosterObj ) {
-  //  console.log("Shader::attachShaders",shaders );
+    console.log("Shader::attachShaders",shaders,hosterObj );
+    
+    // методы очистки уже прицепленного (там сейчас сигналы если что)
+    if (hosterObj.shadersDetachFunc) {
+      hosterObj.shadersDetachFunc(); hosterObj.shadersDetachFunc = undefined;
+    }
+    
     // итак у нас есть цепочка shaders
     // в ней две подцепочки - vertex и fragment
     // соберем каждую. сбор означает - начать мержить их одна за другой слева на право.
@@ -150,6 +161,7 @@ void main() {
   		MeshDepthMaterial: 'depth',
   		MeshNormalMaterial: 'normal',
   		MeshBasicMaterial: 'basic',
+  		MeshStandardMaterial: 'standard',
   		MeshLambertMaterial: 'lambert',
   		MeshPhongMaterial: 'phong',
   		LineBasicMaterial: 'basic',
@@ -179,6 +191,7 @@ void main() {
         continue;
       }
       
+      // подключен ли сигнал шейдера к функции attachShaders целевого объекта?
       if (!sh.changed.isConnected( hosterObj, "attachShaders" )) {
           sh.changed.connect( hosterObj, "attachShaders" );
       }
@@ -228,13 +241,27 @@ void main() {
       sceneMaterial.origType = sceneMaterial.type;
       sceneMaterial.type = "custom";
     }
-    sceneMaterial.uniforms = acc.uniforms;
+    // bug
+    //debugger;
+    if (sceneMaterial.uniforms)
+      Object.assign( sceneMaterial.uniforms, acc.uniforms );
+    else
+      sceneMaterial.uniforms = acc.uniforms;
+    
+    // короче выходит material внутри себя копирует ссылку на material.uniforms, см initMaterial
+    // а допом выходит что material.needsUpdate не приводит к перекопированию этой ссылки
+    // очевидно это такой минибаг.. типа один раз выставили uniform-ы в материал и нефиг их потом обновлять..
+    // ну засим используем object assign
+    //console.error("sceneMaterial assigned new uniforms from shader generator",sceneMaterial);
+    
     sceneMaterial.attributes = acc.attributes;
     
     // console.log(  "so vertexShader=",vertexShader);
     //console.log(  "so baseshader.vertexShader=",baseshader.vertexShader);
+    
     sceneMaterial.vertexShader = vertexShader || baseshader.vertexShader;
     sceneMaterial.fragmentShader = fragmentShader || baseshader.fragmentShader;
+    
 //    console.log("baseshader.fragmentShader=",baseshader.fragmentShader);
 //    console.log("generated vertexShader=",sceneMaterial.vertexShader);
 //    console.log("generated fragmentShader=",sceneMaterial.fragmentShader);
@@ -276,6 +303,7 @@ void main() {
      return before;
   }
 
+  // разбивает код (заданный строкой) на 2 части - до main и после.
   function splitCode(code) {
      //var re = /void\s*main\(\s*(void)*\s*\)/;
      var re = /void\s*main\([^)]*\)/;
@@ -291,24 +319,25 @@ void main() {
   }  
 
   
-  // прицепляется к изменению свойства uniform_property_name в объекте ownerObj
-  // при этом объект, по которому ведется коннект, это hosterObj
+  // прицепляется к изменению свойства uniform_property_name в объекте ownerObj (т.е. ownerObj это надо бы назвать trackedPropertyOwnerObj)
+  // при этом объект, по которому ведется коннект, это hosterObj (имеется ввиду что hosterObj используется в роли объекта используемого для учета в слотах)
   // он подразумевается совпадает с объектом SceneObject, по заказу которого делался материал.
   // таким образом если этот объект удаляется, то должны почиститься его коннекты... не факт конечно.
   // а еще дополнительно мы отслеживаем, какой материал у этого объекта, и если он не совпадает с тем 
   // по которому был коннект, то тоже дисконнектимя. ееех жесть.
   function connectIt( ownerObj, sceneMaterial, uniform_property_name, renamed_name, hosterObj ) {
-     // console.log("shader connect ownerObj=",ownerObj,"uniform_property_name=",uniform_property_name,"sceneMaterial=",sceneMaterial);
+     //console.log("shader connect hosterObj=",hosterObj.$class,"uniform_property_name=",uniform_property_name,"sceneMaterial=",sceneMaterial);
 
            var handler = function() {
                 //debugger;
                 if (hosterObj.sceneObject && hosterObj.sceneObject.material && hosterObj.sceneObject.material !== sceneMaterial) {
-                  //console.log("i try to disconnect",handler);
+                  console.log("i try to disconnect because material changed..",hosterObj);
                   ownerObj[ uniform_property_name+"Changed"].disconnect( hosterObj, handler );
                   return;
                 }
                 if (typeof( sceneMaterial.uniforms[ renamed_name ]) === "undefined") {
                   // нас грубо отцепили, возможно, переназначив шейдеры на что-то другое
+                  console.log("i disconnect 2",handler);
                   ownerObj[ uniform_property_name+"Changed"].disconnect( hosterObj, handler );
                   return;
                 }
@@ -317,9 +346,11 @@ void main() {
                 var type = sceneMaterial.uniforms[ renamed_name ].type;
                 if (type === "v2")
                   q = new THREE.Vector2( q[0],q[1] )
+//                if (uniform_property_name != "sceneTime") debugger;
                 
                 sceneMaterial.uniforms[ renamed_name ].value = q;
-                //if (uniform_property_name != "sceneTime") console.log("shader signal assigned var",uniform_property_name, q );
+//                if (uniform_property_name != "sceneTime") 
+//                  console.log("shader signal assigned var",uniform_property_name, q,"renamed name",renamed_name ); //,"for object",hosterObj.$class, "closure material ",sceneMaterial,"obj material",hosterObj.sceneObject.material );
             }
 
             if (!ownerObj[ uniform_property_name+"Changed"]) {
@@ -327,6 +358,13 @@ void main() {
               return;
             }
             ownerObj[ uniform_property_name+"Changed"].connect( hosterObj, handler );
+            // отдельно запомним очищалку сигналов используемую "в общем"
+            //debugger;
+            var f = hosterObj.shadersDetachFunc;
+            hosterObj.shadersDetachFunc = function() {
+              ownerObj[ uniform_property_name+"Changed"].disconnect( hosterObj, handler );
+              if (f) f();
+            }
   }
   
   // возвращает: obj.uniforms и obj.newcode -- код с переименованными данными

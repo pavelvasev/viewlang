@@ -25,17 +25,23 @@ SceneObject {
         if (this.sceneObject && this.sceneObject.material) {
 
           var shaders = flattenArrayOfArrays( theobj.shader );
-
+          //console.error("I am sceneobject",theobj);
+          //console.error("found shaders:",shaders);
           
           // ищем первый ненулевой шейдер, вызываем у него метод прицепления всех шейдеров. но вообще конечно страно..
           // а как иначе? где держать логику прицепления шейдеров?..
+          // ну да, логика такая - мы находим первый объект, у которого есть attachShaders, и вызываем у него этот метод 1 раз но для всех указанных шейдеров
           if (shaders && shaders.length > 0) {
-            for (var i=0; i<shaders.length; i++)
+            for (var i=0; i<shaders.length; i++) {
+              //console.log("inspecting ",shaders[i]);
               if (shaders[i].attachShaders) {
+                //console.log("attaching ",shaders[i]);
                 shaders[i].attachShaders( shaders, this.sceneObject.material, theobj );
                 hasAttachedShaders = true;
                 break;
               }
+              else console.log("inspect failed");
+            }
           } else {
             if (hasAttachedShaders) {
               console.log("hasAttachedShaders clearing");

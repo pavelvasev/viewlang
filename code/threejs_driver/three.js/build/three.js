@@ -5292,6 +5292,7 @@
 
 				// note: always updating when .needsUpdate is undefined
 				u.setValue( gl, v.value, renderer );
+				//if (u.id == "p1_sh1") console.log("real uploaded p1_sh1",v.value);
 
 			}
 
@@ -22600,6 +22601,7 @@
 			}
 
 			if ( programChange ) {
+			//debugger;
 
 				if ( parameters.shaderID ) {
 
@@ -22613,10 +22615,11 @@
 					};
 
 				} else {
-
+// bug: .shader keeps link to maybe old ref..
+//console.error("material shader reassigned, ",material);
 					materialProperties.shader = {
 						name: material.type,
-						uniforms: material.uniforms,
+						uniforms: material.uniforms, 
 						vertexShader: material.vertexShader,
 						fragmentShader: material.fragmentShader
 					};
@@ -22717,7 +22720,18 @@
 
 			_usedTextureUnits = 0;
 
+//debugger;
 			var materialProperties = properties.get( material );
+			//console.log("mmmm",material.origType,material.needsUpdate);
+			/*
+			if (materialProperties.shader)
+			if (material.uniforms.p1_sh1.value && material.uniforms.p1_sh1.value != materialProperties.shader.uniforms.p1_sh1.value)
+			{
+			  debugger;
+			  properties.get( material );
+			}
+			*/
+			//console.log("setProgram:material",material,materialProperties);
 
 			if ( _clippingEnabled ) {
 
@@ -22763,7 +22777,7 @@
 			}
 
 			if ( material.needsUpdate ) {
-
+//console.error("going to initMaterial",material.origType);
 				initMaterial( material, fog, object );
 				material.needsUpdate = false;
 

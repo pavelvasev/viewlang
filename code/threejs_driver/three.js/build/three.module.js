@@ -5276,6 +5276,7 @@ WebGLUniforms.prototype.setOptional = function ( gl, object, name ) {
 // Static interface
 
 WebGLUniforms.upload = function ( gl, seq, values, renderer ) {
+ //console.log("pre-upload p1_sh1=",values.p1_sh1 );
 
 	for ( var i = 0, n = seq.length; i !== n; ++ i ) {
 
@@ -5285,6 +5286,7 @@ WebGLUniforms.upload = function ( gl, seq, values, renderer ) {
 		if ( v.needsUpdate !== false ) {
 
 			// note: always updating when .needsUpdate is undefined
+			//if (u.id == "p1_sh1") console.log("real uploaded");
 			u.setValue( gl, v.value, renderer );
 
 		}
