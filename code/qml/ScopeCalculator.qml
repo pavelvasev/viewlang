@@ -39,6 +39,7 @@ Item {
       r = mapAndCount( r,chain[i] );
     }
     
+    //console.log("scope assigned",r );
     return r;
   }
   
@@ -57,6 +58,8 @@ Item {
   }
   
   function uniqObjectCounter( str, obj ) {
+    if (obj.enableScopeDuplicated) return 1;
+  
     if (typeof(window.uniqObjectCounterArr) === "undefined") window.uniqObjectCounterArr = {};
     if (!window.uniqObjectCounterArr.hasOwnProperty(str)) window.uniqObjectCounterArr[str] = [];
 
@@ -70,6 +73,7 @@ Item {
     var removeObjFromCount = function() {
       var idx = counters.indexOf(obj);
       if (idx >= 0) counters.splice( idx, 1 );
+//      console.log("removed obj from scope calc",str);
     }
     
     // когда объект будет удаляться, мы дОлжны уменьшить счетчик.. хех.. а не не хех, все ок

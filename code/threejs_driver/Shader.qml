@@ -137,7 +137,7 @@ void main() {
   // целевой объект не понятно зачем, но видимо зачем-то нужен
   
   function attachShaders( shaders, sceneMaterial, hosterObj ) {
-    console.log("Shader::attachShaders",shaders,hosterObj );
+//    console.log("Shader::attachShaders",shaders,hosterObj );
     
     // методы очистки уже прицепленного (там сейчас сигналы если что)
     if (hosterObj.shadersDetachFunc) {
