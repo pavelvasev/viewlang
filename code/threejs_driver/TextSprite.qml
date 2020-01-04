@@ -53,7 +53,7 @@ SceneObjectThreeJs {
       }
 
       var ts = texSize;
-		  this.canvas1.width = ts[0];
+      this.canvas1.width = ts[0];
       this.canvas1.height = ts[1];
 
       this.context1.clearRect( 0,0,ts[0],ts[1] );
@@ -82,7 +82,8 @@ SceneObjectThreeJs {
       this.sceneObject.scale.set( r,r,r );
 
       this.sceneObject.material.opacity = opacity;
-      this.sceneObject.material.transparent = opacity < 1;
+      //this.sceneObject.material.transparent = opacity < 1;
+      this.sceneObject.material.transparent = true; // due to 112
       this.sceneObject.material.needsUpdate = true;
 
       this.texture1.needsUpdate = true;

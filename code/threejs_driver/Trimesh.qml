@@ -82,7 +82,7 @@ SceneObjectThreeJs {
 
       var attr = this.sceneObject.geometry.getAttribute("uv");
       if (!attr)
-        this.sceneObject.geometry.addAttribute( 'uv', new THREE.BufferAttribute( new Float32Array(uvs), 2 ) );
+        this.sceneObject.geometry.setAttribute( 'uv', new THREE.BufferAttribute( new Float32Array(uvs), 2 ) );
       else {
         attr.set( new Float32Array(uvs) );             
         attr.needsUpdate = true; 
@@ -118,7 +118,7 @@ SceneObjectThreeJs {
             attr.set( colors );
             attr.needsUpdate = true;
         } else {
-          this.sceneObject.geometry.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
+          this.sceneObject.geometry.setAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
         }
     }
 
@@ -157,7 +157,7 @@ SceneObjectThreeJs {
             geometry.setIndex( new THREE.BufferAttribute( new Uint32Array(indices), 1 ) );
 
         if (positions)
-            geometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
+            geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
 
                 
         //////////////////////////////////////////////////////
@@ -177,7 +177,7 @@ SceneObjectThreeJs {
         //console.log("flat = ",flat);
         //debugger;
         if (normals && normals.length > 0) {
-           geometry.addAttribute( 'normal', new THREE.BufferAttribute( new Float32Array(normals), 3 ) );
+           geometry.setAttribute( 'normal', new THREE.BufferAttribute( new Float32Array(normals), 3 ) );
         }
         else {
            //console.log("so material.shading == 2",material.shading == 2);

@@ -263,7 +263,8 @@ function render() {
 }
 
 function animate() {
-  renderer.animate( render ); 
+  //renderer.animate( render ); 112
+  renderer.setAnimationLoop( render );
 }
 
 animate();

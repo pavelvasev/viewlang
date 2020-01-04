@@ -1,4 +1,4 @@
-﻿Row {
+Row {
 /*
     CheckBox {
         id: cbOculus

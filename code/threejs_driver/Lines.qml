@@ -67,16 +67,15 @@ SceneObjectThreeJs {
 
 
         if (positions)
-            geometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
+            geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
             
         if (colors && colors.length > 0) {
-            geometry.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
+            geometry.setAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
             //console.log("colors to lines loaded");
         }
             
         geometry.computeBoundingSphere();
-        
-        
+    
         
         var materialOptions = {}
         
@@ -89,13 +88,16 @@ SceneObjectThreeJs {
         var material = 0;
         if (dashed) {
            material = new THREE.LineDashedMaterial( materialOptions );
-           geometry.computeLineDistances();
+           // 112 geometry.computeLineDistances();
         }
         else
            material = new THREE.LineBasicMaterial( materialOptions );
 
         /////////////////////////////////
         this.sceneObject = linestrip ? new THREE.Line( geometry, material ) : new THREE.LineSegments( geometry, material );  //,linestrip ? THREE.LineStrip : THREE.LinePieces );
+        
+        if (dashed)
+          this.sceneObject.computeLineDistances(); // 112
 
         opacityChanged();
         radiusChanged();

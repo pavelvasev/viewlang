@@ -30,7 +30,7 @@ SceneObjectThreeJs {
         /*
         if (!this.sceneObject) return;
                 if (positions)
-                this.sceneObject.geometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
+                this.sceneObject.geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
 
         var attr = this.sceneObject.geometry.getAttribute("position");
         //attr.set( new Float32Array(positions) );
@@ -68,7 +68,7 @@ SceneObjectThreeJs {
           attr.needsUpdate = true;
         } else {
           //console.log("create set new colors");
-          this.sceneObject.geometry.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
+          this.sceneObject.geometry.setAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
         }
         
         //makeLater(this);
@@ -183,11 +183,11 @@ SceneObjectThreeJs {
 
         /////////////////////////////////
         var geometry = new THREE.BufferGeometry();
-        geometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
+        geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
         
             /*
         if (use_colors) {
-            geometry.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
+            geometry.setAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
             //console.log("geometry added color attr");
         }
         */

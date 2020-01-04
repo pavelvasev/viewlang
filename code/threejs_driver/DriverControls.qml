@@ -255,11 +255,13 @@ Item {
         }
 
     }
-    
+
+/* 112    
     OculusControl {
         visible: showMore
         property var tag: controlsTag
     }
+*/    
 
 
     Stats {
