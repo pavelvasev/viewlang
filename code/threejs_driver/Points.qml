@@ -139,7 +139,7 @@ SceneObjectThreeJs {
         mat.map = qmlObject.loadedTexture;
 //        console.log("mat.map = ",mat.map  );
 
-        mat.alphaTest = alphaTest;
+//        mat.alphaTest = alphaTest;
         
 //        mat.alphaTest = 0.2;
 //        mat.transparent = true;
@@ -153,6 +153,12 @@ SceneObjectThreeJs {
 
         //mat.blending = THREE.AdditiveBlending;
         //mat.depthTest = false;
+        mat.needsUpdate = true;
+      }
+      
+      if (Math.abs( mat.alphaTest - alphaTest ) > 0.0001) {
+        mat.alphaTest = alphaTest;
+        //console.log("setted up alphaTest to",mat.alphaTest);
         mat.needsUpdate = true;
       }
       
