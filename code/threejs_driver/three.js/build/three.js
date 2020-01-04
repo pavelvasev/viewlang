@@ -7222,6 +7222,8 @@
 		};
 
 		function createProgram( shader ) {
+		   console.log("createProgram");
+		   console.log("vertex",shader.vertexShader);
 
 			var program = gl.createProgram();
 
@@ -17456,6 +17458,7 @@
 	}
 
 	function WebGLShader( gl, type, string ) {
+	   //console.log("WebGLShader",type,string);
 
 		var shader = gl.createShader( type );
 
@@ -19803,6 +19806,8 @@
 		function useProgram( program ) {
 
 			if ( currentProgram !== program ) {
+			//console.log("setting up program");
+			//console.log( program );
 
 				gl.useProgram( program );
 

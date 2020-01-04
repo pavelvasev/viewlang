@@ -16,6 +16,7 @@ Column {
   property var vertex
   property var fragment
 
+  property bool vertexOver: true
   property bool fragmentOver: false // прицепляться ли к "снизу" стандартного fragment-шейдера (=true), или это чистый шейдер (=false)
 
   property var ctag: "right"
@@ -62,75 +63,24 @@ BODY
 }
 "
 
-  
-  property var phongVertexTemplate: "
+  property var vertexTemplate: "
 
-        BEFORE
+BEFORE  
 
-        // next things must be due to threejs phong impl
-        varying vec2 vUv;
-        varying vec3 vViewPosition;
-        varying vec3 vNormal;
-        varying vec3 vColor;
-
-void main() {
-          gl_Position = vec4( position, 1.0 );
-#ifdef USE_COLOR
-          vColor.xyz = color.xyz;
-#endif
-           
-          BODY
-        
-          // ***************  standard threejs conversion
-          vec4 mvPosition = modelViewMatrix * gl_Position; // vec4( gl_Position, 1.0 );
-          gl_Position = projectionMatrix * mvPosition;
-          //gl_Position = vec4( position, 1.0 );
-        
-          // ***************  next things must be due to PhongMaterial
-          vViewPosition = -mvPosition.xyz;
-          vec3 objectNormal = normal;
-          vec3 transformedNormal = normalMatrix * objectNormal;
-          vNormal = normalize( transformedNormal );
-          vUv = uv;
-}          
-"            
-
-property var pointsVertexTemplate: "
-
-BEFORE
-
-uniform float size;
-uniform float scale;
-
-#include <common>
-#include <color_pars_vertex>
-#include <fog_pars_vertex>
-#include <shadowmap_pars_vertex>
-#include <logdepthbuf_pars_vertex>
-#include <clipping_planes_pars_vertex>
-
-void main() {
-
-    #include <color_vertex>
-    #include <begin_vertex>
-    #include <project_vertex>
-    
-    BODY
-    
-    #ifdef USE_SIZEATTENUATION
-	gl_PointSize = size * ( scale / - mvPosition.z );
-	// возможно точки исчещают что эта штука в 0 обращается
-    #else
-	gl_PointSize = size;
-    #endif
-
-//    #include <logdepthbuf_vertex>
-//    #include <clipping_planes_vertex>
-    #include <worldpos_vertex>
-    #include <shadowmap_vertex>
-//    #include <fog_vertex>
+void main() {  
+BODY
 }
-"	
+"
+
+  // https://github.com/mrdoob/three.js/blob/r88/src/renderers/shaders/ShaderLib/meshphysical_vert.glsl
+  // https://github.com/mrdoob/three.js/tree/r88/src/renderers/shaders/ShaderChunk
+  
+  // Короче говоря. Посмотрели мы на ихоновые шаблоны. И видим что
+  // vec3 transformed = vec3( position );
+  // ... различные изменения transformed..
+  // vec4 mvPosition = modelViewMatrix * vec4( transformed, 1.0 );
+  // итого, они там накапливают вовсю вектор transformed, а position это исходное значение
+  // и потом уже оный transformed поступает на вход всякоему проецированию
 
 
   // производит подключение указанного списка шейдеров к целевому объекту, у которого уже назначен sceneMaterial
@@ -210,12 +160,18 @@ void main() {
     var vertexShader;
     
     if (acc.vertex) { // дополним стд кодами
+    
       var template;
-      if (basetype == "points")
-        template = pointsVertexTemplate;
-      else
-        template = phongVertexTemplate;
-      
+      if (vertexOver) { // странно конечно, что режим выбора у нас определяется получается первым шейдером..
+        // выяснено, что в tree-js шейдеры надо встраиваться перед их project-vertex инклюдом
+        // еще выяснено что они накапливают данные теперь в переменной transformed
+        // а мы исторически работаем с gl_Position.. поэтому скопируем данные из нее, а потом обратно.
+        template = "BEFORE\n" + baseshader.vertexShader.replace("#include <project_vertex>","gl_Position=vec4( transformed, 1.0 );\nBODY\ntransformed=vec3( gl_Position.x, gl_Position.y, gl_Position.z );\n#include <project_vertex>");
+      }
+        else template = vertexTemplate;
+      //var baseparts = splitCode( baseshader.vertexShader );
+      //console.log("baseparts found=",baseparts);
+ 
       vertexShader = template.replace("BEFORE", acc.vertex_before ).replace("BODY", acc.vertex );
     }
     
