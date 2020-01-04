@@ -47,7 +47,7 @@ Points {
     id: c2
     text: "radius"
     value: pts.radius
-    max: 30
+    max: 10
     tag: ctag
     step: 0.05
     onValueChanged: pts.radius=value
