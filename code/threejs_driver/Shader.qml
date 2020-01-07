@@ -162,6 +162,7 @@ BODY
     if (acc.vertex) { // дополним стд кодами
     
       var template;
+      // 
       if (vertexOver) { // странно конечно, что режим выбора у нас определяется получается первым шейдером..
         // выяснено, что в tree-js шейдеры надо встраиваться перед их project-vertex инклюдом
         // еще выяснено что они накапливают данные теперь в переменной transformed
@@ -169,6 +170,9 @@ BODY
         template = "BEFORE\n" + baseshader.vertexShader.replace("#include <project_vertex>","gl_Position=vec4( transformed, 1.0 );\nBODY\ntransformed=vec3( gl_Position.x, gl_Position.y, gl_Position.z );\n#include <project_vertex>");
       }
         else template = vertexTemplate;
+        
+      // if (basetype == "points") template = pointsVertexTemplate;
+        
       //var baseparts = splitCode( baseshader.vertexShader );
       //console.log("baseparts found=",baseparts);
  
@@ -400,4 +404,45 @@ BODY
 
        return { uniforms: uniforms, code: code };
   }
+  
+property var pointsVertexTemplate: "
+     
+BEFORE
+
+uniform float size;
+uniform float scale;
+
+#include <common>
+#include <color_pars_vertex>
+#include <fog_pars_vertex>
+#include <shadowmap_pars_vertex>
+#include <logdepthbuf_pars_vertex>
+#include <clipping_planes_pars_vertex>
+
+void main() {
+
+    #include <color_vertex>
+    #include <begin_vertex>
+  
+        
+    BODY
+
+    #include <project_vertex>
+        
+    #ifdef USE_SIZEATTENUATION
+        gl_PointSize = size * ( scale / - mvPosition.z );
+        // возможно точки исчещают что эта штука в 0 обращается
+        //gl_PointSize = size;
+    #else
+        gl_PointSize = size;
+    #endif
+          
+    #include <logdepthbuf_vertex>
+    #include <clipping_planes_vertex>
+    #include <worldpos_vertex>
+    #include <shadowmap_vertex>
+    #include <fog_vertex>
+}
+"
+  
 }  

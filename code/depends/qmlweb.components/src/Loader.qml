@@ -36,7 +36,8 @@ Item {
         var context = loader.$properties["source"].componentScope;
         
         // little HACK. lookup in loaded qmldirs
-        var qdirInfo = engine.qmldirs[ source ];
+        var sourceNoQ = source.split("?")[0];
+        var qdirInfo = engine.qmldirs[ sourceNoQ ];
         
         if (qdirInfo)
             sourceComponent = Qt.createComponent( "@" + qdirInfo.url, context );
