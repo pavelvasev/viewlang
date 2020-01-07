@@ -17,7 +17,7 @@ Column {
   property var fragment
 
   property bool vertexOver: true
-  property bool fragmentOver: false // прицепляться ли к "снизу" стандартного fragment-шейдера (=true), или это чистый шейдер (=false)
+  property bool fragmentOver: true // прицепляться ли к "снизу" стандартного fragment-шейдера (=true), или это чистый шейдер (=false)
 
   property var ctag: "right"
 
