@@ -102,6 +102,7 @@ var vrDisplay, vrControl;
 
 //var renderer = new THREE.WebGLRenderer( { canvas: container  } );
 var renderer = new THREE.WebGLRenderer({
+//  autoClear : false,
   alpha: true,
   preserveDrawingBuffer   : true   // required to support .toDataURL()
 });

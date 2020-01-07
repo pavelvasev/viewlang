@@ -137,7 +137,7 @@ BODY
       if (!sh) continue;
 
       if (!sh.changed) {
-        console.error("It seems your shader object is not shader. Please check it!",sh);
+        //console.error("It seems your shader object is not shader. Please check it!",sh);
         continue;
       }
       
