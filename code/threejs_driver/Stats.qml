@@ -30,7 +30,8 @@ CheckBox {
     {
         if (loaded) return;
         loaded = true;
-
+        
+        // https://github.com/mrdoob/stats.js/
         la_require("three.js-112/examples/js/libs/stats.min.js", function() {
             var stats = new Stats();
             cs.stats = stats;

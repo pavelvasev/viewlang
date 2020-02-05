@@ -1,4 +1,4 @@
-/**
+/** cloned from https://github.com/jeromeetienne/threex.rendererstats
  * provide info on THREE.WebGLRenderer
  */
 RendererStats = function () {
