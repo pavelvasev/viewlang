@@ -69,7 +69,7 @@ Item {
     property var showMore: cbMore.checked
     CheckBox {
       id: cbMore
-      text: "Дополнительно"
+      text: "Доп."
       property var tag: controlsTag
     }
 

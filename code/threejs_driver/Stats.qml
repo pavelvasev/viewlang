@@ -31,13 +31,15 @@ CheckBox {
         if (loaded) return;
         loaded = true;
 
-        la_require("three.js/examples/js/libs/stats.min.js", function() {
+        la_require("three.js-112/examples/js/libs/stats.min.js", function() {
             var stats = new Stats();
             cs.stats = stats;
+            /*
             stats.domElement.style.position = 'absolute';
             stats.domElement.style.bottom = '2px'; // конечно надо от сцены играть
             stats.domElement.style.right = '2px';
             stats.domElement.style.zIndex = 5000;
+            */
 
             document.body.appendChild( stats.domElement );
         } );
