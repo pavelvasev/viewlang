@@ -1,6 +1,9 @@
 ////////////////////////////////////
 
-/* тоже неясно, надо ли это в 112
+/* тоже неясно, надо ли это в 112 */
+/* выяснено - там это не надо, там это перемещено в Line и LineSegments вроде как
+   НО у нас код Ольги по сеткам тянет этот метод.. */ 
+/* update - пропатчили проект сетки   
 THREE.BufferGeometry.prototype.computeLineDistances = function () {
   	var positions = this.attributes.position.array;
 

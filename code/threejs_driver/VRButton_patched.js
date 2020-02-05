@@ -160,6 +160,7 @@ var VRButton = {
 			message.style.left = 'calc(50% - 90px)';
 			message.style.width = '180px';
 			message.style.textDecoration = 'none';
+			message.title = "To enable VR in chrome, open chrome://flags/ and enable all VR and XR things + DISABLE xr sandboxing"
 
 			stylizeElement( message );
 

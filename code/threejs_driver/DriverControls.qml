@@ -251,18 +251,15 @@ Item {
 
         // по уму их тут и надо загружать.. а то чего распластались..
         Component.onCompleted: {
-            la_require("three.js/examples/js/effects/StereoEffect.js");
+            la_require("three.js-112/examples/js/effects/StereoEffect.js");
         }
 
     }
 
-/* 112    
-    OculusControl {
+    OculusControl2 {
         visible: showMore
         property var tag: controlsTag
     }
-*/    
-
 
     Stats {
         property var tag: controlsTag

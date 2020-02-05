@@ -96,6 +96,7 @@ Linestrip 1.0 threejs_driver/Linestrip.qml
 MakeScreenshot 1.0 threejs_driver/MakeScreenshot.qml
 MetalMaterial 1.0 threejs_driver/MetalMaterial.qml
 OculusControl 1.0 threejs_driver/OculusControl.qml
+OculusControl2 1.0 threejs_driver/OculusControl2.qml
 PhongMaterial 1.0 threejs_driver/PhongMaterial.qml
 PointLight 1.0 threejs_driver/PointLight.qml
 Points 1.0 threejs_driver/Points.qml

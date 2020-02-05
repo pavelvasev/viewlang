@@ -94,7 +94,7 @@ la_require("three.js/examples/js/controls/"+controlType+".js", function() {
 
 /////////////////////////////////////////
 
-var vrDisplay, vrControl;
+//var vrDisplay, vrControl;
 
 /////////////////////////////////////////
 
@@ -119,6 +119,11 @@ renderer.setClearColor( 0xB2B2CC, 1);
 document.body.appendChild( renderer.domElement );
 
 var driverDomElement = renderer.domElement;
+
+// vr part
+//document.body.appendChild( VRButton.createButton( renderer ) );
+//renderer.xr.enabled = true;
+
 
 /* унесено... ветром в DRiverControls 
 var stats;
@@ -151,7 +156,7 @@ la_require("threex.rendererstats.js", function() {
     // objectsToRerender это массив из ячеек вида [объект,(таблица действий)]
     var objectsToRerender = [];
 
-    function getObjDeeds( o ) {
+function getObjDeeds( o ) {
       // меняем ключ на базовый объект. потому, что тот базовый объект тоже может вызывать makeLater, но уже с ключем-собой, 
       // и получится двойной вызов - один от наследного объекта, а второй от базового. Пример:
       // spheres.indices = x; -> повлечет makeLater(spheres);   spheres.material = y; -> повлечет makeLater(базовый объект)
@@ -214,9 +219,9 @@ la_require("threex.rendererstats.js", function() {
       // добавляем действие в таблицу. Но только если в ней нет действия на полную переработку. Если оно есть - другие действия уже не нужны
       if (!deeds[1][undefined]) 
         deeds[1][key] = code;
-    }
+}
     
-    function doScheduledPrerenderTasks() {
+function doScheduledPrerenderTasks() {
       //if (objectsToRerender.length > 0)  console.log("doScheduledPrerenderTasks. ************** objectsToRerender.length=",objectsToRerender.length);
       try {
       while (objectsToRerender.length > 0)
@@ -238,7 +243,7 @@ la_require("threex.rendererstats.js", function() {
       } finally {
       objectsToRerender = [];
       }
-    }
+}
 
 var clock = new THREE.Clock(true);    
 var threejs_sceneTime = 0, threejs_sceneDelta = 0;
@@ -253,7 +258,7 @@ function render() {
     
     doScheduledPrerenderTasks();
   
-    if (vrControl) vrControl.update();
+    //if (vrControl) vrControl.update();
     
     //sceneControl.update();
   
