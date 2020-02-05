@@ -180,7 +180,7 @@ Item {
     }
     
     
-    property var redGreenFocalValue: 25
+    property var redGreenFocalValue: 0.064
     onRedGreenFocalValueChanged: {
       if (redGreenBox.redGreenEffect && redGreenBox.redGreenEffect.setFocalLength) 
         redGreenBox.redGreenEffect.setFocalLength( redGreenFocalValue );
@@ -203,7 +203,8 @@ Item {
         }
 
         Component.onCompleted: {
-            la_require("three.js/examples/js/effects/AnaglyphEffect.js", function() {
+            //la_require("three.js-112/examples/js/effects/AnaglyphEffect.js", function() {
+            la_require("AnaglyphEffect_patched.js", function() {
                 redGreenBox.redGreenEffect = new THREE.AnaglyphEffect( renderer );
                 redGreenBox.redGreenEffect.setSize( window.innerWidth, window.innerHeight );
                 if (redGreenBox.redGreenEffect.setFocalLength) // типо в новом theejs нету этого метода
@@ -221,6 +222,11 @@ Item {
       guid: "focal_length"
       property var tag: "bottom"      
       height: 20
+      step: 0.001
+      min: 0
+      max: 0.2
+      comboEnabled: false
+      textEnabled: true 
       onValueChanged: if (visible) redGreenFocalValue = param.value
     }    
 
