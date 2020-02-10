@@ -51,6 +51,8 @@ Points {
     tag: ctag
     step: 0.05
     onValueChanged: pts.radius=value
+    textEnabled: true
+    comboEnabled: false
   }
 
   Param {
