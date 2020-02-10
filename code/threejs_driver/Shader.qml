@@ -94,6 +94,13 @@ BODY
       hosterObj.shadersDetachFunc(); hosterObj.shadersDetachFunc = undefined;
     }
     
+    // part of feature: track attached objects
+    hosterObj.shadersDetachFunc = function() {
+      for (var i=0; i<shaders.length; i++)
+        if (shaders[i].objectDetached)
+            shaders[i].objectDetached( hosterObj );
+    } // todo: onDestruction..
+    
     // итак у нас есть цепочка shaders
     // в ней две подцепочки - vertex и fragment
     // соберем каждую. сбор означает - начать мержить их одна за другой слева на право.
@@ -149,6 +156,9 @@ BODY
       if (!sh.enabled) continue;
       if (sh.vertex) doAttach( sh, acc, "vertex",hosterObj  );
       if (sh.fragment) doAttach( sh, acc, "fragment",hosterObj );
+      
+      if (sh.objectAttached)
+          sh.objectAttached( hosterObj );
     }
 
     // Итого у нас в структуре acc записаны совмещенные коды всех шейдеров
@@ -444,5 +454,22 @@ void main() {
     #include <fog_vertex>
 }
 "
+
+  /// feature: track attached objects
+  
+  signal objectAttached( object obj );
+  signal objectDetached( object obj );
+  
+  property var objects: []
+  
+  onObjectAttached: {
+    objects.push( obj );
+  }
+  onObjectDetached: {
+    var arr = objects;
+    var ob = obj;
+    var i = arr.length;
+    while (i--) if (arr[i] == ob) arr.splice( i,1 );
+  }
   
 }  

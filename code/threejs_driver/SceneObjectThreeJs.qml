@@ -22,6 +22,8 @@ SceneObject {
     property bool hasAttachedShaders: false
     function  attachShaders()
     {
+        cleanupShaders();
+        
         if (this.sceneObject && this.sceneObject.material) {
 
           var shaders = flattenArrayOfArrays( theobj.shader );
@@ -51,12 +53,20 @@ SceneObject {
               //нет в мире совершенства, и тут уж не будет. 
               this.sceneObject.material.recreate = true;
               makeLater( this );
-              
+
               hasAttachedShaders = false;
             }
           }
 
         }
+    }
+    
+    // performs cleanup from shaders.. safe to call before attachShaders
+    function cleanupShaders() {
+      if (theobj.shadersDetachFunc) {
+        theobj.shadersDetachFunc(); 
+        theobj.shadersDetachFunc = undefined;
+      }
     }
 
     function make3dbase()
@@ -113,7 +123,10 @@ SceneObject {
       return theColorData.length && theColorData.length >= 3 ? new THREE.Color( theColorData[0], theColorData[1], theColorData[2] ) : new THREE.Color(theColorData);
     }
 
-    Component.onDestruction: clear();
+    Component.onDestruction: {
+      clear();
+      cleanupShaders();
+    }
     
     /* конечно хорошо что они тут спрятаны - типа один раз всем. но это же и плохо, ибо становится неявно.
        в общем пока что каждый должен сам свое clear предоставлять
