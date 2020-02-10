@@ -3,7 +3,7 @@
 Item {
   property var centerPoint: [0,0,0]
   property var cameraPosition: [0,0,50]     // задается извне
-  property var realCameraPosition: [0,0,50] // считывается из ThreeJs
+  property var realCameraPosition: [0,0,50] // считывается нами из ThreeJs
   
   property var sceneControl: undefined
   
@@ -14,6 +14,7 @@ Item {
   }
   
   function updateCenter() {
+    //console.log(333);
     if (sceneControl) {
       //sceneCenterPoint = new THREE.Vector3( centerPoint[0],centerPoint[1],centerPoint[2] );
       if (sceneControl.target.x != centerPoint[0] || sceneControl.target.y != centerPoint[1] || sceneControl.target.z != centerPoint[2]) {

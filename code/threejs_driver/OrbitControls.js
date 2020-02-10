@@ -84,6 +84,10 @@ THREE.OrbitControls = function ( object, domElement ) {
 	this.target0 = this.target.clone();
 	this.position0 = this.object.position.clone();
 	this.zoom0 = this.object.zoom;
+	
+	// pv
+	//this.sphericalExtra = new THREE.Spherical();
+	this.manualTheta = undefined;
 
 	//
 	// public methods
@@ -133,6 +137,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 			var position = scope.object.position;
 
 			offset.copy( position ).sub( scope.target );
+			//console.log("oc: considered tgt",scope.target );
 
 			// rotate offset to "y-axis-is-up" space
 			offset.applyQuaternion( quat );
@@ -141,13 +146,18 @@ THREE.OrbitControls = function ( object, domElement ) {
 			spherical.setFromVector3( offset );
 
 			if ( scope.autoRotate && state === STATE.NONE ) {
-
+//console.log("autorotated");
 				rotateLeft( getAutoRotationAngle() );
 
-			}
+			} // else console.log("not autorotated");
 
 			spherical.theta += sphericalDelta.theta;
 			spherical.phi += sphericalDelta.phi;
+			
+			if (typeof(scope.manualTheta) !== "undefined") {
+  			  spherical.theta = scope.manualTheta;
+			  //spherical.phi += scope.sphericalExtra.phi;
+			}
 
 			// restrict theta to be between desired limits
 			spherical.theta = Math.max( scope.minAzimuthAngle, Math.min( scope.maxAzimuthAngle, spherical.theta ) );
