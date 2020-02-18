@@ -8,7 +8,7 @@ SceneObjectThreeJs {
 
     property bool wireon: false
     
-    property var noIndices: false
+    property var noIndices: (!indices || indices.length == 0) // индексы отныне необязательно, 2020-02-15
 
     signal click( object info );
     signal doubleClick( object info );
