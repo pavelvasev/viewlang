@@ -174,10 +174,27 @@ BODY
       var template;
       // 
       if (vertexOver) { // странно конечно, что режим выбора у нас определяется получается первым шейдером..
+      
+        var s = baseshader.vertexShader;
+
         // выяснено, что в tree-js шейдеры надо встраиваться перед их project-vertex инклюдом
         // еще выяснено что они накапливают данные теперь в переменной transformed
         // а мы исторически работаем с gl_Position.. поэтому скопируем данные из нее, а потом обратно.
-        template = "BEFORE\n" + baseshader.vertexShader.replace("#include <project_vertex>","gl_Position=vec4( transformed, 1.0 );\nBODY\ntransformed=vec3( gl_Position.x, gl_Position.y, gl_Position.z );\n#include <project_vertex>");
+        template = "BEFORE\n" + s.replace("#include <project_vertex>","\n    /**** viewlang begin ****/\ngl_Position=vec4( transformed, 1.0 );\nBODY\ntransformed=vec3( gl_Position.x, gl_Position.y, gl_Position.z );\n    /**** viewlang finish ****/\n#include <project_vertex>");
+        
+        // feature: points size
+        if (template.match(/(viewlang finish[^]+)gl_PointSize\s+\=\s+size;/) && acc.vertex.match(/gl_PointSize\s+\=/)) {
+          //console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!1 feat found");
+          // уберем копирование которое было стандартное
+          template = template.replace(/(viewlang finish[^]+)(gl_PointSize\s+=\s+size;)/,"$1 /*commented out by viewlang... $2 ...*/");
+          // [^] is a . for multiline.. https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/RegExp#Special_characters_meaning_in_regular_expressions
+          // debugger;
+          // поставим свое копирование в самом начале, и т.о. шейдеры могут на него влиять
+          template = template.replace("/**** viewlang begin ****/","/**** viewlang begin ****/\ngl_PointSize = size;" );
+        }
+        else {
+          //debugger;
+        }
       }
         else template = vertexTemplate;
         
@@ -233,7 +250,7 @@ BODY
     sceneMaterial.fragmentShader = fragmentShader || baseshader.fragmentShader;
     
 //    console.log("baseshader.fragmentShader=",baseshader.fragmentShader);
-//    console.log("generated vertexShader=",sceneMaterial.vertexShader);
+    console.log("generated vertexShader=",sceneMaterial.vertexShader);
 //    console.log("generated fragmentShader=",sceneMaterial.fragmentShader);
     
     // https://github.com/mrdoob/three.js/wiki/Updates
@@ -265,10 +282,10 @@ BODY
      var body = parts[1];
      
      acc[tip+"_before"] = (acc[tip+"_before"] || "") + before;
-     acc[tip] = (acc[tip] || "") + "{ " + body + " } ";
+     acc[tip] = (acc[tip] || "") + "{" + body + "}\n";
      // мы вставляем дополнительные скобочки
      // затем чтобы разные шейдеры не конфликтовали по поводу имен
-     // перменных, которые они объявляют в теле body.
+     // переменных, которые они объявляют в теле body.
 
      return before;
   }
@@ -285,6 +302,7 @@ BODY
      }
      parts[1] = parts[1].slice( parts[1].indexOf( "{" )+1 ); // уберем первую {
      parts[1] = parts[1].slice( 0,parts[1].lastIndexOf( "}" )-1); // уберем последнюю }
+     //parts[1] = parts[1].trim();
      return parts;
   }  
 
@@ -434,17 +452,18 @@ void main() {
     #include <color_vertex>
     #include <begin_vertex>
   
+    float psize = size;
         
     BODY
 
     #include <project_vertex>
         
     #ifdef USE_SIZEATTENUATION
-        gl_PointSize = size * ( scale / - mvPosition.z );
+        gl_PointSize = psize * ( scale / - mvPosition.z );
         // возможно точки исчещают что эта штука в 0 обращается
         //gl_PointSize = size;
     #else
-        gl_PointSize = size;
+        gl_PointSize = psize;
     #endif
           
     #include <logdepthbuf_vertex>

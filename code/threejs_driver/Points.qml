@@ -6,6 +6,8 @@ SceneObjectThreeJs {
     property var radius: 0.25
 
     property var priority: 0
+    
+    property var radiuses: []
 
     /////////////////// graphics part
     id: qmlObject
@@ -16,7 +18,6 @@ SceneObjectThreeJs {
       this.sceneObject.material.color=somethingToColor(color);
       this.sceneObject.material.needsUpdate=true;
     }
-    
 
     onRadiusChanged: {
       if (!this.sceneObject || !this.sceneObject.material) return;
@@ -78,6 +79,18 @@ SceneObjectThreeJs {
         else
             makeLater( qmlObject );
         */
+    }
+    
+    
+    onRadiusesChanged: {
+      if (!this.sceneObject) return;
+      var geometry = this.sceneObject.geometry;
+      if (radiuses && radiuses.length > 0) { // todo fasten.. needsUpdate so on.. that does dynamic draw means here? (in context of threejs+new float32bufferattr..)
+        geometry.setAttribute( 'radiuses', new THREE.Float32BufferAttribute( radiuses, 1 ).setUsage( THREE.DynamicDrawUsage ) );
+        console.log("assigned attr radiuses!!!",radiuses );
+      }
+      else
+        geometry.deleteAttribute( 'radiuses' );
     }
 
     onOpacityChanged: setupOpacity();
@@ -237,6 +250,7 @@ SceneObjectThreeJs {
         colorsChanged();
         textureUrlChanged();
         transparentChanged();
+        radiusesChanged();
         
         scene.add( this.sceneObject );
 
