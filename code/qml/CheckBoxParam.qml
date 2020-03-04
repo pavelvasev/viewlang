@@ -28,6 +28,7 @@ CheckBox {
     text: param.text
     // globalName, globalText
   }
+  property alias scopeCalc: scopeNameCalc
 
   property alias paramAnimation: paramAnimationA
   ParamAnimation {

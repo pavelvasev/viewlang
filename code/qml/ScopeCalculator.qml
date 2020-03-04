@@ -17,6 +17,8 @@ Item {
 
   property var scopeName: {
     var f = target;
+    //if (name == "selectshader_ShaderColorS?y") 
+    //  debugger;
 
     var chain = [];
     while (f) {
@@ -39,7 +41,7 @@ Item {
       r = mapAndCount( r,chain[i] );
     }
     
-    //console.log("scope assigned",r );
+    // console.log("scope assigned",r, "name is",name );
     return r;
   }
   

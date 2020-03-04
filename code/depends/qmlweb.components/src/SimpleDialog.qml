@@ -5,7 +5,8 @@ Rectangle {
   height: 200
   
   Component.onCompleted: {
-   parent = engine.rootObject;
+    dlg.oldSpaceParent = dlg.parent; // надо сохранить - чтобы scope нормально считались
+    parent = engine.rootObject;
   }
 
   property var title: ""
