@@ -10,6 +10,7 @@
 */
 
 Column {
+  id: thatshader
 
   property var enabled: true
 
@@ -197,7 +198,8 @@ BODY
         }
       }
         else template = vertexTemplate;
-        
+      
+      // no need to get it manually - template loaded from baseshader ok.
       // if (basetype == "points") template = pointsVertexTemplate;
         
       //var baseparts = splitCode( baseshader.vertexShader );
@@ -250,7 +252,7 @@ BODY
     sceneMaterial.fragmentShader = fragmentShader || baseshader.fragmentShader;
     
 //    console.log("baseshader.fragmentShader=",baseshader.fragmentShader);
-    console.log("generated vertexShader=",sceneMaterial.vertexShader);
+//    console.log("generated vertexShader=",sceneMaterial.vertexShader);
 //    console.log("generated fragmentShader=",sceneMaterial.fragmentShader);
     
     // https://github.com/mrdoob/three.js/wiki/Updates
@@ -480,15 +482,37 @@ void main() {
   signal objectDetached( object obj );
   
   property var objects: []
+  // великий прикол в том, что объект массива [] будет разделяться между всеми шейдерами
+  // вероятно это следствие того, что я сделал присваивание массивов по ссылке а не по значению
   
+ 
   onObjectAttached: {
-    objects.push( obj );
+    var arr = objects;
+    var ob = obj;
+    var i = arr.length;
+    while (i--) {
+      if (arr[i] == ob) {
+        return; // objects exist
+      }
+    }
+    
+    objects = objects.concat( obj ); // тут присвоение а не пуш - это важно
   }
+  
   onObjectDetached: {
     var arr = objects;
     var ob = obj;
     var i = arr.length;
-    while (i--) if (arr[i] == ob) arr.splice( i,1 );
+    var hasChange = false;
+    while (i--) { 
+      if (arr[i] == ob) {
+        arr.splice( i,1 );
+        hasChange = true;
+      }
+      
+    }
+    if (hasChange)
+        objectsChanged();
   }
-  
+
 }  

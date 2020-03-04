@@ -17,6 +17,20 @@ Item {
   property var timeout_id 
 
   property bool manual: false
+  
+  function overwriteParamsInHash(params) {
+     var strpos = JSON.stringify( { "params" : params } );
+
+     if (strpos == "{\"params\":{}}") {
+       strpos = "";
+     }
+
+     //strpos = encodeURIComponent( strpos );
+     strpos = strpos.replace(/ /g, "%20");
+
+     //if (location.hash != strpos);
+     location.hash = strpos;
+  }
 
   function params_update_hash()
   {
@@ -40,7 +54,7 @@ Item {
        oo.params[paramName] = value;
      }
      else
-      delete oo.params[paramName]
+       delete oo.params[paramName]
 
      var strpos = JSON.stringify( oo ); 
 
@@ -98,6 +112,11 @@ Item {
 
     if (!manual && property) {
       target[property+"Changed"].connect( obj,params_update_hash );
+      
+      if (qmlEngine.rootObject.setParamsValues)
+          qmlEngine.rootObject.setParamsValues.connect( obj, doSetParamsValues );
+      if (qmlEngine.rootObject.windowHashToParams)
+          qmlEngine.rootObject.windowHashToParams.connect( obj, doWindowHashToParams );
 
       /*
       window.addEventListener('popstate', function(e){
@@ -123,4 +142,16 @@ Item {
     }
   }
   
+  // устанавливает значение параметра себе из словаря
+  function doSetParamsValues(params) {
+    if (params.hasOwnProperty(paramName)) {
+        target[propertyWrite] = params[paramName];
+    }
+  }
+  
+  function doWindowHashToParams() {
+    console.log("parameter windowHashToParams",name );
+    params_parse_hash();
+  }
+
 }

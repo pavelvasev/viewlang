@@ -89,6 +89,7 @@ Column {
     anchors.margins: 5
     //visible: false
     onClicked: { txt.accepted(); }
+    visible: !fastUpdate
   }
   
   property bool dontSetText: false

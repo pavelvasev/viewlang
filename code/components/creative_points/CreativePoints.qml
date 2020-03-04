@@ -37,7 +37,7 @@ Points {
     text: "texture"
     id: ctex
     value: 1
-    values: ["spark1.png","ball.png","circle.png","disc.png","particle.png","particleA.png",""]
+    values: ["spark1.png","ball.png","circle.png","disc.png","particle.png","particleA.png","snowflake1.png","snowflake3.png",""]
     tag: ctag
   }
   
@@ -54,14 +54,6 @@ Points {
     textEnabled: true
     comboEnabled: false
   }
-
-  Param {
-    id: c3
-    text: "alpha test"
-    value: 50
-    max: 99
-    tag: ctag
-  }  
   
   Param {
     id: c4
@@ -86,6 +78,14 @@ Points {
     max: 1
     tag: ctag
   }
+  
+  Param {
+    id: c3
+    text: "alpha discard"
+    value: 10
+    max: 99
+    tag: ctag
+  }  
 
   OpacityParam {
    target: pts

@@ -16,9 +16,17 @@ Item {
   property var enabled: true
   property var nameWithSlash: name && name.length > 0 ? (name[0] == "/" ? name : "/" + name) : "";
   
-  Component.onCompleted: {
-     //if (enabled && target && name && target.text) { 
-     if (enabled && target && name && target.text) { 
+  Component.onCompleted: tryreg()
+  
+  onNameChanged: tryreg();
+  
+  property bool registered: false
+  function tryreg()
+  {
+     if (registered) return;
+     //console.log("ParamAnimation: trying to register.",name,target.text);
+     
+     if (enabled && target && name && target.text) {
        var rootScene = findRootScene(obj);
        if (target.animationPriority)
          rootScene.gatheredParams.unshift( obj );
@@ -27,7 +35,11 @@ Item {
        rootScene.gatheredParamsChanged();
 
        obj.Component.destruction.connect( removeObjFromCount );
+       registered=true;
+       // console.log("registered");
      }
+     //else
+     //  console.log("not registered");
   }
 
   function removeObjFromCount() {

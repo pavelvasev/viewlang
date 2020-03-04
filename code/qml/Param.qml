@@ -218,6 +218,7 @@ Column {
 
     ParamUrlHashing {
         name: globalName
+        id: hasher
     }
 
     property var globalName: scopeNameCalc.globalName
@@ -241,4 +242,5 @@ Column {
     property alias atoptext: toptext
     //property alias alefttext: lefttext
     property alias arow: therow
+    property alias ahasher: hasher
 }

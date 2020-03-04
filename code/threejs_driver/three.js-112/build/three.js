@@ -18240,8 +18240,9 @@
 		var vertexGlsl = prefixVertex + vertexShader;
 		var fragmentGlsl = prefixFragment + fragmentShader;
 
-		// console.log( '*VERTEX*', vertexGlsl );
-		// console.log( '*FRAGMENT*', fragmentGlsl );
+//		 console.log( '*THREEJS SHADER*' );
+//		 console.log( '*VERTEX*', vertexGlsl );
+//		 console.log( '*FRAGMENT*', fragmentGlsl );
 
 		var glVertexShader = WebGLShader( gl, 35633, vertexGlsl );
 		var glFragmentShader = WebGLShader( gl, 35632, fragmentGlsl );

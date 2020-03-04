@@ -19,6 +19,7 @@ Item {
       if (html) {
         me.dom.style.pointerEvents = "auto";
         me.dom.innerHTML = html;
+        //console.log("Embed: html used=",html);
 
         me.firstChild = me.dom.firstChild;
       }

@@ -13,6 +13,7 @@ Row {
         id: cbOculus
         width: 50
         text: "VR"
+        paramAnimation.enabled: false
 
         onCheckedChanged: {
           if (!oc.initialized) {

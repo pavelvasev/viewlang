@@ -269,7 +269,7 @@ SceneObject {
 
     function refine( space ) {
 
-        // console.log( "refine.. space=",space.info," this=",this.info, this );
+        // console.log( "refine.. space=",space," this=",this );
         // console.trace();
 
         var queue = listToArray( space.children );

@@ -37,6 +37,7 @@ Rectangle {
     onFilesChanged: if (file != files[0]) file = files[0];
     
     property var showChosenFile: true
+    //property var showChosenFile: true
 
     property var guid: translit(text)
 
@@ -97,6 +98,7 @@ Rectangle {
             width: 220
             //height: param.multiple ? 60 : 43
             height: 43
+            id: tabview
 
             Tab {
                 title: "Файл"
@@ -284,12 +286,17 @@ Rectangle {
         enabled: !(param.file instanceof File) && (param.file && param.file.content ? (param.file.content.length && param.file.content.length < 12048) : true)
         //enabled: !(param.file instanceof File) && !(param.file && param.file.content)
         // записывать надо param.files но только если это не локальные файлы
+        id: hasher
     }
+    
 
     property var globalName: scopeNameCalc.globalName
     ScopeCalculator {
         id: scopeNameCalc
         name: param.guid
     }
+    
+    property alias ahasher: hasher
+    property alias atabview: tabview
 
 }

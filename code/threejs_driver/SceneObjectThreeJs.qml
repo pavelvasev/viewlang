@@ -42,7 +42,7 @@ SceneObject {
                 hasAttachedShaders = true;
                 break;
               }
-              else console.log("inspect failed");
+              //else console.log("inspect failed"); ничего страшного если оно не шейдер
             }
           } else {
             if (hasAttachedShaders) {
