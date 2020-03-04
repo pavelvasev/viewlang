@@ -21,6 +21,9 @@ SceneObject {
         x: 10
         y: 5
         id: toolbarWidgetsA
+        
+    //anchors.right: parent.right
+    //anchors.left: parent.left        
 
         // Layout.fillWidth: true
         //anchors.leftMargin: 10
@@ -33,12 +36,6 @@ SceneObject {
         spacing: 5
 
         anchors.margins: 10
-
-        /*
-    anchors.right: parent.right
-    anchors.left: parent.left
-    */
-
     }
 
     Rectangle {
@@ -53,7 +50,8 @@ SceneObject {
         anchors.bottomMargin:-1
 
         z: 4
-        //    opacity: 0.2
+        //opacity: 0.0
+        //opacity: 0.2
         /// also good:
         opacity: 0.5
         color: "#eeeeee"

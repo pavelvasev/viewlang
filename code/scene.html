@@ -453,6 +453,13 @@
           loadQmlAndStart();
         }
     }
+    
+    // к сожалению день рождения только раз в году
+    // в хроме глючат textarea и сбивается прокрутка
+    // мы ее принудительно т.о. восстанавливаем.
+    setInterval( function() {
+      document.querySelector("#qmlSpace").scrollTo(0,0)
+    }, 1000 );
 </script>
 
 </body>

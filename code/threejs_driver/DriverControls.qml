@@ -22,8 +22,8 @@ Item {
 
             var wnd = window.open( "about:blank", '_blank');
             wnd.document.body.innerHTML = "please wait..";
-            jQuery.post( "http://showtime.lact.in/update/visual?get_file_url=1&ext=png", { "imgbase64" : img }, function( res ) {
-               wnd.location.href = "http://showtime.lact.in" +res;
+            jQuery.post( "//showtime.lact.in/update/visual?get_file_url=1&ext=png", { "imgbase64" : img }, function( res ) {
+               wnd.location.href = "//showtime.lact.in" +res;
             });
         }
         
