@@ -50,17 +50,21 @@ Item {
             error();
         }
     }
-
-
-
-    onSourceChanged: {
+    
+    function clearTimeouts() {
         if (loader.timeoutId && timeoutMode) {
             clearTimeout(loader.timeoutId);
             loader.timeoutId=null;
             //console.log("%%%%%%%%%%%%%%%%%%%%%%%% timeout cleared");
-        }
+        }    
+    }
+    
+
+    onSourceChanged: {
+        clearTimeouts();
 
         if (source) {
+
             if (active) {
 
                 if (!timeoutMode)
@@ -189,6 +193,10 @@ Item {
         }
 
         loaded();
+    }
+    
+    Component.onDestruction: {
+      clearTimeouts();
     }
 
 }

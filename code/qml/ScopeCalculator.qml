@@ -56,6 +56,8 @@ Item {
   {
     var count = uniqObjectCounter( str, obj );
     if (count == 1) return str;
+//    console.log("@@@@@@ mapCount2 duplikata found, str=",str );
+//    debugger;
     return str + "-" + count;
   }
   

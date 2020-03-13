@@ -3,6 +3,8 @@ Points {
   property var ctag: "rightbottom"
   radius: 20
   
+  property var scopeName: "points"
+  
   //radius: c2.value
   textureUrl: ctex.values[ctex.value] ? Qt.resolvedUrl("sprites/"+ctex.values[ctex.value]) : null
   alphaTest: c3.value / 100
@@ -39,6 +41,7 @@ Points {
     value: 1
     values: ["spark1.png","ball.png","circle.png","disc.png","particle.png","particleA.png","snowflake1.png","snowflake3.png",""]
     tag: ctag
+    guid: "texture"
   }
   
   property alias radius_p: c2.value
@@ -53,6 +56,7 @@ Points {
     onValueChanged: pts.radius=value
     textEnabled: true
     comboEnabled: false
+    guid: "radius"
   }
   
   Param {
@@ -61,6 +65,7 @@ Points {
     value: 0
     max: 1
     tag: ctag
+    guid: "additive"
   }
 
   Param {
@@ -69,6 +74,7 @@ Points {
     value: 1
     max: 1
     tag: ctag
+    guid: "depth-w"
   }  
 
   Param {
@@ -77,6 +83,7 @@ Points {
     value: 1
     max: 1
     tag: ctag
+    guid: "depth-d"
   }
   
   Param {
@@ -85,6 +92,7 @@ Points {
     value: 10
     max: 99
     tag: ctag
+    guid: "alpha-d"
   }  
 
   OpacityParam {

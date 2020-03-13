@@ -1,5 +1,7 @@
 Lines {
   id: obj
+  
+  property var scopeName: "lines"
 
 /*  потом
   Cylinders {
@@ -49,6 +51,7 @@ Lines {
       tag: ctag
       step: 0.05
       onValueChanged: obj.radius=value
+      guid: "radius"
     }
 
     OpacityParam {

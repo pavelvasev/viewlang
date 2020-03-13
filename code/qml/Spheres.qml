@@ -57,8 +57,8 @@ SceneObject {
         
         if (!spheres_positions) return;
 
-        if (spheres_positions.length > 5000) {
-          console.log("Spheres: degrading nx,ny to 4 because too many spheres");
+        if (spheres_positions.length > 5000*3) {
+          console.log("Spheres: degrading nx,ny to 4 because too many spheres",spheres_positions);
           latitudeBands = 4;
           longitudeBands = 4;
         }

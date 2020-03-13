@@ -47,6 +47,7 @@ function loadFileBase( file_or_path, istext, handler, errhandler ) {
 
         var result = {};
         result.abort = function() { reader.abort(); setFileProgress( file_or_path.name ); }
+        result.stoploading = function() { reader.abort(); setFileProgress( file_or_path.name ); }
         return result;
     }
     else
@@ -97,6 +98,7 @@ function loadFileBase( file_or_path, istext, handler, errhandler ) {
 
             var result = {};
             result.abort = function() { xhr.abort(); setFileProgress( file_or_path ); }
+            result.stoploading = function() { xhr.abort(); setFileProgress( file_or_path ); }
             return result;
 
                 /* ранее вызывали по jquery так. но еще нужен был для arraybuffer

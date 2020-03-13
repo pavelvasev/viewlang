@@ -1,5 +1,7 @@
 Lines {
     id: lin
+    
+    property var iAxis: true
 
     property var risClosed: true // for svl
 
@@ -20,6 +22,7 @@ Lines {
       positions: [ r,0,0, 0,r,0,  0,0,r ]
       colors: [1,0,0, 0,1,0, 0,0,1]
       radius: r / 50.0
+      property var iAxis: true // признак что это объект оси. не убирать, используется в расчете массштабов!
     }
 
   property var titles: ["X","Y","Z"]

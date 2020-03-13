@@ -2,6 +2,7 @@ Param {
   id: param
   text: "Прозрачность"
   property var mult: 1
+  guid: "opacity"
   
   value: 100
   

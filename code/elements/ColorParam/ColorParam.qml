@@ -3,6 +3,8 @@ TextParam {
   id: t
   text: "Цвет"
   width: 100
+  guid: "color"
+  
   property var spath: Qt.resolvedUrl( "jscolor/jscolor.js" );
   Component.onCompleted: {
     la_require( spath, function () {

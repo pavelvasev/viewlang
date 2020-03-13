@@ -3,6 +3,8 @@ Trimesh {
   
   property var ctag: "rightbottom"
   
+  property var scopeName: "mesh"
+  
   materials: [ [m1,m2,m3][pMat.value] ]
   
   property alias text: ibtn.text
@@ -69,11 +71,13 @@ Trimesh {
       value: 0
       values: ["Фонг", "Металл","Ламберт"]
       tag: ctag
+      guid: "material"
     }
     
     Param {
-      text: "Затемнение"
+      text: "Раскраска △▲"
       id: pShading
+      guid: "shading"
       value: 0
       values: ["Гладкое","Плоское"]
       tag: ctag
@@ -88,11 +92,13 @@ Trimesh {
     Param {
       id: pShine
       title: "Яркость / металличность"; min: 0; max: 100; value: 30
+      guid: "shine"
     }
     
     Param {
       id: pWire
       title: "Только каркас"; min: 0; max: 10; value: 0; step: 0.1
+      guid: "wire"
     }
 
     OpacityParam {

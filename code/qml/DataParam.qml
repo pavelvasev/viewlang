@@ -6,6 +6,7 @@ import QtQuick.Controls 1.2
 // - типа FileObject
 // - строка - тогда это URL
 // - или объект { plainData: xxx } - тогда это прямо вот данные
+// причем file = files[0]
 
 Rectangle {
     /* Потоки данных
@@ -287,6 +288,12 @@ Rectangle {
         //enabled: !(param.file instanceof File) && !(param.file && param.file.content)
         // записывать надо param.files но только если это не локальные файлы
         id: hasher
+        propertyWrite: "setfilesexternal"
+    }
+    property var setfilesexternal
+    onSetfilesexternalChanged: {
+      files = []; // файлы обнуляем сначала
+      files = setfilesexternal;
     }
     
 

@@ -18,6 +18,33 @@ Item {
 
   property bool manual: false
   
+  /////
+  property var stateManager: qmlEngine.rootObject.stateManager || qmlEngine.rootObject
+  // объект менеджера состояния может поддерживать методы: getState->{} + patchState( {} ), а также сигнал sendStateToParams
+  
+  // обновляет значение параметра из объекта состояния
+  function getFromState() {
+    if (stateManager && stateManager.getState) {
+      doRefreshParams( stateManager.getState() );
+    }
+    else
+      params_parse_hash();
+  }
+  
+  // записывает значение параметра в объект состояния
+  function putToState() {
+    if (stateManager && stateManager.patchState) {
+      var value = obj.enabled ? target[property] : undefined;
+      var patch = {};
+      patch[ paramName ] = value;
+      stateManager.patchState( patch,"ParamUrlHashing/"+paramName )
+    }
+    else
+      params_update_hash();
+  }
+  
+  /////
+  
   function overwriteParamsInHash(params) {
      var strpos = JSON.stringify( { "params" : params } );
 
@@ -67,6 +94,7 @@ Item {
 
      if (location.hash != strpos);
        location.hash = strpos;
+ 
      timeout_id = null;
 
      };
@@ -78,13 +106,17 @@ Item {
       var oo = {};
        try {
          var s = location.hash.substr(1);
-         // s = decodeURIComponent( s );
-         s = s.replace(/%20/g, " ");
+         // we have 2 variations: use decode and use replace %20.
+         // at 2020 we see Russian language in objects, thus we use variant with decode.
+         s = decodeURIComponent( s );
+         //s = s.replace(/%20/g, " ");
          oo = JSON.parse( s );
        } catch(err) {
          // sometimes url may be converted. decode it.
          try {
-           oo = JSON.parse( decodeURIComponent( location.hash.substr(1) ) );
+           //oo = JSON.parse( decodeURIComponent( location.hash.substr(1) ) );
+           // если не получилось с decode - попробуем без него
+           oo = JSON.parse( location.hash.substr(1) );
          }
          catch (err2) {
            // do nothing
@@ -108,15 +140,16 @@ Item {
   }
 
   Component.onCompleted: {
-    params_parse_hash();
+    getFromState();
+    //params_parse_hash();
 
     if (!manual && property) {
-      target[property+"Changed"].connect( obj,params_update_hash );
+      target[property+"Changed"].connect( obj,putToState );
       
-      if (qmlEngine.rootObject.setParamsValues)
-          qmlEngine.rootObject.setParamsValues.connect( obj, doSetParamsValues );
-      if (qmlEngine.rootObject.windowHashToParams)
-          qmlEngine.rootObject.windowHashToParams.connect( obj, doWindowHashToParams );
+      if (stateManager && stateManager.sendStateToParams )
+          stateManager.sendStateToParams.connect( obj, doRefreshParams );
+      if (stateManager && stateManager.windowHashToParams)
+          stateManager.windowHashToParams.connect( obj, doWindowHashToParams );
 
       /*
       window.addEventListener('popstate', function(e){
@@ -133,24 +166,29 @@ Item {
     // это на тот случай, когда имя параметра внезапно меняется, после изменения какого-то scopeName,
     // например при динамической загрузке приложения как в distort/appender
     if (inited)
-      params_parse_hash();
+      getFromState();
+      //params_parse_hash();
   }
   
   onEnabledChanged: {
     if (inited) {
-      params_update_hash();
+      putToState();
+      //params_update_hash();
     }
   }
   
   // устанавливает значение параметра себе из словаря
-  function doSetParamsValues(params) {
+  function doRefreshParams(params) {
+    //console.log("do refresh state",paramName);
     if (params.hasOwnProperty(paramName)) {
+        //console.log("writing to target");
         target[propertyWrite] = params[paramName];
     }
   }
   
+  // сигнал для принудительного обновления из хеша
   function doWindowHashToParams() {
-    console.log("parameter windowHashToParams",name );
+    // console.log("parameter windowHashToParams",name );
     params_parse_hash();
   }
 
