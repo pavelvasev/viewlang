@@ -101,11 +101,22 @@ la_require("three.js/examples/js/controls/"+controlType+".js", function() {
 //var container = document.getElementById("canvas-1");
 
 //var renderer = new THREE.WebGLRenderer( { canvas: container  } );
+
+
 var renderer = new THREE.WebGLRenderer({
 //  autoClear : false,
   alpha: true,
   preserveDrawingBuffer   : true   // required to support .toDataURL()
 });
+
+
+//var renderer = new SVGRenderer();
+//var renderer = new THREE.SVGRenderer();
+//document.body.appendChild( renderer.domElement );
+//renderer.domElement.classList += "somethingLikeCanvas";
+
+//var renderer = new THREE.CanvasRenderer();
+
 threejs.renderer = renderer;
 
 var selectedRenderer  = renderer;

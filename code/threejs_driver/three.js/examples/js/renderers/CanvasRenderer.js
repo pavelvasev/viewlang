@@ -392,7 +392,7 @@ THREE.CanvasRenderer = function ( parameters ) {
 				_v1.positionScreen.x *= _canvasWidthHalf; _v1.positionScreen.y *= _canvasHeightHalf;
 				_v2.positionScreen.x *= _canvasWidthHalf; _v2.positionScreen.y *= _canvasHeightHalf;
 				_v3.positionScreen.x *= _canvasWidthHalf; _v3.positionScreen.y *= _canvasHeightHalf;
-
+/*
 				if ( material.overdraw > 0 ) {
 
 					expand( _v1.positionScreen, _v2.positionScreen, material.overdraw );
@@ -400,6 +400,7 @@ THREE.CanvasRenderer = function ( parameters ) {
 					expand( _v3.positionScreen, _v1.positionScreen, material.overdraw );
 
 				}
+*/		
 
 				_elemBox.setFromPoints( [
 					_v1.positionScreen,

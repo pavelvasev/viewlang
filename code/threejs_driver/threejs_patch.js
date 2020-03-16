@@ -67,3 +67,23 @@ WEBVR.getButtonPose = function ( display ) {
 
 	};
 */	
+
+/*
+THREE.SVGRenderer.prototype.setAnimationLoop = function(cb) {
+  var mycb = function() {
+    cb();
+    window.requestAnimationFrame( mycb );
+  }
+  mycb();
+}
+
+THREE.SVGRenderer.prototype.getPixelRatio = function() { return 1.0; }
+*/
+
+THREE.CanvasRenderer.prototype.setAnimationLoop = function(cb) {
+  var mycb = function() {
+    cb();
+    window.requestAnimationFrame( mycb );
+  }
+  mycb();
+}
