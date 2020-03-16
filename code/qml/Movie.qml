@@ -1,3 +1,19 @@
+/*
+  Предназначение - генерация анимации
+  
+  По таймеру увеличивает значение параметра на заданную величину.
+  
+  Примечание. Параметры во вьюланг идут в 2х режимах - простые числовые и списочные.
+  С числовыми все хорошо и понятно - есть минимум, максимум, шаг, и значение.
+  Со списочными - идет список значений.
+  Пока не понятно, как поступать с их анимацией. А именно, что вводить в стартовом,
+  максимальном, и шаговом значениях в анимации - значения индексов или значения из списков.
+  Значения из списков заманчивы - человеку удобнее опираться на реальность, а не на индексы.
+  Но это не сработает если значения в списках строковые или нелинейные числовые.
+  Пока непонятно, как быть.
+  
+*/
+
 Item {
     ////////////////////////
     property var recorderWindow
@@ -40,7 +56,7 @@ Item {
         
         processParam.value = processParam.value + processStep;
 
-        if ( (processStep > 0 && processParam.value >= processMax) || ((processStep < 0 && processParam.value <= processMax))) {
+        if ( (processStep > 0 && processParam.value > processMax) || ((processStep < 0 && processParam.value < processMin))) {
 
           // BUG. here we stop recording. But actial rendering will be done on the next step. So last shot is lost.
         
@@ -112,17 +128,33 @@ Item {
       paramFinish.value = targetParam.max;
     }
     */
-    function updateminmax() {
+    function updateminmax(force) {
       var q = sceneObj.rootScene.gatheredParams[ comboparams.currentIndex ];
-      if (!q) return;
+      if (!q) { console.log("k1"); return; }
       var targetParam = q.target;
-      if (!targetParam) return;
+      if (!targetParam) { console.log( "k2" ); return; }
       if (targetParam !== processParam) {
-        paramStart.text = targetParam.min;
+        //paramStart.text = targetParam.min;
+        paramStart.text = targetParam.value; // try start from current value..
         paramFinish.text = targetParam.max;      
         paramStep.text =  targetParam.animationStep ? targetParam.animationStep : targetParam.step;
-      }
+        paramStartLabel.note = targetParam.values ? "(порядковый номер)" : "(значение)"
+      } else console.log("k3");
     }
+    function setcurrentv() {
+      var q = sceneObj.rootScene.gatheredParams[ comboparams.currentIndex ];
+      if (!q) { console.log("k1"); return; }
+      var targetParam = q.target;
+      if (!targetParam) { console.log( "k2" ); return; }
+      paramStart.text = targetParam.value;
+    } 
+    function setminv() {
+      var q = sceneObj.rootScene.gatheredParams[ comboparams.currentIndex ];
+      if (!q) { console.log("k1"); return; }
+      var targetParam = q.target;
+      if (!targetParam) { console.log( "k2" ); return; }
+      paramStart.text = targetParam.min;
+    }     
 
     function gogo() {
       var q = sceneObj.rootScene.gatheredParams[ comboparams.currentIndex ];
@@ -182,10 +214,27 @@ Item {
         }
 
         Text {
-          text: "стартовая позиция"
+          text: "стартовая позиция " + note
+          id: paramStartLabel
+          property var note: ""
         }
-        TextField {
-          id: paramStart
+        Row {
+          spacing: 10
+          TextField {
+            id: paramStart
+            width: 185
+          }
+          Button {
+             text: "cur"
+             //onClicked: setminv();
+             onClicked: setcurrentv();
+          }          
+          Button {
+             text: "min"
+             onClicked: setminv();
+             //onClicked: setcurrentv();
+          }          
+
         }
         Text {
           text: "конечная позиция"
