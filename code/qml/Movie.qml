@@ -133,9 +133,9 @@ Item {
       if (!q) { console.log("k1"); return; }
       var targetParam = q.target;
       if (!targetParam) { console.log( "k2" ); return; }
-      if (targetParam !== processParam) {
-        //paramStart.text = targetParam.min;
-        paramStart.text = targetParam.value; // try start from current value..
+      if (targetParam !== processParam || force) {
+        paramStart.text = targetParam.min;
+        //paramStart.text = targetParam.value; // try start from current value..
         paramFinish.text = targetParam.max;      
         paramStep.text =  targetParam.animationStep ? targetParam.animationStep : targetParam.step;
         paramStartLabel.note = targetParam.values ? "(порядковый номер)" : "(значение)"
@@ -209,7 +209,7 @@ Item {
         ComboBox {
           width: 200
           id: comboparams
-          onCurrentIndexChanged: updateminmax()
+          onCurrentIndexChanged: updateminmax(true)
 
         }
 
