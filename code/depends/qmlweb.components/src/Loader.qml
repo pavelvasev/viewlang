@@ -25,8 +25,10 @@ Item {
     implicitWidth: loader.item ? loader.item.width : 0
     implicitHeight: {
         var v = loader.item ? loader.item.height : 0
+        //debugger;
         //console.log(loader.item);
         //console.log("loadr implicit h=",v,source, "and own height=",loader.height);
+
         return v;
     }
 

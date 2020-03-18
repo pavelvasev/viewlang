@@ -1,5 +1,7 @@
 // Kees some object property value in browser url hash
 // todo https://developer.mozilla.org/en-US/docs/Web/API/History_API
+
+// todo: manual, enabled - clarify its logic
 Item {
   id: obj
   
@@ -142,8 +144,10 @@ Item {
   Component.onCompleted: {
     getFromState();
     //params_parse_hash();
-
+    
     if (!manual && property) {
+      
+    
       target[property+"Changed"].connect( obj,putToState );
       
       if (stateManager && stateManager.sendStateToParams )
@@ -179,6 +183,9 @@ Item {
   
   // устанавливает значение параметра себе из словаря
   function doRefreshParams(params) {
+    if (!paramName || paramName.length == 0 || !propertyWrite) return;
+    if (!enabled) return;
+    // enabled?
     //console.log("do refresh state",paramName);
     if (params.hasOwnProperty(paramName)) {
         //console.log("writing to target");
