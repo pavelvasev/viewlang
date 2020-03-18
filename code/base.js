@@ -354,6 +354,7 @@ function removeA(arr) {
       }
       else {
         hsh[ filename ] = msg + (percent >= 0 ? " " + (percent.toFixed ? percent.toFixed(2) : percent) +"%" : "");
+
         if (typeof(percent)==="number") {
           setGuiProgress( percent );
           if (percent < 0) {
@@ -365,8 +366,15 @@ function removeA(arr) {
       }
 
       var acc = [];
-      for (var i in hsh)
+      for (var i in hsh) {
        acc.push( i + " " + hsh[i] );
+      }
+      // красивая раскраска красненьким
+      acc = acc.map( function(str) {
+        if (str.match(/error/i)) {
+          return "<span class='la_error'>"+str+"</span>";
+        } else return str;
+      } );
        
       jQuery( "#fileProgress" ).html( acc.join("<br/>") );
 

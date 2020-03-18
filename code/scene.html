@@ -97,6 +97,11 @@
         @keyframes blinker {  
           50% { opacity: 0.1; }
         }
+        
+        
+        div#fileProgress .la_error {
+          background-color: #700;
+        }
 
         div.dg.ac { z-index: 1001 !important; }
 
@@ -386,13 +391,22 @@
     var tt = qmlEngine.rootObject.text;
     if (tt) {
       //jQuery("#infoDark").append( qmlEngine.rootObject.text );
-      jQuery("#infoDark").html( qmlEngine.rootObject.text );
+      jQuery("#infoDark").html( tt );
       document.title = tt;
-      qmlEngine.rootObject.textChanged.connect( this, function() {
-        jQuery("#infoDark").html( qmlEngine.rootObject.text );
-        document.title = qmlEngine.rootObject.text;
-      });
+      
     }
+    
+    console.log("uu setting conn");
+    qmlEngine.rootObject.textChanged.connect( this, function() {
+      var s = qmlEngine.rootObject.text;
+      if (typeof(s) != "string" || s == "" || s == " ") s = "&nbsp;";
+        //var s = typeof(qmlEngine.rootObject.text) == "string" ? qmlEngine.rootObject.text : "";
+        
+        console.log("ssssss=",s);
+        jQuery("#infoDark").html( s );
+        document.title = (s == "&nbsp;" ? "" : s);
+    });
+    
 
     tt = qmlEngine.rootObject.helpText;
     if (tt) {
