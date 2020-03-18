@@ -85,22 +85,23 @@
           top: 2px; right: 2px; 
           /*padding: 2px; */
           padding: 0px;
-          background-color: #070; 
-          color: #fff;
-          z-index: 10005;          
+          background-color: rgba( 0,119,0,0.5 );
+          color: rgba(200,200,200,1);
+          z-index: 10005;
         }
 
-        div#fileProgress {
-          animation: blinker 4s linear infinite;
+        div#fileProgress .la_error {
+          animation: blinker 2s linear infinite;
         }
 
         @keyframes blinker {  
-          50% { opacity: 0.1; }
+          50% { opacity: 0.4; }
         }
         
         
         div#fileProgress .la_error {
           background-color: #700;
+          color: #fff;
         }
 
         div.dg.ac { z-index: 1001 !important; }
