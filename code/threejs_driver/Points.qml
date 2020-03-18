@@ -248,6 +248,7 @@ SceneObjectThreeJs {
         this.sceneObject.sortParticles = true;
 
         colorsChanged();
+        colorChanged();
         textureUrlChanged();
         transparentChanged();
         radiusesChanged();
