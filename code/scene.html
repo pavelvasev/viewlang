@@ -108,32 +108,32 @@
         */
         /* http://stackoverflow.com/questions/5517744/remove-extra-button-spacing-padding-in-firefox */
         
+        /*
         button::-moz-focus-inner {
            border: none;
            padding: 0;
         }
+        */
 
         @-moz-document url-prefix() {
-
-        /*
-        button {
-           border: 2px;
-           padding-top: 1px;
-           padding-bottom: 1px;
-        }
-        */
         
-        /*
         button {
-           //border: 2px;
-           padding-top: -1px;
-           padding-bottom: -1px;
+           border: 0px !important;
+/*           padding-top: 1px;
+           padding-bottom: 1px;*/
         }
-        */
+        
+        select {
+          border: 0px !important;
+        }
+        
+        
         
         button.Button span {
+        /*
            margin-left: -3px;
            -moz-transform:translateY(-1px);
+           */
            
            /*
            left: 3px;
