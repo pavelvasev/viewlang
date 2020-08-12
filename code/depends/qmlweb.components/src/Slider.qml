@@ -47,6 +47,10 @@ Item {
       htmlNode.min = minimumValue;
     if (slider.value < minimumValue) slider.value = minimumValue;
   }  
+  
+  onStepSizeChanged: {
+    htmlNode.step = stepSize;
+  }
 
   Component.onCompleted: {
       if (typeof(value)==="undefined") value = minimumValue;
