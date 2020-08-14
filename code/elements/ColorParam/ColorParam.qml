@@ -51,7 +51,7 @@ TextParam {
     colorWasChanged = true;
     //console.log("ColorParam: color changed",color, "targetHasColor()=",targetHasColor(),"t.doNotSendBack=",t.doNotSendBack, "t.target=",t.target );
     if (!t.doNotSendBack) {
-      console.log("setting value to color=",color);
+      // console.log("setting value to color=",color);
       value = color.join(" ");
       //t.picker.fromString(t.value);
       

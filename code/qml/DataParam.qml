@@ -271,7 +271,7 @@ Rectangle {
 
                 if (param.file.split) {
                     var co = param.file.split("/");
-                    return "Выбран файл: <a target='_blank' href='" + param.file + "'>"+co[co.length-1]+"</a>\n\n"
+                    return "Выбран файл: <a target='_blank' href='" + param.file + "'>"+co[co.length-1]+"</a>"
                 }
 
                 return "Введены данные";
