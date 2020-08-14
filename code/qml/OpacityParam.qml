@@ -14,6 +14,7 @@ Param {
   function go() {
     if (!source) return;
     source.opacity = mult * param.value/100.0;
+    /* moved to SceneObjectThreeJs
     if (source["radiusChanged"])
       source.visible = source.radius > 0 && source.opacity > 0;
     else
@@ -24,5 +25,6 @@ Param {
       source.visible = source.opacity > 0;
       //console.log("checked and set source.visible=",source.visible);
     }
+    */
   }
 }

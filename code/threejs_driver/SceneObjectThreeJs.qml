@@ -98,8 +98,23 @@ SceneObject {
         //makeLater(this);
         if (this.sceneObject) {
           //console.log("theejs set visible=",visible);
-          this.sceneObject.visible = visible;
+          this.sceneObject.visible = visible && extraVisible();
         }
+    }
+    
+    function extraVisible()
+    {
+      var source = theobj;
+      if (source["radiusChanged"])
+         return source.radius > 0 && source.opacity > 0;
+      else
+      if (source.play)  // camera or video
+      { // do nothing
+      }
+      else {
+       return source.opacity > 0;
+      }
+      return true;
     }
 
     function intersect( pos, threshold ) {
