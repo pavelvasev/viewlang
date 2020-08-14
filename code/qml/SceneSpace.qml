@@ -130,7 +130,17 @@ SceneObject {
         anchors.right: parent.right
         anchors.margins: 10
         
-        height: Math.min( 25 + implicitHeight, parent.height-25 );
+        //height: Math.min( 25 + implicitHeight, parent.height-25-rightBottomWidgets.height );
+        // сие есть старый алгоритм
+        
+        height: Math.max( 0, Math.min( 25 + implicitHeight, parent.height-25-rightBottomWidgets.height-45 ) )
+        // получается мы делаем что правые нижние виджеты наступают на эту.
+        // ну и ладно, кто-то должен уступить
+        // Math.max добавлен чтобы больше 0 хотябы было
+        
+        // width делаем чтобы scroll не накладывался
+        width: 18 + implicitWidth
+        
         css.overflowY: "auto";
         css.overflowX: "hidden";
         css.pointerEvents: "all";
@@ -156,7 +166,7 @@ SceneObject {
         z: 1
         opacity: 0.2 // специально такое низкое значение, чтобы в глаза не билось. Для тулбара сделано побольше, там можно
         color: "#eeeeee"
-    }    
+    }
 
     property alias rightBottomWidgets: rightBottomWidgetsA
     Column {
@@ -167,6 +177,11 @@ SceneObject {
 
         anchors.right: parent.right
         anchors.margins: 10
+        
+        // с этим разбираться долго, что-то глючит в нашем царстве..
+        //css.overflowY: "auto";
+        //css.overflowX: "hidden";
+        //css.pointerEvents: "all";
         
     }
     
