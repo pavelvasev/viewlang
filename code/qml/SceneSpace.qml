@@ -95,7 +95,7 @@ SceneObject {
 
         anchors.margins: 10
         
-        height: Math.min( 25 + implicitHeight, parent.height-50 );
+        height: Math.min( 25 + implicitHeight, parent.height-50-25 );
         css.overflowY: "auto";
         css.overflowX: "hidden";
         css.pointerEvents: "all";        
