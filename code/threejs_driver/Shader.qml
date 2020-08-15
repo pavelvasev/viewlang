@@ -463,7 +463,7 @@ void main() {
     #ifdef USE_SIZEATTENUATION
         gl_PointSize = psize * ( scale / - mvPosition.z );
         // возможно точки исчещают что эта штука в 0 обращается
-        //gl_PointSize = size;
+        // gl_PointSize = size;
     #else
         gl_PointSize = psize;
     #endif

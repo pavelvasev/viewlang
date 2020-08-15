@@ -30,16 +30,21 @@ Points {
     property var tag: ctag
     id: coco
 
+/*
   Text {
     text: " "
     height: 10
+  }*/
+  
+  Text {
+    text: "Points: "+pts.positions.length/3
   }
 
   Param {
     text: "texture"
     id: ctex
-    value: 1
-    values: ["spark1.png","ball.png","circle.png","disc.png","particle.png","particleA.png","snowflake1.png","snowflake3.png",""]
+    value: 2
+    values: ["","spark1.png","ball.png","circle.png","disc.png","particle.png","particleA.png","snowflake1.png","snowflake3.png"]
     tag: ctag
     guid: "texture"
   }
