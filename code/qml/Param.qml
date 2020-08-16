@@ -48,6 +48,8 @@ Column {
             step = 1;
             //combo.model = values;
         }
+        // представитель алгоритма setAppValue
+        valuesAreSortedChecked=false;
     }
 
     property var tag: "left"
@@ -253,4 +255,74 @@ Column {
     //property alias alefttext: lefttext
     property alias arow: therow
     property alias ahasher: hasher
+    
+    //////////////////////////////////////// setAppValue
+    
+    
+    /// установка значений из списка
+    function closestForSorted(num, arr) {
+      var mid;
+      var lo = 0;
+      var hi = arr.length - 1;
+      while (hi - lo > 1) {
+        mid = Math.floor ((lo + hi) / 2);
+        if (arr[mid] < num) {
+          lo = mid;
+        } else {
+          hi = mid;
+        }
+      }
+      if (num - arr[lo] <= arr[hi] - num) {
+        return lo;
+      }
+      return hi;
+    }
+    
+    function closestForUnsorted(num, arr) {
+      var nearest_i=undefined;
+      var nearest_dist = 10000000;
+      for (var i=0; i<arr.length; i++) {
+        var dist = Math.abs( arr[i] - num );
+        if (dist < nearest_dist) {
+          nearest_i = i;
+          nearest_dist = dist;
+        }
+      };
+      return nearest_i;
+    }
+
+    function isSorted(arr){
+      if (!arr) return false;
+      for (var i=1; i<arr.length; i++) {
+        if (!(arr[i-1] < arr[i])) return false;
+      }
+      return true;
+    }
+    
+    // кеш
+    property bool valuesAreSortedChecked: false
+    property bool valuesAreSorted: false
+    
+    function setAppValue( v )
+    {
+      if (values && values.length > 0)
+      {
+        var q = values;
+        if (typeof(v) == "String")
+          value = q.indexOf( v );
+        else
+        {
+          if (!valuesAreSortedChecked) {
+            valuesAreSorted = isSorted(values);
+            valuesAreSortedChecked=true;
+          }
+          if (valuesAreSorted)
+            value = closestForSorted( v, values );
+          else
+            value = closestForUnsorted( v, values );
+        }
+      }
+      else
+        value = v;
+    }
 }

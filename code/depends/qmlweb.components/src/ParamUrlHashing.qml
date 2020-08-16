@@ -150,8 +150,10 @@ Item {
     
       target[property+"Changed"].connect( obj,putToState );
       
+      // sendStateToParams это сигнал объекта состояния
       if (stateManager && stateManager.sendStateToParams )
           stateManager.sendStateToParams.connect( obj, doRefreshParams );
+      // это какие-то устаревшие протоколы
       if (stateManager && stateManager.windowHashToParams)
           stateManager.windowHashToParams.connect( obj, doWindowHashToParams );
 

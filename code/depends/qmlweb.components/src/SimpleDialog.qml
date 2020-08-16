@@ -16,6 +16,8 @@ Rectangle {
   //opacity: 0.9
   border.width:1	
   border.color:"grey"
+  
+  property var refineDisabled: true // необходимо чтобы вещи с tag не вытаскивали из диалога
 
   default property alias newChildren: content.data
 
