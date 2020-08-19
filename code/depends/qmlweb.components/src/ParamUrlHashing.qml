@@ -48,6 +48,8 @@ Item {
   /////
   
   function overwriteParamsInHash(params) {
+     //if (engine.operationState === QMLOperationState.Init) return;
+     
      var strpos = JSON.stringify( { "params" : params } );
 
      if (strpos == "{\"params\":{}}") {
@@ -58,6 +60,8 @@ Item {
      strpos = strpos.replace(/ /g, "%20");
 
      //if (location.hash != strpos);
+     //console.error("overwriteParamsInHash called, params=",params);
+     //debugger;
      location.hash = strpos;
   }
 
@@ -94,8 +98,11 @@ Item {
      //strpos = encodeURIComponent( strpos );
      strpos = strpos.replace(/ /g, "%20");
 
-     if (location.hash != strpos);
+     if (location.hash != strpos) {
+       //console.error("ok setting params to location hash...");
+       //debugger;
        location.hash = strpos;
+     }
  
      timeout_id = null;
 
@@ -114,6 +121,9 @@ Item {
          //s = s.replace(/%20/g, " ");
          oo = JSON.parse( s );
        } catch(err) {
+         //console.error("read_hash_obj: failed to parse. err=",err);
+         var s = location.hash.substr(1);
+         console.error("str was",s, "location.hash is ",location.hash);
          // sometimes url may be converted. decode it.
          try {
            //oo = JSON.parse( decodeURIComponent( location.hash.substr(1) ) );
@@ -121,6 +131,7 @@ Item {
            oo = JSON.parse( location.hash.substr(1) );
          }
          catch (err2) {
+           // console.error("read_hash_obj: second level of error catch. err2=",err2);
            // do nothing
          }
        }

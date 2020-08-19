@@ -397,13 +397,13 @@
       
     }
     
-    console.log("uu setting conn");
+    //console.log("uu setting conn");
     qmlEngine.rootObject.textChanged.connect( this, function() {
       var s = qmlEngine.rootObject.text;
       if (typeof(s) != "string" || s == "" || s == " ") s = "&nbsp;";
         //var s = typeof(qmlEngine.rootObject.text) == "string" ? qmlEngine.rootObject.text : "";
         
-        console.log("ssssss=",s);
+        // console.log("ssssss=",s);
         jQuery("#infoDark").html( s );
         document.title = (s == "&nbsp;" ? "" : s);
     });
