@@ -252,6 +252,7 @@ SceneObjectThreeJs {
         // возможно стоит это делать только если точек 1
         // ок, так и будем делать
         this.sceneObject.frustumCulled = (positions.length > 3);
+        //this.sceneObject.frustumCulled = false;
         
 
         colorsChanged();

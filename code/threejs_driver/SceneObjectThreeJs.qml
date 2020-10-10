@@ -77,6 +77,11 @@ SceneObject {
         this.clear();
         return;
       }
+      
+      // an unique patch - do not use frustrum culling for any objects
+      // because it have (?) bugs in three-js - in our practice sometimes
+      // objects are culled-out while they shouldn't
+      this.sceneObject.frustumCulled = false;
 
       if (renderOrder) { this.sceneObject.renderOrder = renderOrder; }
 
