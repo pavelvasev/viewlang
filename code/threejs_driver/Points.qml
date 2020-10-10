@@ -27,6 +27,7 @@ SceneObjectThreeJs {
 
     onPositionsChanged: {
 //        console.log("changed, scheduling remake of points");
+// если вернемся к positions выставке аттрибута то см frustumCulled
         makeLater( this );
         /*
         if (!this.sceneObject) return;
@@ -246,6 +247,12 @@ SceneObjectThreeJs {
         this.sceneObject = new THREE.Points( geometry, material );
         this.sceneObject.visible = visible;
         this.sceneObject.sortParticles = true;
+        // добавка важна если 1 точка только - без нее неверно вычисляется отсечение
+        // при решении о рендеринге
+        // возможно стоит это делать только если точек 1
+        // ок, так и будем делать
+        this.sceneObject.frustumCulled = (positions.length > 3);
+        
 
         colorsChanged();
         colorChanged();
