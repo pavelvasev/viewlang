@@ -203,7 +203,7 @@ Item {
         }
 
         Component.onCompleted: {
-            //la_require("three.js-112/examples/js/effects/AnaglyphEffect.js", function() {
+            //la_require("three.js-r/examples/js/effects/AnaglyphEffect.js", function() {
             la_require("AnaglyphEffect_patched.js", function() {
                 redGreenBox.redGreenEffect = new THREE.AnaglyphEffect( renderer );
                 redGreenBox.redGreenEffect.setSize( window.innerWidth, window.innerHeight );
@@ -257,7 +257,7 @@ Item {
 
         // по уму их тут и надо загружать.. а то чего распластались..
         Component.onCompleted: {
-            la_require("three.js-112/examples/js/effects/StereoEffect.js");
+            la_require("three.js-part/examples/js/effects/StereoEffect.js");
         }
 
     }

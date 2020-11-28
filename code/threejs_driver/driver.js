@@ -259,6 +259,9 @@ function doScheduledPrerenderTasks() {
 var clock = new THREE.Clock(true);    
 var threejs_sceneTime = 0, threejs_sceneDelta = 0;
 
+// aspect
+var render_aspect = function() {};
+
 function render() {
     threejs_sceneDelta = clock.getDelta();
     threejs_sceneTime = clock.elapsedTime;
@@ -272,6 +275,8 @@ function render() {
     //if (vrControl) vrControl.update();
     
     //sceneControl.update();
+    
+    render_aspect.apply();
   
     //debugger;
     selectedRenderer.render( scene, camera );

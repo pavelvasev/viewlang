@@ -6,6 +6,7 @@ Item {
   property var realCameraPosition: [0,0,50] // считывается нами из ThreeJs
   
   property var sceneControl: undefined
+  // объект типа orbitControl и т.д., создается динамически
   
   function reset()
   {
