@@ -88,7 +88,7 @@ BODY
   // целевой объект не понятно зачем, но видимо зачем-то нужен
   
   function attachShaders( shaders, sceneMaterial, hosterObj ) {
-//    console.log("Shader::attachShaders",shaders,hosterObj );
+    console.log("Shader::attachShaders",shaders,hosterObj );
     
     // методы очистки уже прицепленного (там сейчас сигналы если что)
     if (hosterObj.shadersDetachFunc) {
@@ -344,8 +344,16 @@ BODY
             }
 
             if (!ownerObj[ uniform_property_name+"Changed"]) {
-              console.error("Shader: cannot find 'changed' signal for property",uniform_property_name );
+              console.log("Shader: cannot find 'changed' signal for property",uniform_property_name );
               return;
+              // случай если мы хотим шейдеру назначать свойства динамически
+              /*
+              console.log("creating automatically");
+              var ovalue = ownerObj[ uniform_property_name ];
+              QObject.createSimpleProperty("var",ownerObj,uniform_property_name);
+              ownerObj[ uniform_property_name ] = ovalue || 0; // hmm
+              */
+              
             }
             ownerObj[ uniform_property_name+"Changed"].connect( hosterObj, handler );
             // отдельно запомним очищалку сигналов используемую "в общем"
@@ -386,6 +394,7 @@ BODY
               dataObj = dataObj.$context;
 
             if (typeof(dataObj[dataName]) === "undefined") {
+            //if (!dataObj.hasOwnProperty(dataName)) {
               console.error("Shader.qml error: property ",dataName," referenced in shader code not found in shader object!");
               continue;
             }

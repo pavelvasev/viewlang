@@ -17,7 +17,9 @@ Column {
   
   ParamUrlHashing {
     name: globalName
+    id: hasher
   }
+  property alias ahasher: hasher
 
   property var fastUpdate: false // update value as user type (do not wait for enter)
   

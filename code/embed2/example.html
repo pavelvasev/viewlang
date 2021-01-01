@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <script src="../depends/jquery-2.1.4.js"></script>
+
+  <script src="../depends/qmlweb/src/parser.js"></script>
+  <script src="../depends/qmlweb/src/process.js"></script>
+  <script src="../depends/qmlweb/src/import.js"></script>
+  <script src="../depends/qmlweb/src/qtcore.js"></script>
+
+  <script src="../base.js"></script>
+<head>
+</head>
+<body>
+  <div id="qmlSpace">
+      target space for qml...
+  </div>
+  <style>
+  #qmlSpace {
+    width: 100vw !important;
+    bottom: 0px !important;
+    z-index: 10000;
+  }
+  .viewlang-canvas {
+    width: 100%; height: 100%;
+    margin: 0; padding: 0; display: block; left: 0px; top: 0px; position: absolute;
+  }
+  body { margin: 0; }
+  </style>
+
+  <script src="../threejs_driver/init.js"></script>
+
+  <script type="module">
+    import * as Viewlang from "./init.js"
+
+    window.qmlEngine = new QMLEngine( document.getElementById( "qmlSpace" ) );
+
+    Viewlang.setup_qmlweb( qmlEngine );
+    // Viewlang.setup_driver( "../threejs_driver/" );
+
+    qmlEngine.loadFile( "example-scene.vl" );
+
+  </script>
+
+</body>

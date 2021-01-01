@@ -4,7 +4,8 @@ Slider 1.0 src/Slider.qml
 ComboBox 1.0 src/ComboBox.qml
 GroupBox 1.0 src/GroupBox.qml
 GroupBoxF 1.0 src/GroupBoxF.qml
-SimpleDialog 1.0 src/SimpleDialog.qml 
+SimpleDialog 1.0 src/SimpleDialog.qml
+SimpleDialog2 1.0 src/SimpleDialog2.qml
 ExclusiveGroup 1.0 src/ExclusiveGroup.qml 
 Tab 1.0 src/Tab.qml 
 TabView 1.0 src/TabView.qml 

@@ -1,3 +1,5 @@
+la_require_prefix = getCurrentScriptPath() + "/";
+
 la_require_write( "three.js-part/build/three.js");
 
 //la_require_write("three.js-112/examples/js/renderers/Projector.js");

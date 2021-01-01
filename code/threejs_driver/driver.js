@@ -14,89 +14,8 @@ threejs.camera = camera;
 
 camera.position.z = 25;
 
-//var light0 = new THREE.AmbientLight( 0x444444 );
-////var light0 = new THREE.AmbientLight( 0x004000 );
-//				scene.add( light0 );
-				
-				/*
-				var light1 = new THREE.DirectionalLight( 0xffffff, 0.5 );
-				var r = 50;
-				light1.position.set( r, r, r );
-				scene.add( light1 );
 
-				var light2 = new THREE.DirectionalLight( 0xffffff, 1.5 );
-				light2.position.set( 0, -r, 0 );
-				scene.add( light2 );
-				*/
-/*	
-				var spotLight = new THREE.SpotLight( 0xffffff );
-         spotLight.position.set( 100, 100, 100 );
-         scene.add( spotLight );
-         
-         
-				var spotLight2 = new THREE.SpotLight( 0xffffff );
-         spotLight2.position.set( -200, -300, -300 );
-         scene.add( spotLight2 );
-*/
-
-/*
-var light = new THREE.PointLight( 0xffffff, 1 );
-light.position.set( 50, 50, 50 );
-scene.add( light );
-
-var sphereSize = 1;
-var pointLightHelper = new THREE.PointLightHelper( light, sphereSize );
-scene.add( pointLightHelper );
-
-var light = new THREE.PointLight( 0xffffff, 1 );
-light.position.set( -50,-50, -50 );
-scene.add( light );
-*/
-/*
-var sphere = new THREE.SphereGeometry( 0.5, 16, 8 );
-light.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: light.color.getHex() } ) ) );
-*/
-
-
-//var sphereSize = 1;
-//var pointLightHelper = new THREE.PointLightHelper( light, sphereSize );
-//scene.add( pointLightHelper );
-
-/*
-la_require("../threejs/examples/js/controls/TrackballControls.js", function() {
-  var controls = new THREE.TrackballControls( camera );
-  controls.addEventListener( 'change', render );
-} );  
-*/
-
-
-/*
-var controlType = "OrbitControls";
-var sceneControl;
-var sceneCenterPoint =  new THREE.Vector3();
-
-la_require("three.js/examples/js/controls/"+controlType+".js", function() {
-  var cls = eval("THREE."+controlType);
-
-  var controls = new cls( camera, renderer.domElement );
-  //controls.autoRotate = true;
-
-  // установим, а то вдруг в qml ее уже выставили
-  controls.target = sceneCenterPoint; //new THREE.Vector3( 13,18,100 );
-  console.log( "Mouse control created, controls.target=", controls.target );
-
-  controls.update();
-  sceneControl = controls;
-
-  //controls.addEventListener( 'change', render );
-} );
-*/
-
-/////////////////////////////////////////
-
-//var vrDisplay, vrControl;
-
-/////////////////////////////////////////
+///////////////////////////////////////// init
 
 //var container = document.getElementById("canvas-1");
 
@@ -130,36 +49,7 @@ renderer.setClearColor( 0xB2B2CC, 1);
 document.body.appendChild( renderer.domElement );
 
 var driverDomElement = renderer.domElement;
-
-// vr part
-//document.body.appendChild( VRButton.createButton( renderer ) );
-//renderer.xr.enabled = true;
-
-
-/* унесено... ветром в DRiverControls 
-var stats;
-//la_require("http://threejs.org/examples/js/libs/stats.min.js", function() {
-la_require("three.js/examples/js/libs/stats.min.js", function() {
-		stats = new Stats();
-				stats.domElement.style.position = 'absolute';
-				stats.domElement.style.bottom = '2px';
-				stats.domElement.style.right = '2px';
-				
-				document.body.appendChild( stats.domElement );
-} );
-
-// http://learningthreejs.com/blog/2013/06/25/monitor-rendering-performance-within-threejs/
-var rendererStats;
-la_require("threex.rendererstats.js", function() {
-        rendererStats  = new THREEx.RendererStats()
-        
-        rendererStats.domElement.style.position   = 'absolute'
-        rendererStats.domElement.style.bottom  = '52px'
-        rendererStats.domElement.style.right    = '2px'
-        document.body.appendChild( rendererStats.domElement )
-});
-*/
-
+driverDomElement.classList.add("viewlang-canvas");
 
     // в js объекты не могут быть ключами, печалько
     // http://www.timdown.co.uk/jshashtable/

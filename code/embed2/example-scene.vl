@@ -1,0 +1,17 @@
+Scene {
+  Spheres {
+    positions: [qrad.value*Math.cos(qq.value / 57.7), qrad.value * Math.sin(qq.value / 57.7),10]
+    id: sp
+  }
+  Lines {
+    positions: [0,0,10].concat( sp.positions )
+  }
+  Param {
+    id: qq
+    max: 365
+  }
+  Param {
+    id: qrad
+    
+  }
+}

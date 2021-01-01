@@ -53,9 +53,26 @@ function formatSrc(src) {
       return Lazy.makeHttpRequest( fileNameOrUrl );
     }
 
-var someGlobalCounter = 0;    
+var someGlobalCounter = 0;
+
+var getCurrentScript = function () {
+  if (document.currentScript) {
+    return document.currentScript.src;
+  } else {
+    var scripts = document.getElementsByTagName('script');
+    return scripts[scripts.length-1].src;
+
+  }
+};
+
+var getCurrentScriptPath = function () {
+  var script = getCurrentScript();
+  var path = script.substring(0, script.lastIndexOf('/'));
+  return path;
+};
+
     
-var la_require_prefix = "";
+var la_require_prefix = getCurrentScriptPath() + "/";
 
 function la_path( file ) 
 {
@@ -426,6 +443,19 @@ function color2css( triarr ) {
 // triarr массив из трех чисел 0..1 - выход число int
 function tri2int( triarr ) {
    return Math.floor(triarr[0]*255) * (256*256) + Math.floor(triarr[1]*255)*256  + Math.floor(triarr[2]*255);
+}
+
+function int2tri( col ) {
+  return [ ((col >> 16) & 255) / 255.0, ((col >> 8) & 255)/ 255.0, (col & 255)/ 255.0 ];
+}
+
+function any2tri( col ) {
+  if (Array.isArray(col))  // already arr
+    return col;
+  if (typeof(col) == "string") // hex
+    return xex2tri( col );
+    
+  return int2tri( col );  // assume int
 }
 
 // hex запись в массив 3 чисел 0..1

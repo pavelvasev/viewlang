@@ -37,6 +37,19 @@ Item {
         // __executionContext
         var context = loader.$properties["source"].componentScope;
         
+        // lookup in builtin qml types
+        var builtins_co = constructors;
+        if (source in builtins_co) {
+          sourceComponent = {
+            createObject: function(parent) {
+              var item = new builtins_co[source]( {$parent:parent, object: {}} );
+              return item;
+            }
+          }
+          return;
+          
+        }
+        
         // little HACK. lookup in loaded qmldirs
         var sourceNoQ = source.split("?")[0];
         var qdirInfo = engine.qmldirs[ sourceNoQ ];

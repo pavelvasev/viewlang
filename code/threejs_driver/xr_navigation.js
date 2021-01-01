@@ -311,7 +311,7 @@ function dollyMove2() {
                                     dolly.position.z += cameraVector.x * speedFactor[i] * data.axes[2];
 
                                     //provide haptic feedback if available in browser
-                                    if (
+                                    if (false &&
                                         source.gamepad.hapticActuators &&
                                         source.gamepad.hapticActuators[0]
                                     ) {
