@@ -131,7 +131,7 @@ SceneObject {
       
   	  raycaster.setFromCamera( pos, camera );
 			var intersects = raycaster.intersectObject( this.sceneObject,false );
-			// console.log("intersects=",intersects, "pos=",pos);
+			//console.log("intersects=",intersects, "pos=",pos);
 			if (intersects.length == 0) return null;
 
 			var intersect = intersects[0];

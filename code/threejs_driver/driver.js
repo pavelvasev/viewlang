@@ -22,6 +22,7 @@ camera.position.z = 25;
 //var renderer = new THREE.WebGLRenderer( { canvas: container  } );
 
 
+// https://threejs.org/docs/#api/en/renderers/WebGLRenderer.premultipliedAlpha
 var renderer = new THREE.WebGLRenderer({
 //  autoClear : false,
   alpha: true,

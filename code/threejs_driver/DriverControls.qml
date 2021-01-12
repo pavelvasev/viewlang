@@ -292,12 +292,14 @@ Item {
   }    
 
   
+  /* редко используемая фича
     Text {
         visible: showMore
         y: 2
         property var tag: controlsTag
         text: "  <a href='" + (loadedSourceFile||"") + "' target='_blank'>Исходный код</a>"
     }
+  */
 
     Text {
         visible: showMore

@@ -453,7 +453,7 @@ function any2tri( col ) {
   if (Array.isArray(col))  // already arr
     return col;
   if (typeof(col) == "string") // hex
-    return xex2tri( col );
+    return hex2tri( col );
     
   return int2tri( col );  // assume int
 }

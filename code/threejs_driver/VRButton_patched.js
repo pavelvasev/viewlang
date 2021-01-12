@@ -117,7 +117,7 @@ var VRButton = {
 		function stylizeElement( element ) {
 
 			element.style.position = 'absolute';
-			element.style.bottom = '20px';
+			element.style.bottom = '50px'; // '20px';
 			element.style.padding = '12px 6px';
 			element.style.border = '1px solid #fff';
 			element.style.borderRadius = '4px';
@@ -125,7 +125,7 @@ var VRButton = {
 			element.style.color = '#fff';
 			element.style.font = 'normal 13px sans-serif';
 			element.style.textAlign = 'center';
-			element.style.opacity = '0.5';
+			element.style.opacity = '0.8'; // '0.5'; 
 			element.style.outline = 'none';
 			element.style.zIndex = '999';
 
