@@ -105,7 +105,7 @@ SceneMaterial 1.0 threejs_driver/SceneMaterial.qml
 SceneObjectThreeJs 1.0 threejs_driver/SceneObjectThreeJs.qml
 Shader 1.0 threejs_driver/Shader.qml
 ShadowLight 1.0 threejs_driver/ShadowLight.qml
-Stats 1.0 threejs_driver/Stats.qml
+Stats 1.0 threejs_driver/stats/Stats.qml
 SunLight 1.0 threejs_driver/SunLight.qml
 TextSprite 1.0 threejs_driver/TextSprite.qml
 Triangles 1.0 threejs_driver/Triangles.qml

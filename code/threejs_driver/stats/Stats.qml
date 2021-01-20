@@ -35,7 +35,7 @@ CheckBox {
         
         // https://github.com/mrdoob/stats.js/
         //la_require("three.js-part/examples/js/libs/stats.min.js", function() {
-        la_require("Stats.js", function() {
+        la_require("stats/Stats.js", function() {
         // import( "./Stats.js" ).then( function (m) {
             var stats = new Stats();
             cs.stats = stats;
@@ -51,7 +51,7 @@ CheckBox {
             document.body.appendChild( stats.domElement );
         } );
 
-        la_require("rendererstats.js", function() {
+        la_require("stats/rendererstats.js", function() {
             var rendererStats = new RendererStats()
             cs.rendererStats = rendererStats;
 
