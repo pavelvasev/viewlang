@@ -234,6 +234,8 @@ function dollyMove2() {
     //determine if we are in an xr session
     const session = renderer.xr.getSession();
     let i = 0;
+    var extraSpeedFactor = 1;
+    var extraSpeedButtonCoef = 3;
 
     if (session) {
         let xrCamera = renderer.xr.getCamera(camera);
@@ -263,7 +265,8 @@ function dollyMove2() {
                                 if (data.handedness == "left") {
                                     //console.log("Left Paddle Down");
                                     if (i == 1) {
-                                        dolly.rotateY(-THREE.Math.degToRad(1));
+                                        //dolly.rotateY(-THREE.Math.degToRad(1));
+                                        extraSpeedFactor *= extraSpeedButtonCoef;
                                     }
                                     if (i == 3) {
                                         //reset teleport to home position
@@ -274,13 +277,17 @@ function dollyMove2() {
                                 } else {
                                     //console.log("Right Paddle Down");
                                     if (i == 1) {
-                                        dolly.rotateY(THREE.Math.degToRad(1));
+                                        extraSpeedFactor *= extraSpeedButtonCoef;
+                                        // dolly.rotateY(THREE.Math.degToRad(1));
                                     }
                                 }
                             } else {
                                 // console.log("Button" + i + "Up");
+                                // even if pressed a little, let it be a full speed-up
+                                if (i == 1)
+                                  extraSpeedFactor *= extraSpeedButtonCoef;
 
-                                if (i == 1) {
+                                if (false && i == 1) {
                                     //use the paddle buttons to rotate
                                     if (data.handedness == "left") {
                                         //console.log("Left Paddle Down");
@@ -299,7 +306,7 @@ function dollyMove2() {
                         if (Math.abs(value) > 0.2) {
                             //set the speedFactor per axis, with acceleration when holding above threshold, up to a max speed
                             speedFactor[i] > 1 ? (speedFactor[i] = 1) : (speedFactor[i] *= 1.001);
-                            console.log(value, speedFactor[i], i);
+                            //console.log(value, speedFactor[i], i);
                             if (i == 2) {
                                 //left and right axis on thumbsticks
                                 if (data.handedness == "left") {
@@ -307,8 +314,8 @@ function dollyMove2() {
 
                                     //move our dolly
                                     //we reverse the vectors 90degrees so we can do straffing side to side movement
-                                    dolly.position.x -= cameraVector.z * speedFactor[i] * data.axes[2];
-                                    dolly.position.z += cameraVector.x * speedFactor[i] * data.axes[2];
+                                    dolly.position.x -= cameraVector.z * speedFactor[i] * data.axes[2] * extraSpeedFactor;
+                                    dolly.position.z += cameraVector.x * speedFactor[i] * data.axes[2] * extraSpeedFactor;
 
                                     //provide haptic feedback if available in browser
                                     if (false &&
@@ -336,7 +343,7 @@ function dollyMove2() {
                                 //up and down axis on thumbsticks
                                 if (data.handedness == "left") {
                                     // (data.axes[3] > 0) ? console.log('up on left thumbstick') : console.log('down on left thumbstick')
-                                    dolly.position.y -= speedFactor[i] * data.axes[3];
+                                    dolly.position.y -= speedFactor[i] * data.axes[3] * extraSpeedFactor;
                                     //provide haptic feedback if available in browser
                                     if ( false &&
                                         source.gamepad.hapticActuators &&
@@ -353,8 +360,8 @@ function dollyMove2() {
                                     }
                                 } else {
                                     // (data.axes[3] > 0) ? console.log('up on right thumbstick') : console.log('down on right thumbstick')
-                                    dolly.position.x -= cameraVector.x * speedFactor[i] * data.axes[3];
-                                    dolly.position.z -= cameraVector.z * speedFactor[i] * data.axes[3];
+                                    dolly.position.x -= cameraVector.x * speedFactor[i] * data.axes[3] * extraSpeedFactor;
+                                    dolly.position.z -= cameraVector.z * speedFactor[i] * data.axes[3] * extraSpeedFactor;
 
                                     //provide haptic feedback if available in browser
                                     if ( false &&
