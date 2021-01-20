@@ -3,6 +3,8 @@ $driver = { colors: 3 };
 
 var threejs = {};
 
+threejs.url = getCurrentScriptPath() + "/three.js-part/"
+
 var scene = new THREE.Scene();
 
 threejs.scene = scene;

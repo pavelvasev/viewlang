@@ -10,4 +10,4 @@ la_require_write( "threejs_patch.js");
 
 la_require_write( "driver.js");
 
-
+//threejs.url = getCurrentScriptPath() + "/three.js-part/"
