@@ -2,7 +2,8 @@ import { XRControllerModelFactory } from "./three.js-part/examples/jsm/webxr/XRC
 
 // thanx
 // https://stackoverflow.com/a/63271335
-
+// todo: use performance.now() timer for movement instead on tick-based?
+// big todo: provide a better model of navigation (and before that - understand whats going on here)
 
 /*
 // https://console.re/pvxrd
