@@ -135,7 +135,11 @@ Column {
             updateValueWhileDragging : param.enableSliding
             //value: param.value
             onValueChanged: {
-                //@ console.log("Slider val changed! param.value = ",param.value,"slider.value=",slider.value);
+                if (isNaN(slider.value)) {
+                  //debugger;
+                  return; // special case.. sometimes it is nan...
+                }
+                //console.log("Slider val changed! param.value = ",param.value,"slider.value=",slider.value);
                 //if (slider.value == 0.85 && param.value == 0.8500000000000001) debugger;
                 if (param.value != slider.value) {
                     //console.log(" =>... setting param.value to slider.value",slider.value);
