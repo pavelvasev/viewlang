@@ -1,5 +1,5 @@
 SceneObjectThreeJs {
-    property var positions: source.positions
+    property var positions: source.positions || []
 
     property var color: 0x0000ff
     property var colors

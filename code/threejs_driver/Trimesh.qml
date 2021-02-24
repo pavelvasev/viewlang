@@ -126,7 +126,7 @@ SceneObjectThreeJs {
     function make3d()
     {
         //console.log("trimesh make3d called. this._uniqueId=",this._uniqueId,"parent.dom=",parent.dom);
-        console.log("trimesh make3d called. this._uniqueId=",this._uniqueId,"positions.length=",positions ? positions.length : -1, "indices.length=",indices ? indices.length : -1, "noIndices=",noIndices);
+        //console.log("trimesh make3d called. this._uniqueId=",this._uniqueId,"positions.length=",positions ? positions.length : -1, "indices.length=",indices ? indices.length : -1, "noIndices=",noIndices);
         //console.trace();
 
         var colors_good = (colors && positions && colors.length > 0) ? positions.length/3 == colors.length/3 : true;
@@ -182,7 +182,7 @@ SceneObjectThreeJs {
         //console.log("flat = ",flat);
         //debugger;
         if (normals && normals.length > 0) {
-           console.log("make3d: normal attr set, len=",normals.length);
+           //console.log("make3d: normal attr set, len=",normals.length);
            geometry.setAttribute( 'normal', new THREE.BufferAttribute( new Float32Array(normals), 3 ) );
         }
         else {
@@ -194,7 +194,7 @@ SceneObjectThreeJs {
             //if (!flat) { // нормали нам не нужны, если мы во flat-режиме
             if (!material.flatShading) {
               // вершинные нормали
-               console.log("make3d: computing vertex normals using threejs");
+               //console.log("make3d: computing vertex normals using threejs");
               // debugger;
               geometry.computeVertexNormals();
             }
