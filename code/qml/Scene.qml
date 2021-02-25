@@ -194,11 +194,13 @@ SceneSpace {
   
   property int propertyComputationPending: 0
 
+/*
   property var isMobile: {
      // https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
      var r = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
      return r;
   }
+*/
 //  property var windowWidth: screen.width
 //  property var windowHeight: screen.height
 

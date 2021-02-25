@@ -3793,6 +3793,7 @@ function QMLMouseArea(meta) {
     createSimpleProperty("bool", this, "pressed");
     createSimpleProperty("bool", this, "containsMouse");
     this.clicked = Signal([{type: "variant", name: "mouse"}]);
+    this.doubleClicked = Signal([{type: "variant", name: "mouse"}]);
     this.entered = Signal();
     this.exited = Signal();
     this.positionChanged = Signal([{type: "variant", name: "mouse"}]);
@@ -3828,7 +3829,21 @@ function QMLMouseArea(meta) {
             // This decides whether to show the browser's context menu on right click or not
             return !(self.acceptedButtons & Qt.RightButton);
         }
+/*        
+        function handleClickDbl(e) {
+            var mouse = eventToMouse(e);
+            debugger;
+
+            if (self.enabled && self.acceptedButtons & mouse.button) {
+                self.doubleClicked(mouse);
+                engine.$requestDraw();
+            }
+            // This decides whether to show the browser's context menu on right click or not
+            return !(self.acceptedButtons & Qt.RightButton);
+        }        
+*/
         this.dom.onclick = handleClick;
+//        this.dom.ondblclick = handleClickDbl;
         this.dom.oncontextmenu = handleClick;
         this.dom.onmousedown = function(e) {
             if (self.enabled) {

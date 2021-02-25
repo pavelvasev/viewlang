@@ -5,19 +5,25 @@ Rectangle {
   height: 200
 
   property var sWidth: qmlEngine.rootObject.width
-  property var sHeight: qmlEngine.rootObject.width
-  property var isMobuile: qmlEngine.rootObject.isMobile
+  property var sHeight: qmlEngine.rootObject.height
+  //property var isMobile: e.rootObject.isMobile
 
   property bool syncingSize: false
   function syncSize() {
+    //console.log("sync size, ismob is",isMobile,sWidth,sHeight,width,height );
     if (syncingSize) return;
     syncingSize=true;
-    if (width > sWidth || isMobile) width = sWidth;
-    if (height > sHeight || isMobile) height = sHeight;
+    if (sWidth > 100)
+      if (width > sWidth || isMobile) width = sWidth;
+    if (sHeight > 100)
+      if (height > sHeight || isMobile) height = sHeight;
+    //console.log("after sync size, ismob is",isMobile,sWidth,sHeight,width,height );    
     syncingSize=false;
   }
   onWidthChanged: syncSize();
   onHeightChanged: syncSize();
+  onSWidthChanged: syncSize();
+  onSHeightChanged: syncSize();
   
   Component.onCompleted: {
     dlg.oldSpaceParent = dlg.parent; // надо сохранить - чтобы scope нормально считались
@@ -50,10 +56,17 @@ Rectangle {
 
   Text {
     x:5
-    y:2
+    y:5
+
     text: dlg.title
     id: titletext
-    font.bold: true    
+    font.bold: true
+    font.pointSize: 12
+    wrapMode: Text.WordWrap
+    anchors.right: parent.right-25
+    anchors.left: parent.left+5
+
+      
   }
   property alias titleText: titletext
   
@@ -70,6 +83,7 @@ Rectangle {
     text: "     [X]"
     css.cursor: "pointer"
     z: 5
+    font.pointSize: 15
     //css.pointerEvents: "auto"
     
     MouseArea {
@@ -82,9 +96,23 @@ Rectangle {
 
   Rectangle {
     anchors.margins: 5
-    anchors.topMargin: dlg.title ? titletext.height + titletext.y + 2 : 5
+    anchors.topMargin: dlg.title ? titletext.height + titletext.y + 5 : 5
     id: content
     anchors.fill: parent
     color: "transparent"
+    
+    MouseArea {
+      anchors.fill: parent
+      property var pt
+      onClicked: {
+        if (pt) {
+          var dt = performance.now() - pt;
+          console.log(dt);
+          if (dt < 500) dlg.close()
+        }
+        pt = performance.now();
+        
+      }
+    }    
   }
 }

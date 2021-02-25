@@ -1,3 +1,7 @@
+// https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
+window.isMobile =/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+// console.log("isMobile=",isMobile );
+
 //////////// proxy
 function formatSrc(src) {
   // console.log("formatSrc src=",src);
