@@ -3,6 +3,21 @@ Rectangle {
   z: 5000
   width: 400
   height: 200
+
+  property var sWidth: qmlEngine.rootObject.width
+  property var sHeight: qmlEngine.rootObject.width
+  property var isMobuile: qmlEngine.rootObject.isMobile
+
+  property bool syncingSize: false
+  function syncSize() {
+    if (syncingSize) return;
+    syncingSize=true;
+    if (width > sWidth || isMobile) width = sWidth;
+    if (height > sHeight || isMobile) height = sHeight;
+    syncingSize=false;
+  }
+  onWidthChanged: syncSize();
+  onHeightChanged: syncSize();
   
   Component.onCompleted: {
     dlg.oldSpaceParent = dlg.parent; // надо сохранить - чтобы scope нормально считались
