@@ -61,6 +61,7 @@ function loadFileBase( file_or_path, istext, handler, errhandler ) {
             setFileProgress( file_or_path,"loading");
 
             var xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
             xhr.open('GET', file_or_path, true);
             xhr.responseType = istext ? 'text' : 'arraybuffer';
 
