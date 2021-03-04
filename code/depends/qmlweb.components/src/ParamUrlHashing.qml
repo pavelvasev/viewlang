@@ -70,6 +70,7 @@ Item {
 
      if (!paramName || paramName.length == 0 || !property) return;
      if (engine.operationState === QMLOperationState.Init) return;
+     if (window.qmlwebParamsHashProhibitied) return;
 
      // нее if (timeout_id) return;
      if (timeout_id) { window.clearTimeout( timeout_id ); timeout_id = null; }
