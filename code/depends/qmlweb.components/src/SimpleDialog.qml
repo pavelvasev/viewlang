@@ -99,7 +99,8 @@ Rectangle {
     anchors.topMargin: dlg.title ? titletext.height + titletext.y + 5 : 5
     id: content
     anchors.fill: parent
-    color: "transparent"
+    //color: "transparent"
+    //color: "red"
     
     MouseArea {
       anchors.fill: parent
@@ -113,6 +114,18 @@ Rectangle {
         pt = performance.now();
         
       }
-    }    
+    }
+  }
+  property alias contentArea: content
+  
+  onChildrenChanged: {
+    // правим багу qmlweb-а
+    setTimeout( function() {
+    if (children.length > 3) {
+      var cc = children.slice();
+      for (var i=3; i<cc.length; i++)
+        cc[i].parent = content;
+    }
+    }, 0 );
   }
 }
