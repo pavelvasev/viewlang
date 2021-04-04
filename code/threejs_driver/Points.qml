@@ -28,16 +28,18 @@ SceneObjectThreeJs {
     onPositionsChanged: {
 //        console.log("changed, scheduling remake of points");
 // если вернемся к positions выставке аттрибута то см frustumCulled
-        makeLater( this );
-        /*
-        if (!this.sceneObject) return;
-                if (positions)
-                this.sceneObject.geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
+//        makeLater( this );
+        
+        if (!this.sceneObject) return makeLater( this );
+        if (positions)
+            this.sceneObject.geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
 
         var attr = this.sceneObject.geometry.getAttribute("position");
         //attr.set( new Float32Array(positions) );
         attr.needsUpdate = true;
-        */
+        this.sceneObject.frustumCulled = (positions.length > 3);
+        this.sceneObject.geometry.computeBoundingSphere();
+    
     }
     
     onColorsChanged: {
@@ -205,7 +207,7 @@ SceneObjectThreeJs {
         var geometry = new THREE.BufferGeometry();
         geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
         
-            /*
+        /*
         if (use_colors) {
             geometry.setAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
             //console.log("geometry added color attr");
