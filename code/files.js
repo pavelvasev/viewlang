@@ -91,6 +91,8 @@ function loadFileBase( file_or_path, istext, handler, errhandler ) {
             // нет слов.. чтобы работало payload, надо слать с post
             xhr.open( payload ? 'POST' : 'GET', file_or_path, true);
             xhr.responseType = istext ? 'text' : 'arraybuffer';
+            // тоже нет слов.. это чтобы оно хотя бы с etag консультировалось
+            //xhr.setRequestHeader("Cache-Control", "no-cache");
 
             xhr.onload = function(e) {
                 //console.log("xhr loadFileBase onload fired",file_or_path,e);
@@ -190,9 +192,9 @@ function loadFileWebsocket( path, istext, handler, errhandler ) {
   };
   
   socket.onerror = function( event ) {
-    setFileProgress( file,"WEBSOCKET ERROR");
+    setFileProgress( path,"WEBSOCKET ERROR");
       setTimeout( function() {
-         setFileProgress( file );
+         setFileProgress( path );
        }, 25000 );
     if (errhandler)
       errhandler(event,path);
