@@ -482,7 +482,9 @@ function construct(meta) {
 function Signal(params, options) {
     options = options || {};
     var connectedSlots = [];
-    var obj = options.obj
+    var obj = options.obj;
+    
+
 
     var signal = function() {
         try {
@@ -553,6 +555,27 @@ function Signal(params, options) {
         }
         return false;
     }
+    
+    // we should be able to disconnect all listeners when deleting object which is owner of that signal instance
+    signal.disconnectAll = function() {
+        for (var i = 0; i < connectedSlots.length; i++) {
+            var item = connectedSlots[i];
+            if (item.thisObj) {
+              if (item.thisObj.$tidyupList)
+                  item.thisObj.$tidyupList.splice(item.thisObj.$tidyupList.indexOf(this), 1);
+            }
+            connectedSlots.splice(i, 1);
+            i--; // We have removed an item from the list so the indexes shifted one backwards
+        }
+    }
+    
+    // keep own signals list so may call their disconnect layer
+    // another idea is just to push disconnectAll as a function to $tidyUpList (but have to handle functions in this list)
+    if (obj) {
+      obj.$ownSignalsList ||= [];
+      obj.$ownSignalsList.push( signal );
+    }
+
     return signal;
 }
 QMLSignal = Signal; // Export as QMLSignal
@@ -1799,7 +1822,7 @@ QObject = function(parent) {
                 var index = this.$tidyupList.indexOf(item);
                 if (index >= 0)  this.$tidyupList.splice( index, 1); 
             }
-            else // It must be a signal
+            else // It must be a signal (e.g. remote signal instance - we notify it that current object disconnects)
                 item.disconnect(this);
         }
 
@@ -1807,6 +1830,15 @@ QObject = function(parent) {
             var prop = this.$properties[i];
             while (prop.$tidyupList.length > 0)
                 prop.$tidyupList[0].disconnect(prop);
+        }
+        
+        // feature: disonnect all listeners of signals of current object
+        if (this.$ownSignalsList) {
+          for (var i in this.$ownSignalsList) {
+            var s = this.$ownSignalsList[i];
+            s.disconnectAll();
+          }
+          this.$ownSignalsList = undefined;
         }
 
         if (this.$parent && this.$parent.$tidyupList)
