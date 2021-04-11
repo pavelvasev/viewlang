@@ -1831,20 +1831,22 @@ QObject = function(parent) {
             while (prop.$tidyupList.length > 0)
                 prop.$tidyupList[0].disconnect(prop);
         }
+
+        if (this.$parent && this.$parent.$tidyupList)
+            this.$parent.$tidyupList.splice(this.$parent.$tidyupList.indexOf(this), 1);
+
+        this.parent = undefined; // must do this. => 1) parent will be notified and erase object from it's children. 2) DOM node will be removed.
         
         // feature: disonnect all listeners of signals of current object
+        // warning: own signals should disconnect listeners after parent set to undefined
+        // in other case parent will not be notified!
         if (this.$ownSignalsList) {
           for (var i in this.$ownSignalsList) {
             var s = this.$ownSignalsList[i];
             s.disconnectAll();
           }
           this.$ownSignalsList = undefined;
-        }
-
-        if (this.$parent && this.$parent.$tidyupList)
-            this.$parent.$tidyupList.splice(this.$parent.$tidyupList.indexOf(this), 1);
-
-        this.parent = undefined; // must do this. => 1) parent will be notified and erase object from it's children. 2) DOM node will be removed.
+        }        
     }
     
     // must have `destroy` method
