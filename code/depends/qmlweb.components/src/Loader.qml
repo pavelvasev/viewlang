@@ -212,6 +212,9 @@ Item {
     
     Component.onDestruction: {
       clearTimeouts();
+      // I hope that will lead to sourceCompunent null-ing, which will lead to sourceComponentChanged, which will lead
+      // to item deletion.
+      source = undefined;
     }
 
 }
