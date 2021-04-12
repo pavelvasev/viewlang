@@ -17,8 +17,8 @@ Rectangle {
             main.horizontalCenter
     }
     Text {
-        text: "Rectangle id is \""
-            + __executionContext.nameForObject(main) + '"'
+//        text: "Rectangle id is \""
+//            + __executionContext.nameForObject(main) + '"'
         font.pointSize: 16
         anchors.top:
             text1.bottom

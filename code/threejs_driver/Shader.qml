@@ -88,7 +88,8 @@ BODY
   // целевой объект не понятно зачем, но видимо зачем-то нужен
   
   function attachShaders( shaders, sceneMaterial, hosterObj ) {
-    console.log("Shader::attachShaders",shaders,hosterObj );
+    // leave this console.log with care, because it prints obj to devtools console and it keeps it there for probable debug, wasting memory!
+    // console.log("Shader::attachShaders",shaders,hosterObj );
     
     // методы очистки уже прицепленного (там сейчас сигналы если что)
     if (hosterObj.shadersDetachFunc) {

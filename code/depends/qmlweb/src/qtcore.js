@@ -483,8 +483,6 @@ function Signal(params, options) {
     options = options || {};
     var connectedSlots = [];
     var obj = options.obj;
-    
-
 
     var signal = function() {
         try {
@@ -500,17 +498,29 @@ function Signal(params, options) {
           popEvalStack();
         }
     };
+//  this is req-d only for debugging
+//    signal.connectedSlots = connectedSlots;
+//    signal.sourceObj = obj;
+    
     signal.parameters = params || [];
     signal.connect = function() {
         if (arguments.length == 1)
             connectedSlots.push({thisObj: window, slot: arguments[0]});
         else if (typeof arguments[1] == 'string' || arguments[1] instanceof String) {
-            if (arguments[0].$tidyupList && arguments[0] !== obj)
+            if (arguments[0].$tidyupList && arguments[0] !== obj) {
                 arguments[0].$tidyupList.push(this);
+                if (arguments[0]._deletedByQmlweb) debugger;
+            }
             connectedSlots.push({thisObj: arguments[0], slot: arguments[0][arguments[1]]});
+            
         } else {
-            if (arguments[0].$tidyupList && (!obj || (arguments[0] !== obj && arguments[0] !== obj.$parent)))
+            if (arguments[0].$tidyupList && (!obj || (arguments[0] !== obj && arguments[0] !== obj.$parent))) {
                 arguments[0].$tidyupList.push(this);
+                if (arguments[0]._deletedByQmlweb) debugger;
+            }
+            else {
+              //if (arguments[0].$tidyupList && arguments[0] !== obj) debugger;
+            }
             connectedSlots.push({thisObj: arguments[0], slot: arguments[1]});
         }
 
@@ -530,8 +540,13 @@ function Signal(params, options) {
                 || (callType == 3 && item.thisObj == arguments[0] && item.slot == arguments[0][arguments[1]])
                 || (item.thisObj == arguments[0] && item.slot == arguments[1])
             ) {
-                if (item.thisObj)
-                    item.thisObj.$tidyupList.splice(item.thisObj.$tidyupList.indexOf(this), 1);
+                if (item.thisObj) {
+                    var index = item.thisObj.$tidyupList.indexOf(this);
+                    if (index >= 0)
+                      item.thisObj.$tidyupList.splice(index, 1);
+//                    else
+//                      debugger;
+                }
                 connectedSlots.splice(i, 1);
                 i--; // We have removed an item from the list so the indexes shifted one backwards
             }
@@ -561,8 +576,13 @@ function Signal(params, options) {
         for (var i = 0; i < connectedSlots.length; i++) {
             var item = connectedSlots[i];
             if (item.thisObj) {
-              if (item.thisObj.$tidyupList)
-                  item.thisObj.$tidyupList.splice(item.thisObj.$tidyupList.indexOf(this), 1);
+              if (item.thisObj.$tidyupList) {
+                  var index = item.thisObj.$tidyupList.indexOf(this);
+                  if (index >= 0)
+                    item.thisObj.$tidyupList.splice(index, 1);
+//                  else
+//                    debugger;
+              }
             }
             connectedSlots.splice(i, 1);
             i--; // We have removed an item from the list so the indexes shifted one backwards
@@ -1730,12 +1750,14 @@ function QMLList(meta) {
 }
 
 function QMLContext() {
+/*  // req-d only for debug and fun
     this.nameForObject = function(obj) {
         for (var name in this) {
             if (this[name] == obj)
                 return name;
         }
     }
+*/    
     this.upflowContext = {};
 }
 
@@ -1810,9 +1832,14 @@ QObject = function(parent) {
     this.$properties = {};
 
     this.$delete = function() {
-        if (this.$Component)
+        this._deletedByQmlweb=true;
+    
+        if (this.$Component) {
           this.$Component.destruction();
+          this.$Component.destruction.disconnectAll();
+        }
         
+        function cleanup() {
         while (this.$tidyupList.length > 0) {
             var item = this.$tidyupList[0];
             if (item.$delete) { // It's a QObject
@@ -1832,21 +1859,64 @@ QObject = function(parent) {
                 prop.$tidyupList[0].disconnect(prop);
         }
 
-        if (this.$parent && this.$parent.$tidyupList)
-            this.$parent.$tidyupList.splice(this.$parent.$tidyupList.indexOf(this), 1);
-
-        this.parent = undefined; // must do this. => 1) parent will be notified and erase object from it's children. 2) DOM node will be removed.
+        if (this.$parent && this.$parent.$tidyupList) {
+            var index = this.$parent.$tidyupList.indexOf(this)
+            if (index >= 0)
+                this.$parent.$tidyupList.splice(index, 1);
+        }
+        }
         
-        // feature: disonnect all listeners of signals of current object
+        //disconnectMySignals.apply(this);
+        if (this.childrenChanged) this.childrenChanged.disconnectAll();
+        cleanup.apply(this);
+        //disconnectMySignals.apply(this);
+
+        function disconnectMySignals() {
+        // feature: disconnect all listeners of signals of current object (obviously there are such listeners)
         // warning: own signals should disconnect listeners after parent set to undefined
         // in other case parent will not be notified!
+        
+        // but, we may want to erase own signals before changing parent, because Rows/etc has connected
+        // items like childrenChanged which compute a lot..
         if (this.$ownSignalsList) {
           for (var i in this.$ownSignalsList) {
             var s = this.$ownSignalsList[i];
-            s.disconnectAll();
+            //if (s !== this.parentChanged) 
+                s.disconnectAll();
+            
           }
           this.$ownSignalsList = undefined;
-        }        
+        }
+        }
+        
+        // probably we should remove parent as soon as it possible
+        // because at the moment when parent is removing,
+        // someone (including parent) may subscribe us to some events.
+        // and thus we will have leaked refs.
+        // BUT: we should remove child objects first (see $tidyupList cycle above) so we delete their doms nicely?
+
+        this.$updatingGeometry = true; //this is small hack - to avoid own updateHGeometry/V algos - we dont need their compuation anymore
+        this.parent = undefined; // must do this. => 1) parent will be notified and erase object from it's children. 2) DOM node will be removed.        
+        
+        disconnectMySignals.apply(this);
+        //if (this.parentChanged) this.parentChanged.disconnectAll();
+        
+        if (this.$parent)
+          this.$parent = undefined; // feature: should destroy this link too, to avoid cirlular refs (obj.$parent -> someobj, where someobj.somevar -> obj)
+        
+        // second cleanup in case someone subscribed us (probably we ourself, for example in updateHGeometry)
+        cleanup.apply(this);
+        
+        /*
+        // this brings inconsistency with other..
+        //this['children'] = this.children;
+        this.$properties = undefined; // help gc..
+        //this.children
+        Object.defineProperty(this, "children", {
+          // only returns odd die sides
+          get: function () { return [] }
+        });
+        */
     }
     
     // must have `destroy` method
@@ -3446,7 +3516,7 @@ function QMLRepeater(meta) {
         var removed = self.$items.splice(startIndex, endIndex - startIndex);
         for (var index in removed) {
             removed[index].$delete();
-            removed[index].parent = undefined;
+            //removed[index].parent = undefined;
             removeChildProperties(removed[index]);
         }
     }
