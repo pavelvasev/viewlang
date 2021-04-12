@@ -1867,26 +1867,26 @@ QObject = function(parent) {
         }
         
         //disconnectMySignals.apply(this);
+        // disconnect special property of us which compute a lot..
         if (this.childrenChanged) this.childrenChanged.disconnectAll();
         cleanup.apply(this);
         //disconnectMySignals.apply(this);
 
         function disconnectMySignals() {
-        // feature: disconnect all listeners of signals of current object (obviously there are such listeners)
-        // warning: own signals should disconnect listeners after parent set to undefined
-        // in other case parent will not be notified!
-        
-        // but, we may want to erase own signals before changing parent, because Rows/etc has connected
-        // items like childrenChanged which compute a lot..
-        if (this.$ownSignalsList) {
-          for (var i in this.$ownSignalsList) {
-            var s = this.$ownSignalsList[i];
-            //if (s !== this.parentChanged) 
-                s.disconnectAll();
-            
+          // feature: disconnect all listeners of signals of current object (obviously there are such listeners)
+          
+          // warning: own signals should disconnect listeners after parent set to undefined
+          // in other case parent will not be notified!
+          // but, we may want to erase own signals before changing parent, because Rows/etc has connected
+          // items like childrenChanged which compute a lot..
+          if (this.$ownSignalsList) {
+            for (var i in this.$ownSignalsList) {
+              var s = this.$ownSignalsList[i];
+              //if (s !== this.parentChanged) 
+              s.disconnectAll();
           }
           this.$ownSignalsList = undefined;
-        }
+          }
         }
         
         // probably we should remove parent as soon as it possible
@@ -1898,13 +1898,15 @@ QObject = function(parent) {
         this.$updatingGeometry = true; //this is small hack - to avoid own updateHGeometry/V algos - we dont need their compuation anymore
         this.parent = undefined; // must do this. => 1) parent will be notified and erase object from it's children. 2) DOM node will be removed.        
         
-        disconnectMySignals.apply(this);
-        //if (this.parentChanged) this.parentChanged.disconnectAll();
-        
+      
         if (this.$parent)
           this.$parent = undefined; // feature: should destroy this link too, to avoid cirlular refs (obj.$parent -> someobj, where someobj.somevar -> obj)
+          
+        disconnectMySignals.apply(this);
+        //if (this.parentChanged) this.parentChanged.disconnectAll();          
         
-        // second cleanup in case someone subscribed us (probably we ourself, for example in updateHGeometry)
+        // second cleanup in case if new subscriptions occured during parent detach (we may even 
+        // re-subscribe ourself, for example in updateHGeometry which is called on parent change)
         cleanup.apply(this);
         
         /*
@@ -1989,7 +1991,7 @@ function QMLItemNonVisual(meta) {
     createSimpleProperty("bool", this, "visible");
     createSimpleProperty("real", this, "opacity");
 
-    // нужны т.к. другие Item-ы прицепляются и жаждут этих пропертей
+    // Item
     createSimpleProperty("real", this, "width");
     createSimpleProperty("real", this, "height");
     createSimpleProperty("real", this, "implicitWidth");
@@ -3515,15 +3517,18 @@ function QMLRepeater(meta) {
     function removeChildren(startIndex, endIndex) {
         var removed = self.$items.splice(startIndex, endIndex - startIndex);
         for (var index in removed) {
+            removeChildProperties(removed[index]);
             removed[index].$delete();
             //removed[index].parent = undefined;
-            removeChildProperties(removed[index]);
         }
     }
     function removeChildProperties(child) {
         if (engine.renderMode == QMLRenderMode.Canvas && child instanceof QMLMouseArea)
-            engine.mouseAreas.splice(engine.mouseAreas.indexOf(child), 1);
-        engine.completedSignals.splice(engine.completedSignals.indexOf(child.Component.completed), 1);
+            engine.mouseAreas.splice(engine.mouseAreas.indexOf(child), 1); // here bug, but we dont use canvas..
+        // do not call completed of that component..
+        var index = engine.completedSignals.indexOf(child.Component.completed);
+        if (index >= 0) engine.completedSignals.splice(index, 1);
+        
         for (var i = 0; i < child.children.length; i++)
             removeChildProperties(child.children[i])
     }
