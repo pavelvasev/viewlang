@@ -54,9 +54,14 @@ Item {
 
         makeShot(); // of previous value
         
-        processParam.value = processParam.value + processStep;
+        var next_param_value = processParam.value + processStep;
+        processParam.value = next_param_value;
 
-        if ( (processStep > 0 && processParam.value > processMax) || ((processStep < 0 && processParam.value < processMin))) {
+        // we should check against `next_param_value` and not processParam.value, because processParam.value might not change
+        // in case if param checks ranges
+        var c1 = (processStep > 0 && next_param_value > processMax);
+        var c2 = (processStep < 0 && next_param_value < processMin);
+        if (c1 || c2) {
 
           // BUG. here we stop recording. But actial rendering will be done on the next step. So last shot is lost.
         
@@ -64,7 +69,7 @@ Item {
           if (loopcounter > 10)
             processActive = false;
           else
-            processParam.value = processMin;
+            processParam.value = c1 ? processMin : processMax;
 
           if (loopcounter == 1 && doRecord) {
             console.log("SENDING finish signal and focus befor");
