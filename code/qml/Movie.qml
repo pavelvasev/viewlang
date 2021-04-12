@@ -53,7 +53,7 @@ Item {
         // if (qmlEngine.rootObject.$properties["propertyComputationPending"] && qmlEngine.rootObject.propertyComputationPending > 0) return;
 
         makeShot(); // of previous value
-        
+        //console.log("MV see",processParam.value);
         var next_param_value = processParam.value + processStep;
         processParam.value = next_param_value;
 

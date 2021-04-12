@@ -69,6 +69,7 @@ Item {
       htmlNode = r;
       
       var changeHandler = function(e) {
+//        console.log("CH",e.target.value);
         if (e)
           slider.value = parseFloat( e.target.value );
       };
@@ -81,6 +82,7 @@ Item {
   } // onCompleted
 
   onValueChanged: {
+//    console.log("obj value changed, setting html slider",slider.value );
     htmlNode.value = slider.value;
   }
  
