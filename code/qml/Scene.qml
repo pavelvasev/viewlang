@@ -133,9 +133,10 @@ SceneSpace {
    ////////////////////// lights
 
    property alias sceneColor: alight.color
-   property alias light0: alight   
+   property alias light0: alight
    property alias light1: plight1
    property alias light2: plight2
+   property bool defaultLightsEnabled: true
 
    AmbientLight {
      id: alight
@@ -146,14 +147,14 @@ SceneSpace {
    PointLight {
      id: plight1
      color: 0xffffff
-     enabled: isRoot
+     enabled: isRoot && defaultLightsEnabled
      position: [50,50,50]
    }
    
    PointLight {
      id: plight2
      color: 0xffffff
-     enabled: isRoot
+     enabled: isRoot && defaultLightsEnabled
      position: [-50,-50,-50]
    }
 
