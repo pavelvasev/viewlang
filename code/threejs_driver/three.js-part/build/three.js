@@ -18058,7 +18058,8 @@
 			var position = geometry.attributes.position; //
 
 			if (index === null) {
-				if (position === undefined || position.count === 0) return;
+			    if (!object.isVertexID)
+  				  if (position === undefined || position.count === 0) return;
 			} else if (index.count === 0) {
 				return;
 			} //
@@ -18086,7 +18087,7 @@
 			} //
 
 
-			var dataCount = index !== null ? index.count : position.count;
+			var dataCount = index !== null ? index.count : (position ? position.count : 0);
 			var rangeStart = geometry.drawRange.start * rangeFactor;
 			var rangeCount = geometry.drawRange.count * rangeFactor;
 			var groupStart = group !== null ? group.start * rangeFactor : 0;
@@ -18094,6 +18095,13 @@
 			var drawStart = Math.max(rangeStart, groupStart);
 			var drawEnd = Math.min(dataCount, rangeStart + rangeCount, groupStart + groupCount) - 1;
 			var drawCount = Math.max(0, drawEnd - drawStart + 1);
+			
+			//pv
+			if (object.isVertexID) {
+			  drawStart = rangeStart;
+			  drawCount = rangeCount;
+			}
+			
 			if (drawCount === 0) return; //
 
 			if (object.isMesh) {
