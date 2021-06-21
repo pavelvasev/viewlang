@@ -36,7 +36,7 @@
     "promises-aplus-tests": ">= 2.0.4",
     "benchmark": "1.0.0",
     "race.js": "0.1.4",
-    "lodash": "2.0.0",
+    "lodash": "4.17.19",
     "underscore": "1.5.2",
     "string-table": "0.1.2"
   },
