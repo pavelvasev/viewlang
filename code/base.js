@@ -308,6 +308,10 @@ function removeA(arr) {
     function vMulScal(a,b) {
       return [ a[0]*b, a[1]*b, a[2]*b ];
     }
+    
+    function vMulScalar(a,b) {
+      return [ a[0]*b, a[1]*b, a[2]*b ];
+    }    
 
 /*
         private void BuildBasis(Point3D p1, Point3D p2, out Vector3D v1, out Vector3D v2, out Vector3D v3)

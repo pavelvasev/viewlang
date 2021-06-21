@@ -41,7 +41,7 @@ var cameraVector = new THREE.Vector3(); // create once and reuse it!
 const prevGamePads = new Map();
 var speedFactor = [0.1, 0.1, 0.1, 0.1];
 
-var render_aspect_orig = render_aspect;
+
 function render_patch() {
 /*
     cleanIntersected();
@@ -58,6 +58,7 @@ function render_patch() {
     
     render_aspect_orig.apply();
 }
+var render_aspect_orig = render_aspect;
 render_aspect = render_patch;
 
 
@@ -101,9 +102,15 @@ function init() {
     var line = new THREE.Line(geometry);
     line.name = "line";
     line.scale.z = 50;   //MODIFIED FOR LARGER SCENE
+    
+    if (threejs.xrLinesSetup) {
+      threejs.xrLinesSetup( line );
+    }
 
-    controller1.add(line.clone());
-    controller2.add(line.clone());
+    if (threejs.enableXrLines != false) {
+      controller1.add(line.clone());
+      controller2.add(line.clone());
+    }
 
     raycaster = new THREE.Raycaster();
   
@@ -116,6 +123,7 @@ function init() {
     dolly.position.set(0, 0, 0);
     dolly.name = "dolly";
     scene.add(dolly);
+    // debugger;
     dolly.add(camera);
     dolly.add(controller1);
     dolly.add(controller2);
@@ -390,7 +398,7 @@ function dollyMove2() {
                         }
                     });
                 }
-                ///store this frames data to compate with in the next frame
+                ///store this frames data to compare with in the next frame
                 prevGamePads.set(source, data);
             }
         }
@@ -407,4 +415,4 @@ function isIterable(obj) {  //function to check if object is iterable
 
   init();
 
-}
+} // setup my vr walk

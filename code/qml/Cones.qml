@@ -13,6 +13,7 @@ SceneObject {
   // @WithSelectOne.qml 
   property var positionItemSize: 6
 
+  property var trimesh: tris
   Trimesh {
     id: tris
 
