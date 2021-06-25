@@ -73,12 +73,12 @@ var VRButton = {
 					// ('local' is always available for immersive sessions and doesn't need to
 					// be requested separately.)
 
-					//var sessionInit = { optionalFeatures: [ 'local-floor', 'bounded-floor' ] };
+					//var sessionInit = { optionalFeatures: [ 'local-floor', 'bounded-floor', 'hand-tracking' ] };
 					// local-floor дает ходить, а bounded-floor почему-то нет (но надо проверять)
 					// просто local при этом вообще не работает в quest 2, равно как и viewer
 					// курить оную траву-мураву:
 					// https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API/Geometry
-					var sessionInit = { optionalFeatures: [ 'local-floor' ] };
+					var sessionInit = { optionalFeatures: [ 'local-floor','hand-tracking' ] };
 					navigator.xr.requestSession( 'immersive-vr', sessionInit ).then( onSessionStarted );
 
 				} else {

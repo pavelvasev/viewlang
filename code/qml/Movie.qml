@@ -26,7 +26,9 @@ Item {
     property var processStep
     
     property int subcounter: 0
-    property int loopcounter: 0
+    property int loopcounter: 0 // номер круга анимации
+    
+    property int subcounterDelay: 0
 
     onProcessActiveChanged: {
       if (qmlEngine.rootObject.$properties["animationActive"]) qmlEngine.rootObject.animationActive = processActive;
@@ -38,16 +40,36 @@ Item {
           // threejs
           console.log("making shot and sending to recorder window");
           var img = renderer.domElement.toDataURL("image/png");
-          recorderWindow.postMessage( {cmd:"appendDataUrl",args:[img]},"*");
+          recorderWindow.postMessage( {cmd:"append",args:[img],ack:subcounter},"*");
+          bWaitingFromRecorder = true;
         }
     }
+    
+    //////// F-WAIT-ACK фича: получение ack от видеозаписи
+    Item {
+      Component.onCompleted: {
+        window.addEventListener("message", receiveMessageAck, false);
+      }
+    }
+    function receiveMessageAck(event) {
+        var ack = event.data.ack;
+        var cmd = event.data.cmd;
+        if (event.source === recorderWindow && event.data.cmd == "append") //  && ack == ackSent
+          bWaitingFromRecorder = false;
+    }
+    property bool bWaitingFromRecorder: false
+    //property var  waitingAck
+    ////////
 
     RenderTick {
       enabled: processActive && qmlEngine.rootObject.propertyComputationPending == 0
       onAction: {
+      
+        // F-WAIT-ACK
+        if (bWaitingFromRecorder) return;
 
         subcounter = subcounter+1;
-        if (subcounter % 5 !== 0) return;
+        if (subcounterDelay > 0 && subcounter % subcounterDelay !== 0) return;
         
         // dice: pending..
         // if (qmlEngine.rootObject.$properties["propertyComputationPending"] && qmlEngine.rootObject.propertyComputationPending > 0) return;
@@ -174,13 +196,20 @@ Item {
       
       processParam = targetParam;
       processParam.value = processMin;
+      
+      subcounterDelay = parseInt( paramStepDelay.text );
+      
+      // F-WAIT-ACK
+      bWaitingFromRecorder = false;
 
       loopcounter = 0;
 
 /*      
               if (cbRecord.checked) {
                 if (!recorderWindow || recorderWindow.closed) {
-                    recorderWindow = window.open( "http://pavelvasev.github.io/simple_movie_maker/","_blank", "width=1200, height=700" );
+                    recorderWindow = window.open( "https://pavelvasev.github.io/simple_movie_maker/","_blank", "width=1200, height=700" );
+                    //recorderWindow = window.open( "https://viewzavr.com/apps/viewzavr-system-a/lib/simple_movie_maker/","_blank", "width=1200, height=700" );
+                    
                     //debugger;
 								    //recorderWindow = window.open( "file://D:/GitHub/simple_movie_maker/index.html","_blank", "width=1200, height=800" );
 								    console.log("opened recorderWindow=",recorderWindow);
@@ -209,8 +238,10 @@ Item {
       title: "Выбор параметра анимации"
       id: dlg
       opacity: 0.8
+      height: col.height+35
 
       Column {
+       id: col
         ComboBox {
           width: 200
           id: comboparams
@@ -252,7 +283,15 @@ Item {
         }
         TextField {
           id: paramStep
-        }        
+        }
+        Text {
+          text: "задумчивость (int)"
+        }
+
+        TextField {
+          id: paramStepDelay
+          text: "5"
+        }
 
         Text {
           text: " "
@@ -264,7 +303,10 @@ Item {
             width: 200
             onClicked: {
               dlg.close();
-              gogo();
+              var ta = 0;
+              setTimeout( function() {
+                gogo();
+              }, ta );
             }
           }
           Text { 
@@ -280,7 +322,10 @@ Item {
                 if (!recorderWindow || recorderWindow.closed) {
                     recorderWindow = window.open( "about:blank","_blank", "width=1200, height=700" );
                     recorderWindow.opener = null;
-                    recorderWindow.document.location = "http://pavelvasev.github.io/simple_movie_maker/";
+                    recorderWindow.document.location = "https://viewzavr.com/apps/viewzavr-system-a/lib/simple_movie_maker/";
+                    // recorderWindow.document.location = "http://pavelvasev.github.io/simple_movie_maker/";
+                    
+                    
                     // we have to use 3 steps, so Chrome will move this new window in separate process.
 
                     //recorderWindow = window.open( "http://pavelvasev.github.io/simple_movie_maker/","_blank", "width=1200, height=700" );

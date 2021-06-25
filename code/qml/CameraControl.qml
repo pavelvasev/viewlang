@@ -21,7 +21,7 @@ Item {
       if (sceneControl.target.x != centerPoint[0] || sceneControl.target.y != centerPoint[1] || sceneControl.target.z != centerPoint[2]) {
         sceneControl.target = new THREE.Vector3( centerPoint[0],centerPoint[1],centerPoint[2] )
         sceneControl.update();
-        console.log("Новый центр (программа): ",centerPoint);
+        // console.log("Новый центр (программа): ",centerPoint);
       }
     }
   }
@@ -32,7 +32,7 @@ Item {
         threejs.camera.position.y == cameraPosition[1] &&
         threejs.camera.position.z == cameraPosition[2]) return;
         
-    console.log("new cam pos (prg)",cameraPosition,threejs.camera.position);
+    //console.log("new cam pos (prg)",cameraPosition,threejs.camera.position);
     threejs.camera.position.x = cameraPosition[0];
     threejs.camera.position.y = cameraPosition[1];
     threejs.camera.position.z = cameraPosition[2];

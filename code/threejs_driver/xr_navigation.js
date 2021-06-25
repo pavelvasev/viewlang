@@ -132,6 +132,13 @@ function init() {
     
     //
     controls = qmlEngine.rootObject.cameraControlC.sceneControl;
+    
+    ////////////////////// hands
+    const [ hand0, hand1 ] = [ {}, {} ]
+    .map( function( hand, i ) {
+      hand = renderer.xr.getHand( i )
+      scene.add( hand )
+    })
 
 }
 

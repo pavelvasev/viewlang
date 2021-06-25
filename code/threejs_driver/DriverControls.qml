@@ -18,7 +18,12 @@ Item {
 
         function export1()
         {
+            // new method
             var img = renderer.domElement.toDataURL("image/png");
+            // console.log("opening img=",img );
+            var wnd = window.open( "about:blank", '_blank');
+            wnd.document.write('<img src="'+img+'"/>');
+            return;
 
             var wnd = window.open( "about:blank", '_blank');
             wnd.document.body.innerHTML = "please wait..";
