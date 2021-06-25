@@ -204,20 +204,6 @@ Item {
 
       loopcounter = 0;
 
-/*      
-              if (cbRecord.checked) {
-                if (!recorderWindow || recorderWindow.closed) {
-                    recorderWindow = window.open( "https://pavelvasev.github.io/simple_movie_maker/","_blank", "width=1200, height=700" );
-                    //recorderWindow = window.open( "https://viewzavr.com/apps/viewzavr-system-a/lib/simple_movie_maker/","_blank", "width=1200, height=700" );
-                    
-                    //debugger;
-								    //recorderWindow = window.open( "file://D:/GitHub/simple_movie_maker/index.html","_blank", "width=1200, height=800" );
-								    console.log("opened recorderWindow=",recorderWindow);
-                    
-                }
-              }
-*/              
-
       if (doRecord) recorderWindow.postMessage({cmd:"reset"},"*");
 
       //makeShot();
@@ -322,8 +308,8 @@ Item {
                 if (!recorderWindow || recorderWindow.closed) {
                     recorderWindow = window.open( "about:blank","_blank", "width=1200, height=700" );
                     recorderWindow.opener = null;
-                    recorderWindow.document.location = "https://viewzavr.com/apps/viewzavr-system-a/lib/simple_movie_maker/";
-                    // recorderWindow.document.location = "http://pavelvasev.github.io/simple_movie_maker/";
+                    //recorderWindow.document.location = "https://viewzavr.com/apps/viewzavr-system-a/lib/simple_movie_maker/";
+                    recorderWindow.document.location = "https://pavelvasev.github.io/simple_movie_maker/";
                     
                     
                     // we have to use 3 steps, so Chrome will move this new window in separate process.
