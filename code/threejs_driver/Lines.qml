@@ -34,7 +34,10 @@ SceneObjectThreeJs {
       this.sceneObject.material.opacity = opacity;
       this.sceneObject.material.transparent = opacity < 1;
       this.sceneObject.material.needsUpdate=true;
+      this.sceneObject.material.blending = additive ? THREE.AdditiveBlending : THREE.NormalBlending;
     }
+    property bool additive: false
+    onAdditiveChanged: opacityChanged();
 
     onDashedChanged: makeLater(this);
 

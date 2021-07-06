@@ -136,11 +136,11 @@ SceneObjectThreeJs {
         if (!noIndices) geom_good = geom_good && (indices && indices.length > 0);
         
         if (!(colors_good && geom_good)) {
-            console.log("Trimesh::make3d() exiting2, because conditions on colors and geometry fail. geom_good=",geom_good,"colors_good=",colors_good, "title=",title, positions ? positions.length: -1);
+            // console.log("Trimesh::make3d() exiting2, because conditions on colors and geometry fail. geom_good=",geom_good,"colors_good=",colors_good, "title=",title, positions ? positions.length: -1);
             //debugger;
             //console.log(positions);
             if (!geom_good) {
-              console.log("i clear trimesh");
+              //console.log("i clear trimesh");
               clear();
             }
             return;

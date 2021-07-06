@@ -19,6 +19,8 @@ Item {
   property var jsonSources
 
   property var shader: source ? source.shader : undefined
+  
+  property bool frustumCulled: true
 
   // internal
 

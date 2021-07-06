@@ -37,7 +37,7 @@ SceneObjectThreeJs {
         var attr = this.sceneObject.geometry.getAttribute("position");
         //attr.set( new Float32Array(positions) );
         attr.needsUpdate = true;
-        this.sceneObject.frustumCulled = (positions.length > 3);
+        this.sceneObject.frustumCulled = this.frustrumCulled && (positions.length > 3);
         this.sceneObject.geometry.computeBoundingSphere();
     
     }
@@ -253,7 +253,7 @@ SceneObjectThreeJs {
         // при решении о рендеринге
         // возможно стоит это делать только если точек 1
         // ок, так и будем делать
-        this.sceneObject.frustumCulled = (positions.length > 3);
+        
         //this.sceneObject.frustumCulled = false;
         
 
@@ -266,6 +266,9 @@ SceneObjectThreeJs {
         scene.add( this.sceneObject );
 
         make3dbase();
+        
+        // послпе make3dbase
+        this.sceneObject.frustumCulled = this.frustrumCulled && (positions.length > 3);
     }
     
     function clear() {

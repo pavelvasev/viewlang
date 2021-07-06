@@ -93,9 +93,15 @@ SceneObject {
       attachShaders();
       scaleChanged();
       rotateChanged();
+      
+      this.sceneObject.frustumCulled = theobj.frustumCulled;
+
+      // && theobj.frustrumCulledPossible();
 
       makecnt = makecnt+1;
-    }    
+    }
+    
+    function frustrumCulledPossible() { }
 
     property int makecnt: 0
 

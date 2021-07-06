@@ -64,7 +64,7 @@ Item {
     RenderTick {
       enabled: processActive && qmlEngine.rootObject.propertyComputationPending == 0
       onAction: {
-      
+
         // F-WAIT-ACK
         if (bWaitingFromRecorder) return;
 
@@ -75,8 +75,9 @@ Item {
         // if (qmlEngine.rootObject.$properties["propertyComputationPending"] && qmlEngine.rootObject.propertyComputationPending > 0) return;
 
         makeShot(); // of previous value
-        //console.log("MV see",processParam.value);
+        
         var next_param_value = processParam.value + processStep;
+        //console.log("MV see",processParam.value,next_param_value);
         processParam.value = next_param_value;
 
         // we should check against `next_param_value` and not processParam.value, because processParam.value might not change
