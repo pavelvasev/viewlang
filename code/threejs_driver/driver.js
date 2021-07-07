@@ -152,16 +152,16 @@ function doScheduledPrerenderTasks() {
 var clock = new THREE.Clock(true);    
 var threejs_sceneTime = 0, threejs_sceneDelta = 0;
 
-// aspect
+// aspect ctp
 var render_aspect = function() {};
+// event ctp (control transfer point)
+var render_event = { type: 'render' }
 
 function render() {
     threejs_sceneDelta = clock.getDelta();
     threejs_sceneTime = clock.elapsedTime;
     
-    //var event = new Event('render');
-    var event = { type: 'render' }
-    scene.dispatchEvent(event); // Sm RenderTick.qml
+    scene.dispatchEvent(render_event); // Sm RenderTick.qml
     
     doScheduledPrerenderTasks();
   

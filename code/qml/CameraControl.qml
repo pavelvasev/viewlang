@@ -55,6 +55,7 @@ Item {
 
   onCameraPositionChanged: {
     writeCamPosToThreeJs();
+    camera_change_ctp(); // FEATURE-CAMERA-CHANGE-NOTIFY  
   }
 
   //property var imRoot: (parent === qmlEngine.rootObject)
@@ -71,13 +72,18 @@ Item {
     if (!imRoot) return;  
     var cls = eval("THREE."+controlType);
 
-    sceneControl = new cls( camera, renderer.domElement );
+    sceneControl = new cls( threejs.camera, renderer.domElement );
     // sceneControl.enableRotate=false;
     threejs.sceneControl = sceneControl;
 
     updateCenter();
-    
+
+ 
+    var camera_change_event = { type: 'camera_change' } // FEATURE-CAMERA-CHANGE-NOTIFY  
+   
     sceneControl.addEventListener( 'change', function() {
+      threejs.scene.dispatchEvent(camera_change_event); // FEATURE-CAMERA-CHANGE-NOTIFY  
+
       if (echoTimeout) clearTimeout( echoTimeout );
       
       echoTimeout = setTimeout( function () {
@@ -100,9 +106,18 @@ Item {
   } );
     
   }
-  
 
   Component.onCompleted: {
      readCamPosFromThreeJs();
   }
+
+  // FEATURE-CAMERA-CHANGE-NOTIFY
+  // we need get know when camera changes (for frustum culling so on)
+  // various ways there https://stackoverflow.com/questions/33983889/fire-code-everytime-camera-position-changes-in-three-js
+  // current feauture uses event in threejs.scene
+  function camera_change_ctp() {
+      var camera_change_event = { type: 'camera_change' } 
+      threejs.scene.dispatchEvent(camera_change_event); 
+  }
+  
 }
