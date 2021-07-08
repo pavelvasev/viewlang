@@ -47,7 +47,8 @@ RendererStats = function () {
 			msTexts[i++].textContent = "== Render =====";
 			msTexts[i++].textContent = "Calls: "	+ webGLRenderer.info.render.calls;
 			msTexts[i++].textContent = "Lines: "	+ webGLRenderer.info.render.lines;
-			msTexts[i++].textContent = "Triangles: "	+ webGLRenderer.info.render.triangles;
+			//msTexts[i++].textContent = "Triangles: "	+ webGLRenderer.info.render.triangles.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+			msTexts[i++].innerHTML= "Triangles: "	+ webGLRenderer.info.render.triangles.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '&nbsp;');
 			msTexts[i++].textContent = "Points: "	+ webGLRenderer.info.render.points;
 		}
 	}	

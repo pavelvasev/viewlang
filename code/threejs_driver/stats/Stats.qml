@@ -41,6 +41,7 @@ CheckBox {
             cs.stats = stats;
             stats.domElement.style.left = '';
             stats.domElement.style.right = '2px';
+            stats.domElement.style.top = '42px';
             /*
             stats.domElement.style.position = 'absolute';
             stats.domElement.style.bottom = '2px'; // конечно надо от сцены играть
@@ -56,7 +57,7 @@ CheckBox {
             cs.rendererStats = rendererStats;
 
             rendererStats.domElement.style.position   = 'absolute'
-            rendererStats.domElement.style.top = '100px'
+            rendererStats.domElement.style.top = '140px'
             //rendererStats.domElement.style.bottom  = '52px'
             rendererStats.domElement.style.right    = '2px'
             rendererStats.domElement.style.zIndex = 5000;
