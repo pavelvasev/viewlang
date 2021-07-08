@@ -49,6 +49,7 @@ RendererStats = function () {
 			msTexts[i++].textContent = "Lines: "	+ webGLRenderer.info.render.lines;
 			//msTexts[i++].textContent = "Triangles: "	+ webGLRenderer.info.render.triangles.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 			msTexts[i++].innerHTML= "Triangles: "	+ webGLRenderer.info.render.triangles.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '&nbsp;');
+			// thanks https://www.codegrepper.com/code-examples/javascript/javascript+format+numbers+thousands+space+seperator
 			msTexts[i++].textContent = "Points: "	+ webGLRenderer.info.render.points;
 		}
 	}	
