@@ -275,7 +275,9 @@ Item {
     Stats {
         property var tag: controlsTag
         visible: showMore
+        id: stats
     }
+    property alias astats: stats
 
     ////////////////////
 
