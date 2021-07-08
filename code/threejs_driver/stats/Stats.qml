@@ -42,6 +42,7 @@ CheckBox {
             stats.domElement.style.left = '';
             stats.domElement.style.right = '2px';
             stats.domElement.style.top = '42px';
+            stats.domElement.classList.add("la_fps","la_fps_stats");
             /*
             stats.domElement.style.position = 'absolute';
             stats.domElement.style.bottom = '2px'; // конечно надо от сцены играть
@@ -62,6 +63,7 @@ CheckBox {
             rendererStats.domElement.style.right    = '2px'
             rendererStats.domElement.style.zIndex = 5000;
             document.body.appendChild( rendererStats.domElement )
+            rendererStats.domElement.classList.add("la_fps","la_fps_renderstats");
         });
     }
 }
