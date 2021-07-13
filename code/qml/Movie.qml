@@ -75,10 +75,10 @@ Item {
         // if (qmlEngine.rootObject.$properties["propertyComputationPending"] && qmlEngine.rootObject.propertyComputationPending > 0) return;
 
         makeShot(); // of previous value
-        
+
         var next_param_value = processParam.value + processStep;
         //console.log("MV see",processParam.value,next_param_value);
-        processParam.value = next_param_value;
+        processParam.value = Math.min( Math.max( next_param_value, processMin ), processMax );
 
         // we should check against `next_param_value` and not processParam.value, because processParam.value might not change
         // in case if param checks ranges
@@ -196,7 +196,7 @@ Item {
       processStep = parseFloat( paramStep.text );
       
       processParam = targetParam;
-      processParam.value = processMin;
+      processParam.value = processStep > 0 ? processMin : processMax;
       
       subcounterDelay = parseInt( paramStepDelay.text );
       
@@ -237,7 +237,7 @@ Item {
         }
 
         Text {
-          text: "стартовая позиция " + note
+          text: "минимальное значение" // + note
           id: paramStartLabel
           property var note: ""
         }
@@ -260,7 +260,7 @@ Item {
 
         }
         Text {
-          text: "конечная позиция"
+          text: "максимальное значение"
         }
         TextField {
           id: paramFinish
