@@ -268,7 +268,8 @@ SceneObjectThreeJs {
         make3dbase();
         
         // послпе make3dbase
-        this.sceneObject.frustumCulled = this.frustrumCulled && (positions.length > 3);
+        if (this.sceneObject) // его могут удалить в make3dbase
+            this.sceneObject.frustumCulled = this.frustrumCulled && (positions.length > 3);
     }
     
     function clear() {
