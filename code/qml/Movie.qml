@@ -30,6 +30,10 @@ Item {
     
     property int subcounterDelay: 0
 
+    ///// алиасы для внешней настройки
+    property alias aparamStepDelay: paramStepDelay
+    /////
+
     onProcessActiveChanged: {
       if (qmlEngine.rootObject.$properties["animationActive"]) qmlEngine.rootObject.animationActive = processActive;
       if (qmlEngine.rootObject.$properties["animationRecord"]) qmlEngine.rootObject.animationRecord = doRecord;
