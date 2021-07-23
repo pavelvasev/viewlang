@@ -9,6 +9,8 @@ SceneObjectThreeJs {
     
     property var radiuses: []
 
+    property bool sizeAttenuation: true
+
     /////////////////// graphics part
     id: qmlObject
 
@@ -22,6 +24,12 @@ SceneObjectThreeJs {
     onRadiusChanged: {
       if (!this.sceneObject || !this.sceneObject.material) return;
       this.sceneObject.material.size=radius;
+      this.sceneObject.material.needsUpdate=true;
+    }
+
+    onSizeAttenuationChanged: {
+      if (!this.sceneObject || !this.sceneObject.material) return;
+      this.sceneObject.material.sizeAttenuation=sizeAttenuation;
       this.sceneObject.material.needsUpdate=true;
     }
 
@@ -262,6 +270,7 @@ SceneObjectThreeJs {
         textureUrlChanged();
         transparentChanged();
         radiusesChanged();
+        sizeAttenuationChanged();
         
         scene.add( this.sceneObject );
 
