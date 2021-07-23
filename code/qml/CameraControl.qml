@@ -56,6 +56,7 @@ Item {
   onCameraPositionChanged: {
     writeCamPosToThreeJs();
     camera_change_ctp(); // FEATURE-CAMERA-CHANGE-NOTIFY  
+    //console.log("campos-changed")
   }
 
   //property var imRoot: (parent === qmlEngine.rootObject)
@@ -66,18 +67,31 @@ Item {
   onImRootChanged: {
     if (!imRoot) return;
 
-  var controlType = "OrbitControls";
-  //la_require("../threejs_driver/three.js/examples/js/controls/"+controlType+".js", function() {
-  la_require("../threejs_driver/"+controlType+".js", function() {
-    if (!imRoot) return;  
+    setupControl( "OrbitControls" )
+    
+  }
+
+  function setupControl( controlFile, controlType ) {
+    if (!controlType) controlType = controlFile;
+
+    var path = controlFile;
+    if (path.indexOf("/") < 0) 
+        path = "../threejs_driver/three.js-part/examples/js/controls/"+controlFile+".js";
+    // "../threejs_driver/"+controlType+".js"
+
+    la_require(path, function() {
+    if (!imRoot) return;
     var cls = eval("THREE."+controlType);
 
+    // remove old control
+    if (sceneControl) sceneControl.dispose();
+
     sceneControl = new cls( threejs.camera, renderer.domElement );
+    
     // sceneControl.enableRotate=false;
     threejs.sceneControl = sceneControl;
 
     updateCenter();
-
  
     var camera_change_event = { type: 'camera_change' } // FEATURE-CAMERA-CHANGE-NOTIFY  
    
@@ -88,23 +102,22 @@ Item {
       
       echoTimeout = setTimeout( function () {
 
-      var q = readCamPosFromThreeJs();
+        var q = readCamPosFromThreeJs();
 
-      var n = [ sceneControl.target.x,sceneControl.target.y,sceneControl.target.z ];
-      
-      if (n[0] != centerPoint[0] || n[1] != centerPoint[1] || n[2] != centerPoint[2] ) {
-        console.log( "Новый центр (пользователь)");
-        console.log( "center:",n );
-        console.log( "cameraPos:",q );
-        centerPoint = n;
-      }
+        var n = [ sceneControl.target.x,sceneControl.target.y,sceneControl.target.z ];
+        
+        if (n[0] != centerPoint[0] || n[1] != centerPoint[1] || n[2] != centerPoint[2] ) {
+          console.log( "Новый центр (пользователь)");
+          console.log( "center:",n );
+          console.log( "cameraPos:",q );
+          centerPoint = n;
+        }
 
       } // timeout
       , 500 );
 
     } );
   } );
-    
   }
 
   Component.onCompleted: {
