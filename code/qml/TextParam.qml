@@ -78,9 +78,9 @@ Column {
     
     Button {
       id: btEnter
-      text: "ВВОД"
-      anchors.right: parent.right
-      anchors.margins: -10
+      text: "OK"
+      anchors.left: parent.right
+      anchors.margins: 9
       visible: false
       onClicked: { txt.accepted(); }
     }
