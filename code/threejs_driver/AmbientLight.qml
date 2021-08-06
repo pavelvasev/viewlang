@@ -10,8 +10,7 @@ Light {
     }
     colorChanged();
 
-    if (sceneObj.rootScene.light0 !== this) 
-        sceneObj.rootScene.light0.enabled = false;
+    // if (sceneObj.rootScene.light0 !== this) sceneObj.rootScene.light0.enabled = false;
   }
 
 }

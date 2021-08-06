@@ -21,18 +21,20 @@ Item {
   onNameChanged: tryreg();
   
   property bool registered: false
+  
+  property var gatheredParams: qmlEngine.rootObject.gatheredParams || []
+  
   function tryreg()
   {
      if (registered) return;
      //console.log("ParamAnimation: trying to register.",name,target.text);
      
      if (enabled && target && name && target.text) {
-       var rootScene = findRootScene(obj);
+
        if (target.animationPriority)
-         rootScene.gatheredParams.unshift( obj );
+         gatheredParams.unshift( obj );
        else
-         rootScene.gatheredParams.push( obj );
-       rootScene.gatheredParamsChanged();
+         gatheredParams.push( obj );
 
        obj.Component.destruction.connect( removeObjFromCount );
        registered=true;
@@ -43,9 +45,8 @@ Item {
   }
 
   function removeObjFromCount() {
-    var rootScene = findRootScene(obj);
-    var idx = rootScene.gatheredParams.indexOf(obj);
-    if (idx >= 0) rootScene.gatheredParams.splice( idx, 1 );
+    var idx = gatheredParams.indexOf(obj);
+    if (idx >= 0) gatheredParams.splice( idx, 1 );
   }       
   
 
@@ -57,5 +58,6 @@ Item {
     nowWriting: obj.nowWriting
     name: obj.name    
   }
+
 
 }

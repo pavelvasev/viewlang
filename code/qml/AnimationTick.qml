@@ -9,13 +9,13 @@ Item {
   }
 
   Component.onCompleted: {
-    var s = findRootScene(rt);
-    if (s) s.animationTick.connect( rt, tick );
+    var s = qmlEngine.rootObject; // @todo: animationManager...
+    if (s && s.animationTick) s.animationTick.connect( rt, tick );
   }
   
   Component.onDestruction: {
-    var s = findRootScene(rt);
-    if (s) s.animationTick.disconnect( rt, tick );  
+    var s = qmlEngine.rootObject;
+    if (s && s.animationTick) s.animationTick.disconnect( rt, tick );  
   }
   
 }

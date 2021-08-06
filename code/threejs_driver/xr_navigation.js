@@ -131,7 +131,8 @@ function init() {
     dolly.add(controllerGrip2);
     
     //
-    controls = qmlEngine.rootObject.cameraControlC.sceneControl;
+    // controls = qmlEngine.rootObject.scene3d.cameraControlC.sceneControl;
+    controls = threejs.sceneControl;
     
     ////////////////////// hands
     const [ hand0, hand1 ] = [ {}, {} ]

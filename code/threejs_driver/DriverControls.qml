@@ -287,7 +287,7 @@ Item {
     text: "OSC"
     property var tag: "bottom"
     id: thecheck
-    visible: isRoot && driverControls.showMore
+    visible: controls.parent.isRoot && driverControls.showMore
     checked: sceneObj.oscManager.enabled
     onCheckedChanged: sceneObj.oscManager.enabled = checked;
 

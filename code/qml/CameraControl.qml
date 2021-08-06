@@ -1,6 +1,8 @@
 // Работает только для ThreeJs...
 
 Item {
+  id: camcontrol
+  
   property var centerPoint: [0,0,0]
   property var cameraPosition: [0,0,50]     // задается извне
   property var realCameraPosition: [0,0,50] // считывается нами из ThreeJs
@@ -59,16 +61,13 @@ Item {
     //console.log("campos-changed")
   }
 
-  //property var imRoot: (parent === qmlEngine.rootObject)
-  property var imRoot: parent.findRootSpace() === parent
+  property var imRoot: findRootScene( camcontrol ) === parent
 
   property var echoTimeout: null
 
   onImRootChanged: {
     if (!imRoot) return;
-
     setupControl( "OrbitControls" )
-    
   }
 
   function setupControl( controlFile, controlType ) {

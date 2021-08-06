@@ -10,6 +10,8 @@ Item {
   property bool nowWriting: false
 
   property var nameWithSlash: name && name.length > 0 ? (name[0] == "/" ? name : "/" + name) : "";
+  
+  property var oscManager: qmlEngine.rootObject.oscManager || qmlEngine.rootObject;
 
   function param_changed()
   {
@@ -19,9 +21,7 @@ Item {
 
      var value = target[property];
      
-     var rootScene = findRootScene(obj);
-     var port = rootScene.oscManager.oscPort;
-
+     var port = oscManager.oscPort;
      if (!port) return;
      
      // console.log("sending",name,value);

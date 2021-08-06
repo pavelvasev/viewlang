@@ -10,6 +10,8 @@ Item {
   onEnabledChanged: runosc();
   
   property var oscUrl: Qt.resolvedUrl("test").indexOf("file:/") >= 0 ? "ws://localhost:8081" : "ws://viewlang.ru:8081"
+  
+  property var gatheredParams: qmlEngine.rootObject.gatheredParams || []
 
   function runosc() {
     if (!enabled) return;
@@ -35,7 +37,7 @@ Item {
                 var paramname = oscMessage.address;
                 // console.log("so got message", oscMessage, paramname);
 
-                var params = sceneObj.rootScene.gatheredParams;
+                var params = gatheredParams;
                 var value =  oscMessage.args.length == 1 ? oscMessage.args[0] : oscMessage.args;
 
                 /* вроде это уже не надо

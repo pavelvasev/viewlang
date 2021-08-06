@@ -13,16 +13,10 @@ threejs.scene = scene;
 var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000*1000 );
 //var camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 1, 1000*10 );
 threejs.camera = camera;
-
 camera.position.z = 25;
 
 
 ///////////////////////////////////////// init
-
-//var container = document.getElementById("canvas-1");
-
-//var renderer = new THREE.WebGLRenderer( { canvas: container  } );
-
 
 // https://threejs.org/docs/#api/en/renderers/WebGLRenderer.premultipliedAlpha
 var renderer = new THREE.WebGLRenderer({
@@ -48,7 +42,6 @@ renderer.setClearColor( 0xB2B2CC, 1);
 //renderer.autoClearColor = false;
 //renderer.autoClearDepth = false;
 
-// а...
 document.body.appendChild( renderer.domElement );
 
 var driverDomElement = renderer.domElement;
@@ -56,29 +49,28 @@ driverDomElement.classList.add("viewlang-canvas");
 
     // в js объекты не могут быть ключами, печалько
     // http://www.timdown.co.uk/jshashtable/
-    // Поэтому
-    // objectsToRerender это массив из ячеек вида [объект,(таблица действий)]
-    var objectsToRerender = [];
+    // Поэтому objectsToRerender это массив из ячеек вида [объект,(таблица действий)]
+    
+var objectsToRerender = [];
 
 function getObjDeeds( o ) {
       // меняем ключ на базовый объект. потому, что тот базовый объект тоже может вызывать makeLater, но уже с ключем-собой, 
       // и получится двойной вызов - один от наследного объекта, а второй от базового. Пример:
       // spheres.indices = x; -> повлечет makeLater(spheres);   spheres.material = y; -> повлечет makeLater(базовый объект)
+
       if (o && typeof(o.threeJsSceneObject) !== "undefined") {
         o = o.threeJsSceneObject;
-        //console.log( "getObjDeeds downgrades");
       }
 
-      //console.log("getObjDeeds performs lookup, objectsToRerender.length=",objectsToRerender.length);
       for (var i=0; i<objectsToRerender.length; i++) 
         if (objectsToRerender[i][0] === o) {
           //console.log( "getObjDeeds found object, returning");
           return objectsToRerender[i];
         }
-      //console.log("getObjDeeds lookup found nothing, adding object");
+
       objectsToRerender.push( [o,{}] );  
       return objectsToRerender[ objectsToRerender.length-1 ];
-    }
+}
 
     function unmakeLater( o ) {
       if (o && typeof(o.threeJsSceneObject) !== "undefined") o = o.threeJsSceneObject;
@@ -96,17 +88,10 @@ function getObjDeeds( o ) {
         console.error("you passed makeLater for object which doesn't have `make3d `method!");
         return;
       }
-      //console.log( "makeLater key=",key, "o._uniqueId=",o._uniqueId, "o=",o );
-      
+
       var qq = objectsToRerender.length;
       var deeds = getObjDeeds( o );
-      //console.log("deeds=",deeds);
-      /*
-      if (qq < objectsToRerender.length) {
-        console.log("this makeLater added new object to queue, so objectsToRerender.length=",objectsToRerender.length);
-        console.trace();
-      }
-      */
+
 
       if (!key || !code) {
         // если не указан ключ - значит надо переделать все
@@ -126,7 +111,6 @@ function getObjDeeds( o ) {
 }
     
 function doScheduledPrerenderTasks() {
-      //if (objectsToRerender.length > 0)  console.log("doScheduledPrerenderTasks. ************** objectsToRerender.length=",objectsToRerender.length);
       try {
       while (objectsToRerender.length > 0)
       {
@@ -178,14 +162,12 @@ function render() {
 }
 
 function animate() {
-  //renderer.animate( render ); 112
   renderer.setAnimationLoop( render );
 }
 
 animate();
 
 function threeJsWindowResize() {
-//console.log(">>>>>>>>>>>>>>>>>>>>>> threeJsWindowResize" );
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
 				
@@ -194,16 +176,12 @@ function threeJsWindowResize() {
 
   				if (selectedRenderer.setViewport) {
   				  selectedRenderer.setViewport(0, 0, window.innerWidth, window.innerHeight );
-//  				                  console.log(777);
   				}
   				if (selectedRenderer.setScissor)
   				  selectedRenderer.setScissor(0, 0, window.innerWidth, window.innerHeight );
 }
 
 window.addEventListener( 'resize', threeJsWindowResize, false );
-// nooneed - resize event is working window.addEventListener( 'mozfullscreenchange', threeJsWindowResize, false );
-// window.addEventListener( 'webkitfullscreenchange', threeJsWindowResize, false );
-// http://robertnyman.com/2012/03/08/using-the-fullscreen-api-in-web-browsers/
 
 
 /// **********************************************
@@ -234,7 +212,6 @@ var sceneMouse = new THREE.Vector2();
 var raycaster = new THREE.Raycaster();
 
 function onMouseMove( event ) {
-
 	// calculate mouse position in normalized device coordinates
 	// (-1 to +1) for both components
 

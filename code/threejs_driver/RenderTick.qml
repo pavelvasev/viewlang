@@ -15,7 +15,7 @@ Item {
     if (enabled && !registered) {
       // то есть мы считаем что сцена есть..
       scene.addEventListener( 'render', function() { 
-        if (enabled) 
+        if (enabled)
           action(threejs_sceneTime, threejs_sceneDelta);
         
       });
@@ -24,4 +24,4 @@ Item {
   }
 
   // пока не реализовано Component.onDestruction
-}    
+}

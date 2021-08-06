@@ -295,16 +295,10 @@ SceneObject {
               c.tagConnected = true;
               c["tagChanged"].connect( c,function() {
 //                console.log( "tag changed:",this.tag,arguments);
-                qmlEngine.rootObject.refineSelf ? qmlEngine.rootObject.refineSelf() : 0;
-//              debugger;
+                refineAll();
               } );
             }
 
-            //if (c.title && c.tag )
-            //console.log(c,t, c.title );
-//            if (t)
-//            console.log( c.text,t );
-            
 
             var oldparent = c.parent;
             

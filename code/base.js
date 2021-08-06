@@ -533,9 +533,8 @@ function flattenArrayOfArrays(a, r){
 function findScene(someobj)
 {
     var f = someobj;
-    //console.log(1);
     while (f) {
-      if (f.findRootSpace) break;
+      if (f.isScene) break;
       f = f.parent;
     }
     return f;
@@ -543,7 +542,6 @@ function findScene(someobj)
 
 function findRootScene(someobj) {
   someobj = findScene(someobj);
-  if (someobj && someobj.findRootSpace)
-    return someobj.findRootSpace();
-  return null;
+  var upper = someobj ? findScene( someobj.parent ) : null;
+  return upper || someobj;
 }

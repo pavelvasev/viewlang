@@ -29,6 +29,8 @@ Item {
     property int loopcounter: 0 // номер круга анимации
     
     property int subcounterDelay: 0
+    
+    property var gatheredParams: qmlEngine.rootObject.gatheredParams || []
 
     ///// алиасы для внешней настройки
     property alias aparamStepDelay: paramStepDelay
@@ -71,6 +73,8 @@ Item {
 
         // F-WAIT-ACK
         if (bWaitingFromRecorder) return;
+        
+        //console.log("movie tick");
 
         subcounter = subcounter+1;
         if (subcounterDelay > 0 && subcounter % subcounterDelay !== 0) return;
@@ -128,7 +132,7 @@ Item {
       processActive = false;
     
       var acc=[];
-      var params = sceneObj.rootScene.gatheredParams;
+      var params = gatheredParams;
       // console.log("see params=",params );
       // params = params.sort(function (a, b) { var x=(a.animationPriority || 10000); var y=(b.animationPriority || 10000); if (x<y) return -1; if (x>y) return 1; return 0; } );
       for (var i=0; i<params.length; i++) {
@@ -149,19 +153,9 @@ Item {
       prepare();      
       dlg.open();
     }
-    
-    /*
-    property var targetParam: {
-      var q = sceneObj.rootScene.gatheredParams[ comboparams.currentIndex ];
-      return q ? q.target : null;
-    }
-    onTargetParamChanged: {
-      paramStart.value = targetParam.min;
-      paramFinish.value = targetParam.max;
-    }
-    */
+
     function updateminmax(force) {
-      var q = sceneObj.rootScene.gatheredParams[ comboparams.currentIndex ];
+      var q = gatheredParams[ comboparams.currentIndex ];
       if (!q) { console.log("k1"); return; }
       var targetParam = q.target;
       if (!targetParam) { console.log( "k2" ); return; }
@@ -174,14 +168,14 @@ Item {
       } else console.log("k3");
     }
     function setcurrentv() {
-      var q = sceneObj.rootScene.gatheredParams[ comboparams.currentIndex ];
+      var q = gatheredParams[ comboparams.currentIndex ];
       if (!q) { console.log("k1"); return; }
       var targetParam = q.target;
       if (!targetParam) { console.log( "k2" ); return; }
       paramStart.text = targetParam.value;
     } 
     function setminv() {
-      var q = sceneObj.rootScene.gatheredParams[ comboparams.currentIndex ];
+      var q = gatheredParams[ comboparams.currentIndex ];
       if (!q) { console.log("k1"); return; }
       var targetParam = q.target;
       if (!targetParam) { console.log( "k2" ); return; }
@@ -189,7 +183,7 @@ Item {
     }     
 
     function gogo() {
-      var q = sceneObj.rootScene.gatheredParams[ comboparams.currentIndex ];
+      var q = gatheredParams[ comboparams.currentIndex ];
       if (!q) return;
       var targetParam = q.target;
       if (!targetParam) return;
