@@ -4,6 +4,7 @@ SceneSpace {
   anchors.fill: parent
   
   property bool isScene: true
+  property alias scene3d: sceneObj
 
   id: sceneObj
 

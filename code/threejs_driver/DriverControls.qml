@@ -40,7 +40,7 @@ Item {
         property var tag: controlsTag
 
         onClicked: {
-          sceneObj.cameraControlC.reset();
+          qmlEngine.rootObject.scene3d.cameraControlC.reset();
         }
     }
     
@@ -52,7 +52,6 @@ Item {
         checked: axes.visible && visible
         onCheckedChanged: axes.visible = checked;
         property var tag: controlsTag
-        visible: controls.parent.isRoot
         enableAnimation: false
     }    
 
@@ -64,7 +63,7 @@ Item {
         //property var robotLayer: "system"
 
         onVisibleChanged: {
-          if (controls.parent.isRoot && axesBox.checked != visible) {
+          if (controls.visible && axesBox.checked != visible) {
             axesBox.checked = visible;
           }
         }
@@ -288,15 +287,16 @@ Item {
     property var tag: "bottom"
     id: thecheck
     visible: controls.parent.isRoot && driverControls.showMore
-    checked: sceneObj.oscManager.enabled
-    onCheckedChanged: sceneObj.oscManager.enabled = checked;
+    property var oscManager: qmlEngine.rootObject.oscManager || qmlEngine.rootObject
+    checked: oscManager.enabled
+    onCheckedChanged: oscManager.enabled = checked;
 
         ParamUrlHashing {
           name: "osc"
           property: "checked"
           enabled: parent.checked
         }
-  }    
+  }
 
   
   /* редко используемая фича
