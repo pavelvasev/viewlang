@@ -51,6 +51,7 @@ CheckBox {
             */
 
             document.body.appendChild( stats.domElement );
+            cs.checkedChanged();
         } );
 
         la_require("stats/rendererstats.js", function() {
@@ -64,6 +65,7 @@ CheckBox {
             rendererStats.domElement.style.zIndex = 5000;
             document.body.appendChild( rendererStats.domElement )
             rendererStats.domElement.classList.add("la_fps","la_fps_renderstats");
+            cs.checkedChanged();
         });
     }
 }
