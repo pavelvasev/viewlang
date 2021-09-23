@@ -18,7 +18,7 @@ RendererStats = function () {
 	msDiv.appendChild(msText);
 	
 	var msTexts	= [];
-	var nLines = 9;
+	var nLines = 9+2;
 	for(var i = 0; i < nLines; i++)
 	{
 		msTexts[i] = document.createElement( 'div' );
@@ -44,13 +44,16 @@ RendererStats = function () {
 			msTexts[i++].textContent = "Geometries: "+webGLRenderer.info.memory.geometries;
 			msTexts[i++].textContent = "Textures: "	+ webGLRenderer.info.memory.textures;
 
-			msTexts[i++].textContent = "== Render =====";
+			msTexts[i++].textContent = "== Render ===== ";
 			msTexts[i++].textContent = "Calls: "	+ webGLRenderer.info.render.calls;
 			msTexts[i++].textContent = "Lines: "	+ webGLRenderer.info.render.lines;
 			//msTexts[i++].textContent = "Triangles: "	+ webGLRenderer.info.render.triangles.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 			msTexts[i++].innerHTML= "Triangles: "	+ webGLRenderer.info.render.triangles.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '&nbsp;');
 			// thanks https://www.codegrepper.com/code-examples/javascript/javascript+format+numbers+thousands+space+seperator
 			msTexts[i++].textContent = "Points: "	+ webGLRenderer.info.render.points;
+
+			msTexts[i++].textContent = "== Tasks ===== ";
+			msTexts[i++].textContent = `Active: ${qmlEngine?.rootObject?.propertyComputationPending}`;
 		}
 	}	
 };
