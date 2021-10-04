@@ -19,25 +19,26 @@ Item {
   function updateCenter() {
     //console.log(333);
     if (sceneControl) {
-      //sceneCenterPoint = new THREE.Vector3( centerPoint[0],centerPoint[1],centerPoint[2] );
-      if (sceneControl.target.x != centerPoint[0] || sceneControl.target.y != centerPoint[1] || sceneControl.target.z != centerPoint[2]) {
-        sceneControl.target = new THREE.Vector3( centerPoint[0],centerPoint[1],centerPoint[2] )
+      var cpp = centerPoint;
+      var sct = sceneControl.target;
+      if (sct.x != cpp[0] || sct.y != cpp[1] || sct.z != cpp[2]) {
+        sceneControl.target = new THREE.Vector3( cpp[0],cpp[1],cpp[2] )
         sceneControl.update();
-        // console.log("Новый центр (программа): ",centerPoint);
       }
     }
   }
 
   function writeCamPosToThreeJs() {
-    //threejs.camera.position = new THREE.Vector3( cameraPosition[0], cameraPosition[1], cameraPosition[2] );
-    if (threejs.camera.position.x == cameraPosition[0] &&
-        threejs.camera.position.y == cameraPosition[1] &&
-        threejs.camera.position.z == cameraPosition[2]) return;
+    
+    var cp = cameraPosition;
+    if (threejs.camera.position.x == cp[0] &&
+        threejs.camera.position.y == cp[1] &&
+        threejs.camera.position.z == cp[2]) return;
         
     //console.log("new cam pos (prg)",cameraPosition,threejs.camera.position);
-    threejs.camera.position.x = cameraPosition[0];
-    threejs.camera.position.y = cameraPosition[1];
-    threejs.camera.position.z = cameraPosition[2];
+    threejs.camera.position.x = cp[0];
+    threejs.camera.position.y = cp[1];
+    threejs.camera.position.z = cp[2];
     //threejs.camera.updateProjectionMatrix();
     if (sceneControl) {
       //debugger;
@@ -48,7 +49,8 @@ Item {
   
   function readCamPosFromThreeJs() {
       var q = [threejs.camera.position.x, threejs.camera.position.y, threejs.camera.position.z ];
-      if (q[0] != realCameraPosition[0] || q[1] != realCameraPosition[1] || q[2] != realCameraPosition[2] ) {
+      var rcp = realCameraPosition;
+      if (q[0] != rcp[0] || q[1] != rcp[1] || q[2] != rcp[2] ) {
         realCameraPosition = q;
       }
       return q;  
