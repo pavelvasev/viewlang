@@ -76,9 +76,13 @@ Item {
     if (!controlType) controlType = controlFile;
 
     var path = controlFile;
-    if (path.indexOf("/") < 0) 
-        path = "../threejs_driver/three.js-part/examples/js/controls/"+controlFile+".js";
-    // "../threejs_driver/"+controlType+".js"
+    if (path.indexOf("/") < 0) {
+      if (path == "OrbitControls")
+          path = "../threejs_driver/"+controlType+".js"; // we need our patched version (manualTheta)
+        else
+          path = "../threejs_driver/three.js-part/examples/js/controls/"+controlFile+".js";
+    // 
+    }
 
     la_require(path, function() {
     if (!imRoot) return;
