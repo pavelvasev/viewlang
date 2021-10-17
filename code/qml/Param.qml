@@ -38,6 +38,8 @@ Column {
     property var sliderEnabled: true
     property var valEnabled: !comboEnabled
     //property var textLeft: false
+    
+    //property var valuesMode: Array.isArray( values )
 
     onValuesChanged: {
         if (values && values.length > 0) {
@@ -50,6 +52,7 @@ Column {
         }
         // представитель алгоритма setAppValue
         valuesAreSortedChecked=false;
+        updateControlsFromValue();
     }
 
     property var tag: "left"
@@ -74,7 +77,9 @@ Column {
             combo.traceChangeEnabled = true;
         }
         else
-            txt.text = value;
+        {
+          txt.updatetext();
+        }
     }
 
     //spacing: 2
@@ -105,7 +110,7 @@ Column {
                 var val = values[ value - param.min ]
 
                 if (val && val != value)
-                    return param.text  + " = " + val +" [№"+par2s(value)+"]";
+                    return param.text  + " = " + val; // нафиг этот N, ток мозги парит +" [№"+par2s(value)+"]";
 
                 return param.text  + " = " + par2s(value)
             }
@@ -156,11 +161,34 @@ Column {
 
             width: 50
             anchors.right: parent.right
-            text: param.value
+            text: gettext()
+            function updatetext() {
+              text = gettext();
+            }
+            
+            function gettext() { // in values mode, return value!
+              if (param.values) return param.values[ param.value ];
+              return param.value;
+            }
 
             onAccepted: {
                 var v = parseFloat( text );
                 if (isNaN(v)) v = param.min;
+
+                if (param.values) { // in values mode, value is entered (not index)
+                  var nearest_i = -1;
+                  var nearest_dist = 1e10;
+                  var vals = param.values;
+                  for (var i=0; i<vals.length; i++) {
+                    var d = Math.abs( vals[i] - v );
+                    if (d < nearest_dist) {
+                      nearest_dist = d;
+                      nearest_i = i;
+                      if (d <= 0) break;
+                    }
+                  }
+                  v = nearest_i;
+                }
 
                 param.value = v;
             }

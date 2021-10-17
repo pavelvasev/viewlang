@@ -233,6 +233,7 @@ BODY
     }
     // bug
     //debugger;
+    // console.log( "SHADER.QML assigning material uniforms" );
     if (sceneMaterial.uniforms)
       Object.assign( sceneMaterial.uniforms, acc.uniforms );
     else
