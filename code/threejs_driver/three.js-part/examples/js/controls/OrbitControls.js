@@ -174,7 +174,13 @@
 						spherical.phi += sphericalDelta.phi;
 
 					} // restrict theta to be between desired limits
-
+					
+					// patch
+					
+					if (typeof(scope.manualTheta) !== "undefined") {
+					 spherical.theta = scope.manualTheta;
+				  }
+				  
 
 					let min = scope.minAzimuthAngle;
 					let max = scope.maxAzimuthAngle;
