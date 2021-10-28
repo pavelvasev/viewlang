@@ -69,7 +69,7 @@ Item {
 
   onImRootChanged: {
     if (!imRoot) return;
-    setupControl( "OrbitControls" )
+    setupControl( "OrbitControlsTheta" )
   }
 
   function setupControl( controlFile, controlType ) {
@@ -77,8 +77,10 @@ Item {
 
     var path = controlFile;
     if (path.indexOf("/") < 0) {
-      if (path == "OrbitControls")
-          path = "../threejs_driver/"+controlType+".js"; // we need our patched version (manualTheta)
+      if (path == "OrbitControlsTheta") {
+          path = "../threejs_driver/OrbitControls.js"; // we need our patched version (manualTheta)
+          controlType = "OrbitControls";
+        }
         else
           path = "../threejs_driver/three.js-part/examples/js/controls/"+controlFile+".js";
     // 
