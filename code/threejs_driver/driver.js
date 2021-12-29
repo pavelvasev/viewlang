@@ -145,7 +145,7 @@ function render() {
     threejs_sceneDelta = clock.getDelta();
     threejs_sceneTime = clock.elapsedTime;
     
-    scene.dispatchEvent(render_event); // Sm RenderTick.qml
+    threejs.scene.dispatchEvent(render_event); // Sm RenderTick.qml
     
     doScheduledPrerenderTasks();
   
@@ -156,7 +156,7 @@ function render() {
     render_aspect.apply();
   
     //debugger;
-    selectedRenderer.render( scene, camera );
+    selectedRenderer.render( threejs.scene, camera );
     ///renderer.render( scene, camera );
     // console.log("render called");
 }
@@ -225,7 +225,7 @@ function sceneDblClick( event ) {
 	raycaster.setFromCamera( sceneMouse, camera );
 
 	// calculate objects intersecting the picking ray
-	var intersects = raycaster.intersectObjects( scene.children,true );
+	var intersects = raycaster.intersectObjects( threejs.scene.children,true );
 	console.log("intersects=",intersects);
 	if (intersects.length == 0) return;
 	
